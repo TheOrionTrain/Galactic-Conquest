@@ -798,8 +798,8 @@ audio {
 }
 #dewrito {
     position: absolute;
-    left: -10px;
-    top: 240px;
+    right: -240px;
+    bottom: 0px;
     width: 750px;
     height: 267px;
     opacity: 0.95;
