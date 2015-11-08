@@ -185,7 +185,7 @@ function initialize() {
 	if (window.location.protocol == "https:") {
 		alert("The server browser doesn't work over HTTPS, switch to HTTP if possible.");
 	}
-	$.getJSON("https://dl.dropboxusercontent.com/u/100840068/music.json", function(j) {
+	$.getJSON("http://shadowfita.github.io/galactic-conquest/music.json", function(j) {
 		songs = j;
 		for (i = 0; i < Object.keys(songs).length; i++) {
 			b = Object.keys(songs)[i];
