@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>Galactic Conquest</title>
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,500,300" rel="stylesheet" type="text/css">
 	<link href="css/snackbar.min.css" rel="stylesheet" type="text/css">
 	<link href="css/conquest.css" rel="stylesheet" type="text/css">
 	<script src="js/jquery.min.js"></script>
@@ -74,13 +75,12 @@
 		</div>-->
 		<div class="menu-container animated" id="serverbrowser">
 			<div id="direct-connect">Direct Connect</div>
-			<div id="browser-title">SERVER BROWSER</div>
+			<div id="browser-title">SERVERS</div>
 			<div id="browser-buttons">
 				<div id="refresh"><img src="img/refresh.svg" /> </div>
 				<div data-action="menu" data-menu="serverbrowser-type" id="browser-gametype">Choose Gametype</div>
 				<div data-action="menu" data-menu="serverbrowser-map" id="browser-map">Choose Map</div>
 				<div id="browser-full">Showing Full</div>
-				<div id="browser-locked">Showing Locked</div>
 				<div id="clear">Reset</div>
 			</div>
 			<div id="line3"></div>
@@ -107,6 +107,17 @@
 				<table id="lobby" cellspacing="0"></table>
 			</div>
 			<div id="arrow-right"></div>
+			<div id="chatbox" class="animated">
+				<div id="chatbox-content">
+					<span class="chat-message self">TheFeelTrain: Hey there</span>
+					<span class="chat-message">Orion: G'day mate</span>
+					<span class="chat-message self">TheFeelTrain: I'm typing some stuff into the chat</span>
+					<span class="chat-message">Orion: Me too mate</span>
+					<span class="chat-message self">TheFeelTrain: Want to play a game?</span>
+					<span class="chat-message">Orion: I'd love to mate. Me and the lads love to play games down under mate.</span>
+				</div>
+				<input id="chatbox-input" placeholder="Type a message..." />
+			</div>
 		</div>
 		<div class="menu-container animated" id="main3">
 			<div class="select-main">
