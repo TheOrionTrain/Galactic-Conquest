@@ -1,26 +1,55 @@
-@font-face {
-    font-family: 'TV Nord';
-    font-style: normal;
-    font-weight: 300;
-    src: url("../fonts/TV Nord EF Cond Regular.woff") format('woff');
-}
-@font-face {
-    font-family: 'TV Nord';
-    font-style: normal;
-    font-weight: 700;
-    src: url("../fonts/TV Nord EF Cond Bold.woff") format('woff');
-}
-@font-face {
-    font-family: 'Conduit ITC';
-    font-style: normal;
-    font-weight: 300;
-    src: url("../fonts/Conduit ITC Light.woff") format('woff');
-}
 * {
-    font-family: "TV Nord";
+    font-family: "Roboto";
     -webkit-user-select: none;
+    letter-spacing: 1px;
     user-select: none;
     -webkit-font-smoothing: antialiased;
+    text-rendering: geometricPrecision;
+    -webkit-text-rendering: geometricPrecision;
+    font-weight: 300;
+}
+#chatbox {
+    position: absolute;
+    right: 100px;
+    bottom: 95px;
+    width: 410px;
+    height: 200px;
+    background-color: rgba(0,0,0,0);
+    box-sizing: border-box;
+    opacity: 0.7;
+}
+#chatbox-content {
+    position: absolute;
+    top: 20px;
+    width: 410px;
+    height: 160px;
+    padding: 0 20px 20px 20px;
+    overflow-y: scroll;
+    box-sizing: border-box;
+}
+#chatbox-input {
+    position: absolute;
+    bottom: 0px;
+    width: 410px;
+    height: 20px;
+    padding: 5px;
+    box-sizing: border-box;
+    color: #fff;
+    font-size: 12px;
+    background: transparent;
+    outline: none;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 0;
+    border-left: 0;
+    border-right: 0;
+}
+.chat-message {
+    display: block;
+    font-size: 13px;
+    color: #fff;
+}
+.chat-message.self {
+    color: rgba(255,255,255,0.667);
 }
 #browser-buttons {
     width: 650px;
@@ -123,13 +152,10 @@
     position: absolute;
     top: 60px;
     left: 100px;
-    font-weight: 700;
+    font-weight: 300;
     font-size: 68px;
     color: #fff;
     opacity: 0.85;
-    background: -webkit-linear-gradient(#fff, #999);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
 }
 #browser {
     position: absolute;
@@ -352,7 +378,7 @@
 }
 #bg-cover {
     z-index: 1;
-    background: rgba(0, 0, 0, 0.25);
+    background: rgba(0, 0, 0, 0.33);
 }
 #black {
     background: #000;
@@ -498,11 +524,8 @@ audio {
 }
 #title {
     top: 300px;
-    font-weight: 700;
+    font-weight: 300;
     font-size: 68px;
-    background: -webkit-linear-gradient(#fff, #999);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
 }
 #subtitle {
     top: 390px;
@@ -525,7 +548,7 @@ audio {
 #line2 {
     top: 625px;
     left: 90px;
-    width: 700px;
+    width: 600px;
 }
 #line3 {
     top: 150px;
@@ -764,7 +787,7 @@ audio {
 #select .selection .value {
     text-align: right;
     display: table-cell;
-    width: 225px;
+    width: 25px;
     padding: 10px;
     box-sizing: border-box;
     height: 80px;
@@ -773,7 +796,7 @@ audio {
 #select .selection .label {
     text-align: left;
     display: table-cell;
-    width: 225px;
+    width: 425px;
     padding: 10px;
     box-sizing: border-box;
     height: 80px;
@@ -798,11 +821,11 @@ audio {
 }
 #dewrito {
     position: absolute;
-    right: -240px;
-    bottom: 0px;
-    width: 750px;
-    height: 267px;
-    opacity: 0.95;
+    left: 440px;
+    top: 100px;
+    width: 400px;
+    height: 175px;
+    opacity: 1;
     background: url('../img/GC.png') no-repeat 0 0/cover;
     z-index: 2;
 }
@@ -994,14 +1017,11 @@ audio {
     position: absolute;
     top: 60px;
     left: 150px;
-    font-weight: 700;
+    font-weight: 300;
     font-size: 48px;
     color: #fff;
     opacity: 0.9;
     z-index: 4;
-    background: -webkit-linear-gradient(#fff, #999);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
 }
 #dot {
     position: absolute;

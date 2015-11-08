@@ -451,9 +451,54 @@ function isOnline(friend) {
 	return typeof serverz.players[friend] == 'undefined' ? 0 : 1; //Orion, check if friend is online or not here
 }
 
-var online = true;
+function chat(text) {
+	//Orion put the C# stuff here
+	$('#chatbox-content').append('<span class="chat-message self">'+settings.username.current+": "+text+'</span>');
+	$('#chatbox-content').scrollTop($('#chatbox-content')[0].scrollHeight);
+	chatTime = 5000;
+}
+
+var hideChat= setInterval(function() {
+	if(chatTime > 0) {
+		if(hidingChat) {chatTime-=10;}
+		$('#chatbox').css({
+			"opacity" : 1,
+			"background-color" : "rgba(0,0,0,0.5)"
+		});
+	} else if(chatTime <= 0) {
+		$('#chatbox').css({
+			"opacity" : 0.7,
+			"background-color" : "rgba(0,0,0,0)"
+		});
+	}
+},10), online = true, chatTime = 0, hidingChat = 1;
 
 $(document).ready(function() {
+	$('#chatbox-input').keypress(function (e) {
+		if (e.which == 13) {
+	    	var text = $(this).val();
+			chat(text);
+			$(this).val("");
+	    	return false;
+	  	}
+	});
+	$('#chatbox-input').focus(function() {
+		chatTime = 5000;
+		hidingChat = 0;
+	});
+	$('#chatbox-input').blur(function() {
+		hidingChat = 1;
+	});
+	$('#chatbox').hover(
+		function() {
+			chatTime = 5000;
+			hidingChat = 0;
+		},
+		function() {
+			chatTime = 5000;
+			hidingChat = 1;
+		}
+	);
 	Mousetrap.bind('a', function() {
 		$("[data-gp='" + currentMenu + "-" + gp_on + "']").trigger('click');
 	});
@@ -912,7 +957,7 @@ function changeMenu(menu, details) {
 		$('#main').css({
 			"top": "720px"
 		});
-		
+
 		host = 1;
 		forge = 0;
 		$('#title').text('CREATE GAME');
@@ -951,8 +996,8 @@ function changeMenu(menu, details) {
 		$('#main').css({
 			"top": "720px"
 		});
-		
-		
+
+
 		host = 1;
 		forge = 1;
 		$('#title').text('CREATE GAME');
@@ -1423,7 +1468,7 @@ function startgame() {
 		app.showMessageBox("There aren't enough players to start the game.");
 		return;
 	}
-	
+
 	loopPlayers = false;
 	var password;
 
@@ -1440,7 +1485,7 @@ function startgame() {
 	$('#music')[0].pause();
 	$('#black').fadeIn(3000);
 	delay(function() {
-		
+
 	}, 3700);
 }
 
