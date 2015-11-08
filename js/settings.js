@@ -166,22 +166,11 @@ var user = {
 			"name": "BACKGROUND",
 			"current": parseInt(isset(localStorage.getItem('background'), "video")),
 			"min": 0,
-			"max": 14,
+			"max": 3,
 			"labels": [
             "video",
             "video2",
             "video3",
-            "video",
-            "video2",
-			"video3",
-            "video",
-            "video2",
-			"video3",
-            "video",
-            "video2",
-            "video3",
-            "video",
-            "video2",
 			"Random"
         ],
 			"increment": 1,
@@ -195,7 +184,7 @@ var user = {
 					var r = Math.floor(Math.random() * settings.background.labels.length - 1);
 					if (r < 0)
 						r = 0;
-					$('#videos').append("<video id='bg1' src='" + settings.background.labels[r] + ".webm' autoplay type='video/webm'></video>");
+					$('#videos').append("<video id='bg1' src='video/" + settings.background.labels[r] + ".webm' autoplay type='video/webm'></video>");
 					$('#bg1').show();
 					$('#bg1')[0].addEventListener('ended', function() {
 						settings.background.current = 12;
