@@ -1,0 +1,232 @@
+<!doctype HTML>
+<html>
+<head>
+	<title>ElDewrito</title>
+	<link href="css/snackbar.min.css" rel="stylesheet" type="text/css">
+	<link href="css/dewrito.css" rel="stylesheet" type="text/css">
+	<link id="style" href="css/reach.css" rel="stylesheet" type="text/css">
+	<link href="css/spectrum.css" rel="stylesheet" type="text/css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.7.0/spectrum.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.4.6/mousetrap.min.js"></script>
+	<script src="js/gamepad.min.js"></script>
+	<script src="js/snackbar.js"></script>
+    <script src="js/dewHelper.js"></script>
+	<script src="js/dewGamepad.js"></script>
+</head>
+<body>
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','http://www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-65066722-1', 'auto');
+		ga('send', 'pageview');
+	</script>
+	<script>
+		function clickIE4() {
+			if (event.button == 2) {
+				return false;
+			}
+		}
+		function clickNS4(e) {
+			if (document.layers || document.getElementById && !document.all) {
+				if (e.which == 2 || e.which == 3) {
+					return false;
+				}
+			}
+		}
+		if (document.layers) {
+			document.captureEvents(Event.MOUSEDOWN);
+			document.onmousedown = clickNS4;
+		} else if (document.all && !document.getElementById) {
+			document.onmousedown = clickIE4;
+		}
+		document.oncontextmenu = new Function("return false");
+	</script>
+	<a id="launch" style="visibility: hidden;"></a>
+	<div id="menu">
+		<div id="loading">
+			<div id="loadingMapImage"></div>
+			<div id="loadingBars"></div>
+			<div id="hoImage"></div>
+			<div id="edImage"></div>
+			<div id="mapOverlay"></div>
+            <div id="loadingMapName">DIAMONDBACK</div>
+            <div id="loadingGametypeImage"></div>
+		</div>
+		<div id="popup"></div>
+		<!--<div id="players-online">Loading...</div>
+		<div id="friends-online">Loading...</div>-->
+		<div id="black"></div>
+		<div id="back">Back</div>
+		<!--<div id="version">Loading...</div>
+		<div class="animated" id="friendslist">
+			<div id="friends-close"></div>
+			<div class="friends-title">Friends</div>
+			<div id="friends"></div>
+			<div id="addfriend">
+				<input id="friend-input" type="text" />
+				<div id="friend-add">+</div>
+				<div id="friend-remove">-</div>
+			</div>
+		</div>
+		<div id="playerinfo" class="animated">
+			<div id="player-title">
+				<div id="player-rank-display"></div>
+				<div id="player-info"> <span id="player-name"></span> <span id="player-level-display"></span> </div>
+			</div>
+			<div id="player-armor"></div>
+			<div id="player-stats">
+				<div id="player-kd-display"></div>
+				<canvas id="player-kd-chart"></canvas>
+			</div>
+			<div id="player-level"></div>
+		</div>-->
+		<div class="menu-container animated" id="serverbrowser">
+			<div id="direct-connect">Direct Connect</div>
+			<div id="browser-title">SERVER BROWSER</div>
+			<div id="browser-buttons">
+				<div id="refresh"><img src="img/refresh.svg" /> </div>
+				<div data-action="menu" data-menu="serverbrowser-type" id="browser-gametype">Choose Gametype</div>
+				<div data-action="menu" data-menu="serverbrowser-map" id="browser-map">Choose Map</div>
+				<div id="browser-full">Showing Full</div>
+				<div id="browser-locked">Showing Locked</div>
+				<div id="clear">Reset</div>
+			</div>
+			<div id="line3"></div>
+			<div id="browser" class="regular"></div>
+			<div id="line4"></div>
+			<!--<div id="browser-settings">Settings</div>-->
+		</div>
+		<div class="menu-container animated" id="customgame" data-from="serverbrowser">
+			<div id="map-thumb">
+				<div id="gametype-icon"></div>
+			</div>
+			<div id="title">CREATE GAME</div>
+			<div id="subtitle"></div>
+			<div id="line1"></div>
+			<div id="select">
+				<div data-gp="customgame-0" id="network-toggle" class="selection"><span class="label">NETWORK</span><span id="network" class="value">OFFLINE</span> </div>
+				<div data-gp="customgame-1" id="type-selection" data-action="menu" data-menu="custom-type" class="selection"><span class="label">GAME TYPE</span><span id="gametype-display" class="value">SLAYER</span> </div>
+				<!--<div data-gp="customgame-2" data-action="menu" data-menu="custom-map" class="selection"><span class="label">MAP</span><span id="currentmap" class="value">EDGE</span> </div>-->
+				<div data-gp="customgame-3" data-action="menu" data-menu="custom-options" class="selection"><span class="label">SERVER SETTINGS</span><span class="value">&nbsp;</span> </div>
+				<div data-gp="customgame-4" class="selection" id="start"><span class="label">JOIN GAME</span><span class="value">&nbsp;</span> </div>
+			</div>
+			<div id="line2"></div>
+			<div id="lobby-container">
+				<table id="lobby" cellspacing="0"></table>
+			</div>
+			<div id="arrow-right"></div>
+		</div>
+		<div class="menu-container animated" id="main3">
+			<div class="select-main">
+				<div data-gp="main3-1" data-action="menu" data-menu="main-custom" class="selection"><span class="label">CUSTOM GAME</span><span class="value">&nbsp;</span> </div>
+				<div data-gp="main3-2" data-action="menu" data-menu="main-forge" class="selection"><span class="label">FORGE</span><span class="value">&nbsp;</span> </div>
+				<div data-gp="main3-3" class="selection"><span class="label">THEATER</span><span class="value">&nbsp;</span> </div>
+			</div>
+		</div>
+		<div class="menu-container animated" id="main2">
+			<div class="select-main">
+				<div data-gp="main2-1" data-action="menu" data-menu="main2-main" class="selection"><span class="label">PLAY MULTIPLAYER</span><span class="value">&nbsp;</span> </div>
+				<div data-gp="main2-2" data-action="menu" data-menu="main-options" class="selection"><span class="label">SETTINGS</span><span class="value">&nbsp;</span> </div>
+				<div data-gp="main2-3" data-action="menu" data-menu="main2-credits" class="selection"><span class="label">CREDITS</span><span class="value">&nbsp;</span> </div>
+				<div data-gp="main2-4" data-action="devtools" data-menu="main2-credits" class="selection"><span class="label">DEV TOOLS</span><span class="value">&nbsp;</span> </div>
+			</div>
+			<!--<div id="dewmenu-button">Switch to DewMenu</div>-->
+		</div>
+		<div class="menu-container animated" id="main">
+			<div class="select-main">
+				<div data-gp="main-1" data-action="menu" data-menu="main-quickjoin" class="selection"><span class="label">QUICK JOIN</span><span class="value">&nbsp;</span> </div>
+				<div data-gp="main-2" data-action="menu" data-menu="main-serverbrowser" class="selection"><span class="label">BROWSE SERVERS</span><span class="value">&nbsp;</span> </div>
+				<div data-gp="main-3" data-action="menu" data-menu="main-forge" class="selection"><span class="label">CREATE GAME</span><span class="value">&nbsp;</span> </div>
+			</div>
+		</div>
+		<div class="menu-container animated" id="credits">
+			<table>
+				<tr class="credit">
+					<td class="label">Menu Design &amp; Functionality</td>
+					<td class="name">TheFeelTrain</td>
+				</tr>
+				<tr class="credit">
+					<td class="label">Networking &amp; Bug Fixes</td>
+					<td class="name">Orion</td>
+				</tr>
+			</table>
+		</div>
+		<div class="options-menu" id="options">
+			<div id="dot"></div>
+			<div class="options-section" id="dewrito-options">
+				<div class="options-title">GAME SETTINGS</div>
+				<div class="options-select animated">
+					<div data-gp="dewrito-options-1" data-setting="menu" class="selection"><span class="label">MENU SETTINGS</span> </div>
+					<!--<div data-gp="dewrito-options-2" data-action="menu" data-menu="options-music" class="selection"><span class="label">MUSIC</span> </div>
+					<div data-gp="dewrito-options-3" data-action="menu" data-menu="options-haloonline" class="selection"><span class="label">HALO ONLINE SETTINGS</span> </div>-->
+					<div data-gp="dewrito-options-2" data-setting="eldewrito" class="selection"><span class="label">PLAYER SETTINGS</span> </div>
+					<div data-gp="dewrito-options-3" data-setting="host" class="selection"><span class="label">SERVER SETTINGS</span> </div>
+				</div>
+				<div class="options-select2 animated" id="settings-menu"></div>
+				<div class="options-select2 animated" id="settings-eldewrito"></div>
+				<div class="options-select2 animated" id="settings-host"></div>
+			</div>
+			<!--<div class="options-section" id="haloonline">
+				<div class="options-title">HALO ONLINE SETTINGS</div>
+				<div class="options-select animated">
+					<div data-gp="haloonline-1" data-setting="gameplay" class="selection"><span class="label">GAMEPLAY SETTINGS</span> </div>
+					<div data-gp="haloonline-2" data-setting="controls" class="selection"><span class="label">CONTROLS</span> </div>
+					<div data-gp="haloonline-3" data-setting="video" class="selection"><span class="label">VIDEO SETTINGS</span> </div>
+					<div data-gp="haloonline-4" data-setting="audio" class="selection"><span class="label">AUDIO SETTINGS</span> </div>
+				</div>
+				<div class="options-select2 animated" id="settings-gameplay"></div>
+				<div class="options-select2 animated" id="settings-controls"></div>
+				<div class="options-select2 animated" id="settings-video"></div>
+				<div class="options-select2 animated" id="settings-audio"></div>
+			</div>
+			<div class="options-section" id="choosemusic">
+				<div class="options-title">SELECT MUSIC</div>
+				<div id="music-album-cover"></div>
+				<div class="music-select animated"></div>
+			</div>-->
+			<div class="options-section" id="choosemap">
+				<div class="options-title">SELECT MAP</div>
+				<div id="map-thumb-options"></div>
+				<div id="map-name-options">EDGE</div>
+				<div id="map-info-options">The remote frontier world of Parition has provided this ancient databank with the safety of seclusion. 6-16 players.</div>
+				<div class="map-select animated"></div>
+			</div>
+			<div class="options-section" id="choosetype">
+				<div class="options-title">SELECT GAMETYPE</div>
+				<div id="type-icon-options"></div>
+				<div id="type-name-options">SLAYER</div>
+				<div id="type-info-options">Free for all. 25 kills to win.</div>
+				<div class="type-select animated"></div>
+			</div>
+			<div class="options-section" id="customgame-options">
+				<div class="options-title">SERVER SETTINGS</div>
+				<div class="options-select animated">
+					<div data-gp="customgame-options-1" data-setting="menu" class="selection"><span class="label">GAME SETTINGS</span> </div>
+					<div data-gp="customgame-options-2" data-setting="host" class="selection"><span class="label">HOST SETTINGS</span> </div>
+				</div>
+				<div class="options-select2 animated" id="settings-menu"></div>
+				<div class="options-select2 animated" id="settings-host"></div>
+			</div>
+		</div>
+		<!--<div id="dewrito" class="animated"></div>-->
+		<div id="bg-cover" class="animated"></div>
+		<audio id="music" autoplay></audio>
+		<div id="videos"></div>
+		<audio id="connectgamepad" src="audio/halo3/loop.wav" type="audio/wav"></audio>
+		<audio id="notification" src="audio/odst/a_button.wav" type="audio/wav"></audio>
+		<audio id="beeep" src="audio/halo3/player_respawn.wav" type="audio/wav"></audio>
+		<audio id="beep" src="audio/halo3/countdown_for_respawn.wav" type="audio/wav"></audio>
+		<audio id="click" src="audio/halo3/cursor_horizontal.wav" type="audio/wav"></audio>
+		<audio id="slide" src="audio/halo3/a_button.wav" type="audio/wav"></audio>
+	</div>
+</body>
+<script src="js/dewMenu.js"></script>
+<script src="js/dewrito.js"></script>
+<script src="js/dewSettings.js"></script>
+</html>
