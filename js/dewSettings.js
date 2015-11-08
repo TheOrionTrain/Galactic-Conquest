@@ -533,7 +533,7 @@ var user = {
 			"name": "MAX PLAYERS",
 			"current": parseInt(isset(localStorage.getItem('maxplayers'), 2)),
 			"min": 1,
-			"max": 8,
+			"max": 2,
 			"increment": 1,
 			"update": function() {
 				var c = settings.maxplayers.current;
