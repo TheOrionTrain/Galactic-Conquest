@@ -274,24 +274,24 @@ function changeSetting(s, by) {
 		if (by == 1) {
 			if (e.current < e.max) {
 				e.current += e.increment;
-				app.updateSetting(s, e.current.toString());
+				//app.updateSetting(s, e.current.toString());
 			} else {
 				e.current = e.min;
-				app.updateSetting(s, e.current.toString());
+				//app.updateSetting(s, e.current.toString());
 			}
 		} else if (by == 0) {
 			if (e.current > e.min) {
 				e.current -= e.increment;
-				app.updateSetting(s, e.current.toString());
+				//app.updateSetting(s, e.current.toString());
 			} else {
 				e.current = e.max;
-				app.updateSetting(s, e.current.toString());
+				//app.updateSetting(s, e.current.toString());
 			}
 		}
 	}
 	if (e.typeof == "input" || e.typeof == "color") {
 		e.current = by;
-		app.updateSetting(s, by.toString());
+		//app.updateSetting(s, by.toString());
 	}
 	settings[s] = e;
 	e.update();
@@ -666,7 +666,7 @@ $(document).ready(function() {
 		changeMenu($(this).attr('data-menu'));
 	});
 	$("[data-action='devtools']").click(function() {
-		app.showDevTools();
+		//app.showDevTools();
 	});
 	$('#back').click(function() {
 		changeMenu($(this).attr('data-action'), 'back');
@@ -1139,7 +1139,7 @@ function changeMenu(menu, details) {
 		currentMenu = "main";
 	}
 	if (menu == "main-main3") {
-		app.showMessageBox("Test");
+		//app.showMessageBox("Test");
 		/*$('#back').fadeIn(anit);
 		$('#back').attr('data-action', 'main3-main');
 		$('#main3').css({
