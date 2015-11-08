@@ -210,7 +210,7 @@ function initialize() {
 			$('#click')[0].currentTime = 0;
 			$('#click')[0].play();
 		});
-		changeSong2(isset("The Force Awakens2", "The Force Awakens"));
+		changeSong2("The Force Awakens2");
 	});
 	for (i = 0; i < Object.keys(settings).length; i++) {
 		set = Object.keys(settings)[i];
