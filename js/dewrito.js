@@ -341,7 +341,6 @@ function jumpToServer(ip) {
 		$('#gametype-icon').css('background', "url('img/gametypes/" + (d.variantType === "ctf" || d.variantType === "koth") ? d.variantType : d.variantType.toString().capitalizeFirstLetter + ".png') no-repeat 0 0/cover");
 		$('#dewrito').css({
 			"opacity": 0,
-			"top": "920px"
 		});
 		$('.menu-container').css({
 			"top": "720px"
@@ -948,7 +947,6 @@ function changeMenu(menu, details) {
 		$('#customgame').attr('data-from', 'main');
 		$('#dewrito').css({
 			"opacity": 0,
-			"top": "920px"
 		});
 		$('#back').fadeIn(anit);
 		$('#back').attr('data-action', 'custom-main');
@@ -989,7 +987,6 @@ function changeMenu(menu, details) {
 		$('#customgame').attr('data-from', 'main');
 		$('#dewrito').css({
 			"opacity": 0,
-			"top": "920px"
 		});
 		$('#back').fadeIn(anit);
 		$('#back').attr('data-action', 'custom-main');
@@ -1007,7 +1004,6 @@ function changeMenu(menu, details) {
 	if (menu == "custom-main") {
 		$('#dewrito').css({
 			"opacity": 0.95,
-			"top": "240px",
 			"-webkit-transition-timing-function": "400ms",
 			"-webkit-transition-delay": "0ms"
 		});
@@ -1095,7 +1091,6 @@ function changeMenu(menu, details) {
 		browsing = 1;
 		$('#dewrito').css({
 			"opacity": 0,
-			"top": "920px"
 		});
 		$('#back').fadeIn(anit);
 		$('#back').attr('data-action', 'serverbrowser-main');
@@ -1114,7 +1109,6 @@ function changeMenu(menu, details) {
 		browsing = 0;
 		$('#dewrito').css({
 			"opacity": 0.95,
-			"top": "240px",
 			"-webkit-transition-timing-function": "400ms",
 			"-webkit-transition-delay": "0ms"
 		});
@@ -1172,12 +1166,14 @@ function changeMenu(menu, details) {
 		});
 		$('#dewrito').css({
 			"top": "-30px",
-			"left": "265px",
+			"left": "400px",
+			"right": "",
+			"bottom": "",
 			"-webkit-transition-timing-function": "200ms",
 			"-webkit-transition-delay": "0ms"
 		});
 		$('#dewrito').css({
-			'background': "url('img/Halo 3 CE.png') no-repeat 0 0/cover"
+			'background': "url('img/GC.png') no-repeat 0 0/cover"
 		});
 		currentMenu = "credits";
 	}
@@ -1190,17 +1186,18 @@ function changeMenu(menu, details) {
 			"top": "0px"
 		});
 		$('#dewrito').css({
-			"top": "240px",
-			"left": "-10px",
+			"top": "",
+			"left": "",
+			"right": "-240px",
+			"bottom": "0px",
 			"-webkit-transition-timing-function": "200ms",
 			"-webkit-transition-delay": "0ms"
 		});
 		$('#bg-cover').css({
 			"background": "rgba(0,0,0,0.25)"
 		});
-		var c = settings.logo.current;
 		$('#dewrito').css({
-			'background': "url('img/" + settings.logo.labels[c] + ".png') no-repeat 0 0/cover"
+			'background': "url('img/GC.png') no-repeat 0 0/cover"
 		});
 		currentMenu = "main2";
 	}
@@ -1220,10 +1217,9 @@ function changeMenu(menu, details) {
 			$('#back').attr('data-action', 'options-custom');
 			$('#customgame').fadeOut(anit);
 			$('#options').fadeIn(anit);
-			$('#dewrito').css('top', '400px');
+			//$('#dewrito').css('top', '400px');
 			$('#dewrito').css({
 				"opacity": 0.9,
-				"top": "400px",
 				"-webkit-transition-timing-function": "200ms",
 				"-webkit-transition-delay": "200ms"
 			});
@@ -1287,10 +1283,9 @@ function changeMenu(menu, details) {
 			$('#back').attr('data-action', 'options-custom');
 			$('#customgame').fadeOut(anit);
 			$('#options').fadeIn(anit);
-			$('#dewrito').css('top', '400px');
+			//$('#dewrito').css('top', '400px');
 			$('#dewrito').css({
 				"opacity": 0.9,
-				"top": "400px",
 				"-webkit-transition-timing-function": "200ms",
 				"-webkit-transition-delay": "200ms"
 			});
@@ -1303,10 +1298,9 @@ function changeMenu(menu, details) {
 			$('#back').attr('data-action', 'options-custom');
 			$('#customgame').fadeOut(anit);
 			$('#options').fadeIn(anit);
-			$('#dewrito').css('top', '400px');
+			//$('#dewrito').css('top', '400px');
 			$('#dewrito').css({
 				"opacity": 0.9,
-				"top": "400px",
 				"-webkit-transition-timing-function": "200ms",
 				"-webkit-transition-delay": "200ms"
 			});
@@ -1321,21 +1315,20 @@ function changeMenu(menu, details) {
 		$('#options').fadeOut(anit);
 		$('#dewrito').css({
 			"opacity": 0,
-			"top": "920px",
 			"-webkit-transition-timing-function": "200ms",
 			"-webkit-transition-delay": "0ms"
 		});
 		currentMenu = "customgame";
 	}
 	if (menu == "main-options") {
+		$('#dewrito').css({
+			"opacity": 0,
+		});
 		$('#dewrito-options').show();
 		$('#back').fadeIn(anit);
 		$('#back').attr('data-action', 'options-main');
 		$('#main2').fadeOut(anit);
 		$('#options').fadeIn(anit);
-		$('#dewrito').css({
-			"top": "400px"
-		});
 		currentMenu = "dewrito-options";
 	}
 	if (menu == "serverbrowser-options") {
@@ -1359,10 +1352,9 @@ function changeMenu(menu, details) {
 		$('#main2').fadeIn(anit);
 		$('#options').fadeOut(anit);
 		$('#dewrito').css({
-			"top": "240px",
-			"-webkit-transition-delay": "0ms",
-			"transition-delay": "0ms",
-			"-moz-transition-delay": "0ms"
+			"opacity": 0.95,
+			"-webkit-transition-timing-function": "400ms",
+			"-webkit-transition-delay": "0ms"
 		});
 		currentMenu = "main2";
 	}
