@@ -720,6 +720,9 @@ $(document).ready(function() {
 		app.showDevTools();
 	});
 	$('#back').click(function() {
+		if (currentMenu == "customgame" && $('#start').children('.label').text().contains("START")) {
+			app.shutdownServer();
+		}
 		changeMenu($(this).attr('data-action'), 'back');
 		if (usingGamepad) {
 			gp_on = p_gp_on;
