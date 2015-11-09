@@ -209,6 +209,7 @@ var user = {
 			"increment": 1,
 			"update": function() {
 				var c = settings.emoticons.current;
+				$("[data-option='emoticons']").children('.value').text(settings.emoticons.labels[c]);
 			}
 		},
 		/*"localbackground": {
