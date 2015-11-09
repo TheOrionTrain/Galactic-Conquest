@@ -348,8 +348,8 @@ function jumpToServer() {
 		$('#customgame').attr('data-from', 'serverbrowser');
 		$('#start').children('.label').text("LEAVE GAME");
 		$('#title').text('CUSTOM GAME');
-		$('#network-toggle').attr('data-gp', 'customgame-x').hide();
-		$('#type-selection').attr('data-gp', 'customgame-1').show();
+		$('#network-toggle').attr('data-gp', 'customgame-x').show();
+		$('#type-selection').attr('data-gp', 'customgame-1').hide();
 		currentMenu = "customgame";
 		$('#slide')[0].currentTime = 0;
 		$('#slide')[0].play();
