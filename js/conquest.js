@@ -60,37 +60,35 @@ function getServers(browser) {
 	servers = [];
 	gp_servers = 0;
 	gp_on = 0;
-	for (var i = 0; i < serverz.servers.length; i++) {
-		queryServer(serverz.servers[i], i, browser);
-	}
+	$.getJSON("http://192.99.124.167:8080/list", function(data) {
+		if (data.result.code !== 0) {
+			alert("Error received from master: " + data.result.msg);
+			return;
+		}
+		for (var i = 0; i < data.result.servers.length; i++) {
+			var serverIP = data.result.servers[i];
+			if (!serverIP.toString().contains("?"))
+				queryServer(serverIP, i, browser);
+		}
+	});
 }
 
 var pings = [];
 
-function queryServer(serverInfo, i, browser) {
-	if (serverInfo.numPlayers > 16 || serverInfo.maxPlayers > 16) {
-		return false;
-	}
-	var isPassworded = serverInfo.passworded !== undefined;
-		servers[i] = {
-			"address": sanitizeString(serverInfo.address),
-			"host": sanitizeString(serverInfo.hostPlayer),
-			"name": sanitizeString(serverInfo.name),
-			"variant": sanitizeString(serverInfo.variant),
-			"variantType": sanitizeString(serverInfo.variantType),
-			"map": sanitizeString(serverInfo.map),
-			"mapFile": sanitizeString(serverInfo.mapFile),
-			"status": sanitizeString(serverInfo.status),
-			"eldewritoVersion": sanitizeString(serverInfo.eldewritoVersion),
-			"ping": parseInt(serverInfo.ping),
-			"location_flag": serverInfo.location_flag,
-			"players": {
-				"max": parseInt(serverInfo.maxPlayers),
-				"current": parseInt(serverInfo.numPlayers)
-			},
-			"password": isPassworded
-		};
-	addServer(i);
+function queryServer(serverIP, i, browser) {
+	$.getJSON("http://" + serverIP, function(serverInfo) {
+			servers[i] = {
+				"address": sanitizeString(serverIP),
+				"name": sanitizeString(serverInfo.name),
+				"port": sanitizeString(serverInfo.port),
+				"hostPlayer": sanitizeString(serverInfo.hostPlayer),
+				"passworded": serverInfo.passworded,
+				"numPlayers": sanitizeString(serverInfo.numPlayers),
+				"maxPlayers": sanitizeString(serverInfo.maxPlayers),
+				"players": sanitizeString(serverInfo.players)
+			};
+		addServer(i);
+	});
 }
 
 function getMapName(filename) {
@@ -115,15 +113,13 @@ function getMapName(filename) {
 var gp_servers = 0;
 
 function addServer(i) {
-	if (servers[i].map == "")
-		return;
 	++gp_servers;
 	var on = (!servers[i].variant) ? "" : "on";
 
-	servers[i].location_flag = typeof servers[i].location_flag == 'undefined' ? "[" : servers[i].location_flag;
-	servers[i].ping = servers[i].ping || 0;
+	/*servers[i].location_flag = typeof servers[i].location_flag == 'undefined' ? "[" : servers[i].location_flag;
+	servers[i].ping = servers[i].ping || 0;*/
 
-	$('#browser').append("<div data-gp='serverbrowser-" + gp_servers + "' class='server" + ((servers[i].password) ? " passworded" : "") + " ' id='server" + i + "' data-server=" + i + "><div class='thumb'><img src='img/maps/" + getMapName(servers[i].mapFile).toString().toUpperCase() + ".png'></div><div class='info'><span class='name'>" + ((servers[i].password) ? "[LOCKED] " : "") + servers[i].name + " (" + servers[i].host + ")  " + servers[i].location_flag + "<span id='ping-" + i + "'>"+servers[i].ping+"</span>ms]</span><span class='settings'>" + servers[i].variant + " " + on + " " + servers[i].map + " <span class='elversion'>" + servers[i].eldewritoVersion + "</span></span></div><div class='players'>" + servers[i].players.current + "/" + servers[i].players.max + "</div></div>");
+	$('#browser').append("<div data-gp='serverbrowser-" + gp_servers + "' class='server" + ((servers[i].passworded) ? " passworded" : "") + " ' id='server" + i + "' data-server=" + i + "><div class='thumb'><img src='img/space.jpg'></div><div class='info'><span class='name'>" + ((servers[i].passworded) ? "[LOCKED] " : "") + servers[i].name + " (" + servers[i].hostPlayer + ")  " + servers[i].location_flag + "<span id='ping-" + i + "'>"+servers[i].ping+"</span>ms]</span><span class='settings'> <span class='elversion'></span></span></div><div class='players'>" + servers[i].numPlayers + "/" + servers[i].maxPlayers + "</div></div>");
 	$('.server').hover(function() {
 		$('#click')[0].currentTime = 0;
 		$('#click')[0].play();
@@ -299,16 +295,18 @@ function changeSetting(s, by) {
 }
 
 function toggleNetwork() {
-	if (network == "offline") {
-		network = "online";
-		app.startHttpServer();
-		//callbacks.networkType(1);
-	} else {
-		network = "offline";
-		app.stopHttpServer();
-		//callbacks.networkType(2);
+	if (host == 1) {
+		if (network == "offline") {
+			network = "online";
+			app.startHttpServer();
+			//callbacks.networkType(1);
+		} else {
+			network = "offline";
+			app.stopHttpServer();
+			//callbacks.networkType(2);
+		}
+		$('#network').text(network.toUpperCase());
 	}
-	$('#network').text(network.toUpperCase());
 	$('#click')[0].currentTime = 0;
 	$('#click')[0].play();
 }
@@ -514,7 +512,8 @@ $(document).ready(function() {
 	$('#chatbox-input').keypress(function (e) {
 		if (e.which == 13) {
 	    	var text = $(this).val();
-			chat(text);
+			if (text.length > 0)
+				chat(text);
 			$(this).val("");
 	    	return false;
 	  	}
@@ -1085,6 +1084,8 @@ function changeMenu(menu, details) {
 		currentMenu = "customgame";
 		$('#chatbox-content').empty();
 		playersJoin(settings.maxplayers.current, JSON.parse(app.getPlayers()));
+		if ($('#network').text() == "ONLINE")
+			app.startHttpServer();
 		app.updatePlayers(true);
 		app.startServer();
 	}
@@ -1122,6 +1123,9 @@ function changeMenu(menu, details) {
 		}
 	}
 	if (menu == "serverbrowser-custom" && details) {
+		app.connect(servers[details].address.split(':')[0] + ":" + servers[details].port);
+		return;
+		
 		if (getURLParameter('browser'))
 			$('#back').show();
 		host = 0;
