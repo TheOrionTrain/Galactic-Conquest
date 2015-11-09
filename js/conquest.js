@@ -353,6 +353,7 @@ function jumpToServer() {
 		$('#slide')[0].play();
 		playersJoin(settings.maxplayers.current, JSON.parse(app.getPlayers()));
 		app.updatePlayers(true);
+		$('#chatbox-content').empty();
 }
 
 function loadFriends() {
