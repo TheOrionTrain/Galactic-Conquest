@@ -301,9 +301,11 @@ function changeSetting(s, by) {
 function toggleNetwork() {
 	if (network == "offline") {
 		network = "online";
+		app.startHttpServer();
 		//callbacks.networkType(1);
 	} else {
 		network = "offline";
+		app.stopHttpServer();
 		//callbacks.networkType(2);
 	}
 	$('#network').text(network.toUpperCase());
