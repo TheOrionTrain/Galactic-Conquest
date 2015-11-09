@@ -448,9 +448,40 @@ function chat(text) {
 	app.sendChatMessage(text);
 }
 
+String.prototype.replaceAll = function(_f, _r, _c){ 
+
+  var o = this.toString();
+  var r = '';
+  var s = o;
+  var b = 0;
+  var e = -1;
+  if(_c){ _f = _f.toLowerCase(); s = o.toLowerCase(); }
+
+  while((e=s.indexOf(_f)) > -1)
+  {
+    r += o.substring(b, b+e) + _r;
+    s = s.substring(e+_f.length, s.length);
+    b += e+_f.length;
+  }
+
+  // Add Leftover
+  if(s.length>0){ r+=o.substring(o.length-s.length, o.length); }
+
+  // Return New String
+  return r;
+};
+
+var emoticons = [ [ ":D", "happy.png" ], [ ":)", "smiling.png" ], [ ":(", "sad.png" ], [ ":'(", "crying.png" ], [ ":o", "surprised.png" ], [ ":O", "shocked.png" ], [ "xd", "xd.png" ], [ ">_<", "xd.png" ], [ "xp", "xp.png" ], [ "-_-", "unamused.png" ], [ ":p", "tongueface.png" ] ];
+
 function addEmojis(text) {
-	if (settings.emoticons.current == 0)
-		return text.replace(":D", '<img src="./img/emoticons/happy.png" style="width:16px;height:16px;vertical-align:-3px;">').replace(":d", '<img src="./img/emoticons/happy.png" style="width:16px;height:16px;vertical-align:-3px;">').replace(":o", '<img src="./img/emoticons/surprised.png" style="width:16px;height:16px;vertical-align:-3px;">').replace(":O", '<img src="./img/emoticons/shocked.png" style="width:16px;height:16px;vertical-align:-3px;">').replace(":p", '<img src="./img/emoticons/tongueface.png" style="width:16px;height:16px;vertical-align:-3px;">').replace(":P", '<img src="./img/emoticons/tongueface.png" style="width:16px;height:16px;vertical-align:-3px;">').replace(":)", '<img src="./img/emoticons/smiling.png" style="width:16px;height:16px;vertical-align:-3px;">').replace("xd", '<img src="./img/emoticons/xd.png" style="width:16px;height:16px;vertical-align:-3px;">').replace("xD", '<img src="./img/emoticons/xd.png" style="width:16px;height:16px;vertical-align:-3px;">').replace("XD", '<img src="./img/emoticons/xd.png" style="width:16px;height:16px;vertical-align:-3px;">').replace("Xd", '<img src="./img/emoticons/xd.png" style="width:16px;height:16px;vertical-align:-3px;">').replace(">_<", '<img src="./img/emoticons/xd.png" style="width:16px;height:16px;vertical-align:-3px;">').replace("-_-", '<img src="./img/emoticons/unamused.png" style="width:16px;height:16px;vertical-align:-3px;">').replace(":(", '<img src="./img/emoticons/sad.png" style="width:16px;height:16px;vertical-align:-3px;">').replace(":)", '<img src="./img/emoticons/smiling.png" style="width:16px;height:16px;vertical-align:-3px;">').replace(":'(", '<img src="./img/emoticons/crying.png" style="width:16px;height:16px;vertical-align:-3px;">').replace("xp", '<img src="./img/emoticons/xp.png" style="width:16px;height:16px;vertical-align:-3px;">').replace("xP", '<img src="./img/emoticons/xp.png" style="width:16px;height:16px;vertical-align:-3px;">').replace("XP", '<img src="./img/emoticons/xp.png" style="width:16px;height:16px;vertical-align:-3px;">').replace("Xp", '<img src="./img/emoticons/xp.png" style="width:16px;height:16px;vertical-align:-3px;">');
+	if (settings.emoticons.current == 1)
+		return text;
+	for (var i = 0; i < emoticons.length; i++) {
+		if (emoticons[i][0].toLowerCase().contains(":o"))
+			text = text.replaceAll(emoticons[i][0], '<img src="./img/emoticons/' + emoticons[i][1] + '" style="width:16px;height:16px;vertical-align:-3px;">', false);
+		else
+			text = text.replaceAll(emoticons[i][0], '<img src="./img/emoticons/' + emoticons[i][1] + '" style="width:16px;height:16px;vertical-align:-3px;">', true);
+	}
 	return text;
 }
 
