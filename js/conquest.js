@@ -314,7 +314,7 @@ function toggleNetwork() {
 var friends = [], friends_online;
 
 function jumpToServer() {
-	
+
 		host = 0;
 		browsing = 0;
 		$('#lobby').empty();
@@ -477,6 +477,7 @@ var hideChat= setInterval(function() {
 },10), online = true, chatTime = 0, hidingChat = 1;
 
 $(document).ready(function() {
+	$('#space').kinetic();
 	$('#chatbox-input').keypress(function (e) {
 		if (e.which == 13) {
 	    	var text = $(this).val();
@@ -997,6 +998,19 @@ function changeMenu(menu, details) {
 		$('#lobby').append("<tr class='top'><td class='info' colspan='2'>Current Lobby <span id='joined'>1</span>/<span id='maxplayers'>16</span></td></tr>");
 		$('#start').children('.label').text("START GAME");
 		currentMenu = "customgame";
+	}
+	if (menu == "main-map") {
+		$('#back').fadeOut(anit);
+		$('#space').css({
+			"top": "0px"
+		});
+		$('#main').css({
+			"top": "720px"
+		});
+		$('#dewrito').css({
+			"opacity": 0,
+		});
+		currentMenu = "map";
 	}
 	if (menu == "main-forge") {
 		$('#back').fadeIn(anit);
