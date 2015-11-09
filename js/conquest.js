@@ -471,7 +471,7 @@ String.prototype.replaceAll = function(_f, _r, _c){
   return r;
 };
 
-var emoticons = [ [ ":D", "happy.png" ], [ ":)", "smiling.png" ], [ ":(", "sad.png" ], [ ":'(", "crying.png" ], [ ":o", "surprised.png" ], [ ":O", "shocked.png" ], [ "xd", "xd.png" ], [ ">_<", "xd.png" ], [ "xp", "xp.png" ], [ "-_-", "unamused.png" ], [ ":p", "tongueface.png" ] ];
+var emoticons = [ [ ":D", "happy.png" ], [ ":)", "smiling.png" ], [ ":(", "sad.png" ], [ ":'(", "crying.png" ], [ ":o", "surprised.png" ], [ ":O", "shocked.png" ], [ "xd", "xd.png" ], [ ">_<", "xd.png" ], [ "xp", "xp.png" ], [ "-_-", "unamused.png" ], [ ":p", "tongueface.png" ], [ ";p", "tonguewinkyface.png" ]];
 
 function addEmojis(text) {
 	if (settings.emoticons.current == 1)
