@@ -195,6 +195,23 @@ var user = {
 				}
 			}
 		},
+		"emoticons": {
+			"typeof": "select",
+			"category": "menu",
+			"name": "CHAT EMOTICONS",
+			"current": parseInt(isset(localStorage.getItem('emoticons'), 0)),
+			"min": 0,
+			"max": 1,
+			"labels": [
+            "TRUE",
+            "FALSE"
+        ],
+			"increment": 1,
+			"update": function() {
+				var c = settings.emoticons.current;
+				}
+			}
+		},
 		/*"localbackground": {
 			"typeof": "select",
 			"category": "menu",
