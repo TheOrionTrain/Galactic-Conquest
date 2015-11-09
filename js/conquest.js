@@ -342,6 +342,7 @@ function jumpToServer() {
 		$('#options').fadeOut(anit);
 		$('#back').fadeIn(anit);
 		$('#back').attr('data-action', 'custom-serverbrowser');
+		$('#back').hide();
 		$('#customgame').attr('data-from', 'serverbrowser');
 		$('#start').children('.label').text("LEAVE GAME");
 		$('#title').text('CUSTOM GAME');
@@ -350,6 +351,7 @@ function jumpToServer() {
 		currentMenu = "customgame";
 		$('#slide')[0].currentTime = 0;
 		$('#slide')[0].play();
+		playersJoin(settings.maxplayers.current, JSON.parse(app.getPlayers()));
 		app.updatePlayers(true);
 }
 
@@ -654,8 +656,13 @@ $(document).ready(function() {
 		var mode = $('#start').children('.label').text().toString().split(" ");
 		if (mode[1] === "FORGE" || (mode[0] === "START" && mode[1] === "GAME"))
 			startgame();
-		else
-			startgame();
+		else if (mode[0] == "LEAVE") {
+			app.disconnect();
+			app.updatePlayers(false);
+			$('#back').attr('data-action', 'serverbrowser-main');
+			changeMenu("custom-serverbrowser");
+			$('#back').show();
+		}
 	});
 	Mousetrap.bind('enter up up down down left right left right b a enter', function() {
 		settings.background.current = 9001;
