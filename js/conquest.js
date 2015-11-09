@@ -1036,6 +1036,7 @@ function changeMenu(menu, details) {
 		$('#lobby').append("<tr class='top'><td class='info' colspan='2'>Current Lobby <span id='joined'>1</span>/<span id='maxplayers'>" + settings.maxplayers.current + "</span></td></tr>");
 		$('#start').children('.label').text("START GAME");
 		currentMenu = "customgame";
+		$('#chatbox-content').empty();
 		playersJoin(settings.maxplayers.current, JSON.parse(app.getPlayers()));
 		app.updatePlayers(true);
 		app.startServer();
