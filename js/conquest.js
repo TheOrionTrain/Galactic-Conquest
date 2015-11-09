@@ -313,32 +313,21 @@ function toggleNetwork() {
 
 var friends = [], friends_online;
 
-function jumpToServer(ip) {
-		var d;
-		for (var i = 0; i < serverz.servers.length; i++) {
-			if (serverz.servers[i].address == ip)
-				d = serverz.servers[i];
-		}
+function jumpToServer() {
+	
 		host = 0;
 		browsing = 0;
 		$('#lobby').empty();
 		$('#lobby').append("<tr class='top'><td class='info' colspan='2'>Current Lobby <span id='joined'>1</span>/<span id='maxplayers'>0</span></td></tr>");
-		if(d.numPlayers == d.maxPlayers) {
+		/*if(d.numPlayers == d.maxPlayers) {
 			$.snackbar({
 				content: "Game is full. Unable to join."
 			});
 			$('#notification')[0].currentTime = 0;
 			$('#notification')[0].play();
 			return;
-		}
-		changeMap2(getMapName(d.mapFile));
-		$('#subtitle').text(d.name + " : " + d.address);
-		if (d.variant === "")
-			d.variant = "Slayer";
-		$('#gametype-display').text(d.variant.toUpperCase());
-		if (d.variantType === "none")
-			d.variantType = "Slayer";
-		$('#gametype-icon').css('background', "url('img/gametypes/" + (d.variantType === "ctf" || d.variantType === "koth") ? d.variantType : d.variantType.toString().capitalizeFirstLetter + ".png') no-repeat 0 0/cover");
+		}*/
+		//$('#subtitle').text(d.name + " : " + d.address);
 		$('#dewrito').css({
 			"opacity": 0,
 		});
@@ -351,20 +340,17 @@ function jumpToServer(ip) {
 		$('#friendslist').css('right','-250px');
 		$('.options-section').hide();
 		$('#options').fadeOut(anit);
-		$('#friends-online').fadeIn(anit);
 		$('#back').fadeIn(anit);
 		$('#back').attr('data-action', 'custom-serverbrowser');
 		$('#customgame').attr('data-from', 'serverbrowser');
-		currentServer = d;
-		lobbyLoop(d.address);
-		loopPlayers = true;
-		$('#start').children('.label').text("JOIN GAME");
+		$('#start').children('.label').text("LEAVE GAME");
 		$('#title').text('CUSTOM GAME');
 		$('#network-toggle').hide();
 		$('#type-selection').show();
 		currentMenu = "customgame";
 		$('#slide')[0].currentTime = 0;
 		$('#slide')[0].play();
+		app.updatePlayers(true);
 }
 
 function loadFriends() {
@@ -453,7 +439,15 @@ function isOnline(friend) {
 
 function chat(text) {
 	//Orion put the C# stuff here
-	$('#chatbox-content').append('<span class="chat-message self">'+settings.username.current+": "+text+'</span>');
+	$('#chatbox-content').append('<span class="chat-message self">'+settings.username.current+': '+text+'</span>');
+	$('#chatbox-content').scrollTop($('#chatbox-content')[0].scrollHeight);
+	chatTime = 5000;
+	app.sendChatMessage(text);
+}
+
+function receiveText(text) {
+	//Orion put the C# stuff here
+	$('#chatbox-content').append('<span class="chat-message">'+text+'</span>');
 	$('#chatbox-content').scrollTop($('#chatbox-content')[0].scrollHeight);
 	chatTime = 5000;
 }
@@ -644,7 +638,7 @@ $(document).ready(function() {
 		filterServers();
 	});
 	$('#direct-connect').click(function() {
-		directConnect();
+		app.directConnect();
 	});
 	$('#clear').click(function() {
 		clearFilters();
@@ -1027,6 +1021,7 @@ function changeMenu(menu, details) {
 		currentMenu = "customgame";
 		playersJoin(settings.maxplayers.current, JSON.parse(app.getPlayers()));
 		app.updatePlayers(true);
+		app.startServer();
 	}
 	if (menu == "custom-main") {
 		$('#dewrito').css({
