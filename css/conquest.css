@@ -412,7 +412,7 @@ audio {
     width: 1280px;
     height: 720px;
 }
-#main, #main3{
+#main, #main3, #space {
     top:-720px;
 }
 #serverbrowser{
@@ -444,7 +444,7 @@ audio {
     top: 80px;
     width: 450px;
     height: 200px;
-    background: url('../img/maps/EDGE.png') no-repeat 0 0/cover;
+    background: url('../img/space.jpg') no-repeat 0 0/cover;
     border-radius: 4px;
 }
 #music-album-cover {
@@ -491,10 +491,9 @@ audio {
 }
 #map-thumb {
     left: 100px;
-    border: 1px solid rgba(0, 0, 0, 1);
-    -webkit-box-shadow: 0px 0px 50px 16px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0px 0px 50px 16px rgba(0, 0, 0, 0.75);
-    box-shadow: 0px 0px 50px 16px rgba(0, 0, 0, 0.75);
+    /*border: 1px solid rgba(0, 0, 0, 1);*/
+    -webkit-box-shadow: 0px 0px 20px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 20px 8px rgba(0, 0, 0, 0.5);
 }
 #map-thumb-options {
     right: 150px;
@@ -651,7 +650,7 @@ audio {
     height: 500px;
     opacity: 0;
 }
-#serverbrowser ::-webkit-scrollbar {
+#serverbrowser ::-webkit-scrollbar{
     width: 12px;
 }
 * ::-webkit-scrollbar-track {
@@ -667,7 +666,8 @@ audio {
 #friendslist ::-webkit-scrollbar {
     width: 4px;
 }
-#lobby-container::-webkit-scrollbar{
+#lobby-container::-webkit-scrollbar,
+#space ::-webkit-scrollbar {
 	width: 0px;
 }
 .map-select2,
@@ -1452,3 +1452,97 @@ html {
     display: block;
 }
 /* close commented backslash hack */
+
+#space {
+    overflow: hidden;
+}
+
+#space-container {
+    width: 1920px;
+    height: 720px;
+    background: url('../img/background.jpg') no-repeat 0 0/cover;
+}
+
+.planet {
+    background-repeat: no-repeat;
+    background-size: 60px;
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.planet.red {
+    -webkit-box-shadow: 0px 0px 30px 8px rgba(255, 0, 0, 0.333);
+    box-shadow: 0px 0px 30px 8px rgba(255, 0, 0, 0.333);
+}
+
+.planet.blue {
+    -webkit-box-shadow: 0px 0px 30px 8px rgba(0, 0, 255, 0.333);
+    box-shadow: 0px 0px 30px 8px rgba(0, 0, 255, 0.333);
+}
+
+#polismassa {
+    background-image: url('../img/planets/Polis Massa.png');
+    left: 200px; top: 440px;
+}
+
+#mustafar {
+    background-image: url('../img/planets/Mustafar.png');
+    left: 590px; top: 370px;
+}
+
+#utapau {
+    background-image: url('../img/planets/Utapau.png');
+    left: 530px; top: 510px;
+}
+
+#coruscant {
+    background-image: url('../img/planets/Coruscant.png');
+    left: 850px; top: 170px;
+}
+
+#dagobah {
+    background-image: url('../img/planets/Dagobah.png');
+    left: 850px; top: 450px;
+}
+
+#mygeeto {
+    background-image: url('../img/planets/Mygeeto.png');
+    left: 1130px; top: 120px;
+}
+
+#naboo {
+    background-image: url('../img/planets/Naboo.png');
+    left: 1100px; top: 390px;
+}
+
+#kashyyyk {
+    background-image: url('../img/planets/Kashyyyk.png');
+    left: 1350px; top: 300px;
+}
+
+#geonosis {
+    background-image: url('../img/planets/Geonosis.png');
+    left: 1300px; top: 500px;
+}
+
+#yavin4 {
+    background-image: url('../img/planets/Yavin 4.png');
+    left: 1420px; top: 160px;
+}
+
+#felucia {
+    background-image: url('../img/planets/Felucia.png');
+    left: 1580px; top: 230px;
+}
+
+#kamino {
+    background-image: url('../img/planets/Kamino.png');
+    left: 1620px; top: 380px;
+}
+
+#tatooine {
+    background-image: url('../img/planets/Tatooine.png');
+    left: 1640px; top: 490px;
+}
