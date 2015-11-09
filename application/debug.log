@@ -1,0 +1,64 @@
+[1107/104837:ERROR:renderer_main.cc(200)] Running without renderer sandbox
+[1107/104839:ERROR:audio_low_latency_output_win.cc(181)] Bailing out due to non-perfect timing.  Buffer size of 480 is not an even divisor of 1056
+[1107/104839:ERROR:audio_low_latency_output_win.cc(181)] Bailing out due to non-perfect timing.  Buffer size of 480 is not an even divisor of 1056
+[1107/104839:ERROR:gpu_video_decode_accelerator.cc(276)] HW video decode not available for profile 11
+[1107/104839:ERROR:gpu_video_decode_accelerator.cc(276)] HW video decode not available for profile 11
+[1107/104841:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1107/104841:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1107/104841:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1108/143302:ERROR:renderer_main.cc(200)] Running without renderer sandbox
+[1108/143304:ERROR:audio_low_latency_output_win.cc(181)] Bailing out due to non-perfect timing.  Buffer size of 480 is not an even divisor of 1056
+[1108/143304:ERROR:audio_low_latency_output_win.cc(181)] Bailing out due to non-perfect timing.  Buffer size of 480 is not an even divisor of 1056
+[1108/143305:ERROR:gpu_video_decode_accelerator.cc(276)] HW video decode not available for profile 11
+[1108/143305:ERROR:gpu_video_decode_accelerator.cc(276)] HW video decode not available for profile 11
+[1108/143305:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1108/143305:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1108/143305:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1109/142544:ERROR:renderer_main.cc(200)] Running without renderer sandbox
+[1109/142609:ERROR:renderer_main.cc(200)] Running without renderer sandbox
+[1109/142611:ERROR:audio_low_latency_output_win.cc(181)] Bailing out due to non-perfect timing.  Buffer size of 480 is not an even divisor of 1056
+[1109/142611:ERROR:audio_low_latency_output_win.cc(181)] Bailing out due to non-perfect timing.  Buffer size of 480 is not an even divisor of 1056
+[1109/142627:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1109/142627:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1109/142627:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1109/142630:ERROR:renderer_main.cc(200)] Running without renderer sandbox
+[1109/142630:ERROR:audio_low_latency_output_win.cc(181)] Bailing out due to non-perfect timing.  Buffer size of 480 is not an even divisor of 1056
+[1109/142630:ERROR:audio_low_latency_output_win.cc(181)] Bailing out due to non-perfect timing.  Buffer size of 480 is not an even divisor of 1056
+[1109/142643:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1109/142643:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1109/142643:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1109/142659:ERROR:renderer_main.cc(200)] Running without renderer sandbox
+[1109/142700:ERROR:audio_low_latency_output_win.cc(181)] Bailing out due to non-perfect timing.  Buffer size of 480 is not an even divisor of 1056
+[1109/142700:ERROR:audio_low_latency_output_win.cc(181)] Bailing out due to non-perfect timing.  Buffer size of 480 is not an even divisor of 1056
+[1109/142709:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1109/142709:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1109/142709:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1109/142717:ERROR:renderer_main.cc(200)] Running without renderer sandbox
+[1109/142718:ERROR:audio_low_latency_output_win.cc(181)] Bailing out due to non-perfect timing.  Buffer size of 480 is not an even divisor of 1056
+[1109/142718:ERROR:audio_low_latency_output_win.cc(181)] Bailing out due to non-perfect timing.  Buffer size of 480 is not an even divisor of 1056
+[1109/142725:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1109/142725:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1109/142725:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1109/142728:ERROR:renderer_main.cc(200)] Running without renderer sandbox
+[1109/142728:ERROR:audio_low_latency_output_win.cc(181)] Bailing out due to non-perfect timing.  Buffer size of 480 is not an even divisor of 1056
+[1109/142728:ERROR:audio_low_latency_output_win.cc(181)] Bailing out due to non-perfect timing.  Buffer size of 480 is not an even divisor of 1056
+[1109/142735:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1109/142735:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1109/142735:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1109/143049:ERROR:renderer_main.cc(200)] Running without renderer sandbox
+[1109/143050:ERROR:audio_low_latency_output_win.cc(181)] Bailing out due to non-perfect timing.  Buffer size of 480 is not an even divisor of 1056
+[1109/143050:ERROR:audio_low_latency_output_win.cc(181)] Bailing out due to non-perfect timing.  Buffer size of 480 is not an even divisor of 1056
+[1109/143050:ERROR:gpu_video_decode_accelerator.cc(276)] HW video decode not available for profile 11
+[1109/143050:ERROR:gpu_video_decode_accelerator.cc(276)] HW video decode not available for profile 11
+[1109/143058:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1109/143058:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1109/143058:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1109/143101:ERROR:renderer_main.cc(200)] Running without renderer sandbox
+[1109/143102:ERROR:audio_low_latency_output_win.cc(181)] Bailing out due to non-perfect timing.  Buffer size of 480 is not an even divisor of 1056
+[1109/143102:ERROR:audio_low_latency_output_win.cc(181)] Bailing out due to non-perfect timing.  Buffer size of 480 is not an even divisor of 1056
+[1109/143102:ERROR:gpu_video_decode_accelerator.cc(276)] HW video decode not available for profile 11
+[1109/143103:ERROR:gpu_video_decode_accelerator.cc(276)] HW video decode not available for profile 11
+[1109/143123:WARNING:channel.cc(315)] RawChannel write error
+[1109/143123:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1109/143123:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1109/143123:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
