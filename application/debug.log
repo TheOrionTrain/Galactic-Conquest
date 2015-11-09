@@ -70,3 +70,13 @@
 [1109/143541:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
 [1109/143541:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
 [1109/143541:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1110/092113:ERROR:renderer_main.cc(200)] Running without renderer sandbox
+[1110/092114:ERROR:audio_low_latency_output_win.cc(181)] Bailing out due to non-perfect timing.  Buffer size of 480 is not an even divisor of 1056
+[1110/092114:ERROR:audio_low_latency_output_win.cc(181)] Bailing out due to non-perfect timing.  Buffer size of 480 is not an even divisor of 1056
+[1110/092114:ERROR:gpu_video_decode_accelerator.cc(276)] HW video decode not available for profile 11
+[1110/092115:ERROR:gpu_video_decode_accelerator.cc(276)] HW video decode not available for profile 11
+[1110/092134:ERROR:gpu_video_decode_accelerator.cc(276)] HW video decode not available for profile 11
+[1110/092145:WARNING:channel.cc(315)] RawChannel write error
+[1110/092145:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1110/092145:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1110/092145:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
