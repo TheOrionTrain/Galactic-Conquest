@@ -442,10 +442,16 @@ function isOnline(friend) {
 
 function chat(text) {
 	//Orion put the C# stuff here
-	$('#chatbox-content').append('<span class="chat-message self">'+settings.username.current+': '+text+'</span>');
+	$('#chatbox-content').append('<span class="chat-message self">' + settings.username.current + ': ' + addEmojis(text) + '</span>');
 	$('#chatbox-content').scrollTop($('#chatbox-content')[0].scrollHeight);
 	chatTime = 5000;
 	app.sendChatMessage(text);
+}
+
+function addEmojis(text) {
+	if (settings.emoticons.current == 0)
+		return text.replace(":D", '<img src="./img/emoticons/happy.png" style="width:16px;height:16px;vertical-align:-3px;">').replace(":d", '<img src="./img/emoticons/happy.png" style="width:16px;height:16px;vertical-align:-3px;">').replace(":o", '<img src="./img/emoticons/surprised.png" style="width:16px;height:16px;vertical-align:-3px;">').replace(":O", '<img src="./img/emoticons/shocked.png" style="width:16px;height:16px;vertical-align:-3px;">').replace(":p", '<img src="./img/emoticons/tongueface.png" style="width:16px;height:16px;vertical-align:-3px;">').replace(":P", '<img src="./img/emoticons/tongueface.png" style="width:16px;height:16px;vertical-align:-3px;">').replace(":)", '<img src="./img/emoticons/smiling.png" style="width:16px;height:16px;vertical-align:-3px;">').replace(">_<", '<img src="./img/emoticons/xd.png" style="width:16px;height:16px;vertical-align:-3px;">').replace("-_-", '<img src="./img/emoticons/unamused.png" style="width:16px;height:16px;vertical-align:-3px;">').replace(":(", '<img src="./img/emoticons/sad.png" style="width:16px;height:16px;vertical-align:-3px;">').replace(":)", '<img src="./img/emoticons/smiling.png" style="width:16px;height:16px;vertical-align:-3px;">').replace(":'(", '<img src="./img/emoticons/crying.png" style="width:16px;height:16px;vertical-align:-3px;">');
+	return text;
 }
 
 function receiveText(text) {
