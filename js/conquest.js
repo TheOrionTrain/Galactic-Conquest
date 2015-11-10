@@ -85,7 +85,7 @@ function queryServer(serverIP, i, browser) {
 				"passworded": serverInfo.passworded,
 				"numPlayers": sanitizeString(serverInfo.numPlayers),
 				"maxPlayers": sanitizeString(serverInfo.maxPlayers),
-				"players": sanitizeString(serverInfo.players)
+				"players": sanitizeString(serverInfo.players),
 			};
 		addServer(i);
 	});
@@ -116,10 +116,12 @@ function addServer(i) {
 	++gp_servers;
 	var on = (!servers[i].variant) ? "" : "on";
 
+	servers[i].ping = app.ping(servers[i].address);
+
 	/*servers[i].location_flag = typeof servers[i].location_flag == 'undefined' ? "[" : servers[i].location_flag;
 	servers[i].ping = servers[i].ping || 0;*/
 
-	$('#browser').append("<div data-gp='serverbrowser-" + gp_servers + "' class='server" + ((servers[i].passworded) ? " passworded" : "") + " ' id='server" + i + "' data-server=" + i + "><div class='thumb'><img src='img/space.jpg'></div><div class='info'><span class='name'>" + ((servers[i].passworded) ? "[LOCKED] " : "") + servers[i].name + " (" + servers[i].hostPlayer + ")  " + servers[i].location_flag + "<span id='ping-" + i + "'>"+servers[i].ping+"</span>ms]</span><span class='settings'> <span class='elversion'></span></span></div><div class='players'>" + servers[i].numPlayers + "/" + servers[i].maxPlayers + "</div></div>");
+	$('#browser').append("<div data-gp='serverbrowser-" + gp_servers + "' class='server" + ((servers[i].passworded) ? " passworded" : "") + " ' id='server" + i + "' data-server=" + i + "><div class='thumb'><img src='img/space.jpg'></div><div class='info'><span class='name'>" + ((servers[i].passworded) ? "[LOCKED] " : "") + servers[i].name + " (" + servers[i].hostPlayer + ") [<span id='ping-" + i + "'>"+servers[i].ping+"</span>ms]</span><span class='settings'> <span class='elversion'>"+servers[i].address+"</span></span></div><div class='players'>" + servers[i].numPlayers + "/" + servers[i].maxPlayers + "</div></div>");
 	$('.server').hover(function() {
 		$('#click')[0].currentTime = 0;
 		$('#click')[0].play();
@@ -448,7 +450,7 @@ function chat(text) {
 	app.sendChatMessage(text);
 }
 
-String.prototype.replaceAll = function(_f, _r, _c){ 
+String.prototype.replaceAll = function(_f, _r, _c){
 
   var o = this.toString();
   var r = '';
@@ -1125,7 +1127,7 @@ function changeMenu(menu, details) {
 	if (menu == "serverbrowser-custom" && details) {
 		app.connect(servers[details].address.split(':')[0] + ":" + servers[details].port);
 		return;
-		
+
 		if (getURLParameter('browser'))
 			$('#back').show();
 		host = 0;
