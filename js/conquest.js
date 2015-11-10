@@ -121,7 +121,7 @@ function addServer(i) {
 	/*servers[i].location_flag = typeof servers[i].location_flag == 'undefined' ? "[" : servers[i].location_flag;
 	servers[i].ping = servers[i].ping || 0;*/
 
-	$('#browser').append("<div data-gp='serverbrowser-" + gp_servers + "' class='server" + ((servers[i].passworded) ? " passworded" : "") + " ' id='server" + i + "' data-server=" + i + "><div class='thumb'><img src='img/space.jpg'></div><div class='info'><span class='name'>" + ((servers[i].passworded) ? "[LOCKED] " : "") + servers[i].name + " (" + servers[i].hostPlayer + ") [<span id='ping-" + i + "'>"+servers[i].ping+"</span>ms]</span><span class='settings'> <span class='elversion'>"+servers[i].address+"</span></span></div><div class='players'>" + servers[i].numPlayers + "/" + servers[i].maxPlayers + "</div></div>");
+	$('#browser').append("<div data-gp='serverbrowser-" + gp_servers + "' class='server" + ((servers[i].passworded) ? " passworded" : "") + " ' id='server" + i + "' data-server=" + i + "><div class='thumb'><img src='img/space.jpg'></div><div class='info'><span class='name'>" + ((servers[i].passworded) ? "[LOCKED] " : "") + servers[i].name + " (" + servers[i].hostPlayer + ") [<span id='ping-" + i + "'>"+servers[i].ping+"</span>ms]</span><span class='settings'> <span class='elversion'></span></span></div><div class='players'>" + servers[i].numPlayers + "/" + servers[i].maxPlayers + "</div></div>");
 	$('.server').hover(function() {
 		$('#click')[0].currentTime = 0;
 		$('#click')[0].play();
