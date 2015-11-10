@@ -893,6 +893,8 @@ audio {
     padding: 0px 10px 0px 10px;
     text-align: center;
     background: rgba(0, 0, 0, 0.15);
+    font-size: 14px;
+    color: #fff;
 }
 #lobby td.rank img {
     max-width: 28px;
