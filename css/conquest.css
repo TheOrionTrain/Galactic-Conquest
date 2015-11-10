@@ -394,7 +394,7 @@
     display: none;
 }
 #bg-cover {
-    z-index: 1;
+    z-index: 0;
     background: rgba(0, 0, 0, 0.33);
 }
 #black {
@@ -844,7 +844,7 @@ audio {
     height: 175px;
     opacity: 1;
     background: url('../img/GC.png') no-repeat 0 0/cover;
-    z-index: 2;
+    z-index: 1;
 }
 #lobby {
     width: 300px;
