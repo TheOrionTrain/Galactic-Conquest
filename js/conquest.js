@@ -608,13 +608,8 @@ $(document).ready(function() {
 		$('#slide')[0].play();
 		removeFriend();
 	});
-	$('#dewmenu-button').click(function() {
-		//alert("This button will work when DewMenu is ready.");
-		window.location.href = "http://dewmenu.halo.click/";
-		/*
-		dewRcon.send('game.menuurl "http://dewmenu.halo.click/"')
-  		dewRcon.send('Game.SetMenuEnabled 0');
-		*/
+	$('#devtools-button').click(function() {
+		app.showDevTools();
 	});
 	$('#browser-settings').click(function() {
 		changeMenu("serverbrowser-options");
@@ -752,8 +747,8 @@ $(document).ready(function() {
 	$("[data-action='menu']").click(function() {
 		changeMenu($(this).attr('data-menu'));
 	});
-	$("[data-action='devtools']").click(function() {
-		app.showDevTools();
+	$("[data-action='quit']").click(function() {
+		app.shutdown();
 	});
 	$('#back').click(function() {
 		if (currentMenu == "customgame" && $('#start').children('.label').text().contains("START")) {
@@ -1110,19 +1105,15 @@ function changeMenu(menu, details) {
 	}
 	if (menu == "main-quickjoin") {
 		var lowestPing = 5000;
-		for (var i = 0; i < serverz.servers.length; i++) {
-			if (typeof serverz.servers[i] != 'undefined') {
-				if (serverz.servers[i].ping < lowestPing && (parseInt(serverz.servers[i].numPlayers) < parseInt(serverz.servers[i].maxPlayers)) && !serverz.servers[i].passworded) {
-					lowestPing = parseInt(serverz.servers[i].ping);
-					currentServer = serverz.servers[i];
+		for (var i = 0; i < servers.length; i++) {
+			if (typeof servers[i] != 'undefined') {
+				if (servers[i].ping < lowestPing && (parseInt(servers[i].numPlayers) < parseInt(servers[i].maxPlayers)) && !servers[i].passworded) {
+					lowestPing = parseInt(servers[i].ping);
+					currentServer = servers[i];
 				}
 			}
-			if (i == serverz.servers.length - 1) {
-				jumpToServer(currentServer.address);
-				setTimeout(function() {
-					startgame(currentServer.address, 'JOIN GAME'.split(' '));
-				}, 500);
-			}
+			if (i == servers.length - 1)
+				app.connect(currentServer.address.split(':')[0] + ":" + currentServer.port);
 		}
 	}
 	if (menu == "serverbrowser-custom" && details) {
@@ -1225,6 +1216,7 @@ function changeMenu(menu, details) {
 			"top": "720px"
 		});
 		currentMenu = "main";
+		getServers(true);
 	}
 	if (menu == "main-main3") {
 		app.showMessageBox("Test");
