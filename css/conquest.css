@@ -996,7 +996,7 @@ audio {
     display: none;
     z-index: 999;
 }
-#dewmenu-button {
+#devtools-button {
     left: 20px;
     bottom: 20px;
     font-size: 15px;
@@ -1007,7 +1007,7 @@ audio {
     -moz-transition: 0.4s;
     transition: 0.4s;
 }
-#dewmenu-button:hover {
+#devtools-button:hover {
     cursor: pointer;
     opacity: 1;
 }
@@ -1352,7 +1352,7 @@ html {
 }
 #back,
 #version,
-#dewmenu-button,
+#devtools-button,
 #browser-settings {
     position: absolute;
     cursor: pointer;
