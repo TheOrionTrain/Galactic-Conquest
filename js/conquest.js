@@ -1251,7 +1251,7 @@ function changeMenu(menu, details) {
 		$('#main2').css({
 			"top": "720px"
 		});
-		$('#dewrito').css({
+		$('#dewrito').css({//Why is this so broken
 			"top": "15px",
 			"left": "440px",
 			"right": "",
