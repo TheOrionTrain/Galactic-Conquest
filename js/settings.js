@@ -117,6 +117,23 @@ var user = {
 				$("[data-option='shufflemusic']").children('.value').text(settings.shufflemusic.labels[c]);
 			}
 		},*/
+		"fullscreen": {
+			"typeof": "select",
+			"category": "menu",
+			"name": "FULLSCREEN",
+			"current": parseInt(isset(localStorage.getItem('fullscreen'), 1)),
+			"min": 0,
+			"max": 1,
+			"labels": [
+            "TRUE",
+            "FALSE"
+        ],
+			"increment": 1,
+			"update": function() {
+				var c = settings.fullscreen.current;
+				$("[data-option='fullscreen']").children('.value').text(settings.fullscreen.labels[c]);
+			}
+		},
 		"resolution": {
 			"typeof": "select",
 			"category": "menu",
@@ -166,22 +183,11 @@ var user = {
 			"name": "BACKGROUND",
 			"current": parseInt(isset(localStorage.getItem('background'), "video")),
 			"min": 0,
-			"max": 14,
+			"max": 3,
 			"labels": [
             "video",
             "video2",
             "video3",
-            "video",
-            "video2",
-			"video3",
-            "video",
-            "video2",
-			"video3",
-            "video",
-            "video2",
-            "video3",
-            "video",
-            "video2",
 			"Random"
         ],
 			"increment": 1,
@@ -195,7 +201,7 @@ var user = {
 					var r = Math.floor(Math.random() * settings.background.labels.length - 1);
 					if (r < 0)
 						r = 0;
-					$('#videos').append("<video id='bg1' src='" + settings.background.labels[r] + ".webm' autoplay type='video/webm'></video>");
+					$('#videos').append("<video id='bg1' src='video/" + settings.background.labels[r] + ".webm' autoplay type='video/webm'></video>");
 					$('#bg1').show();
 					$('#bg1')[0].addEventListener('ended', function() {
 						settings.background.current = 12;
@@ -286,6 +292,23 @@ var user = {
 				$('#browser').removeClass();
 				$('#browser').addClass(settings.browserstyle.labels[c].toLowerCase());
 				$("[data-option='browserstyle']").children('.value').text(settings.browserstyle.labels[c]);
+			}
+		},
+		"emoticons": {
+			"typeof": "select",
+			"category": "menu",
+			"name": "CHAT EMOTICONS",
+			"current": parseInt(isset(localStorage.getItem('emoticons'), 0)),
+			"min": 0,
+			"max": 1,
+			"labels": [
+            "TRUE",
+            "FALSE"
+        ],
+			"increment": 1,
+			"update": function() {
+				var c = settings.emoticons.current;
+				$("[data-option='emoticons']").children('.value').text(settings.emoticons.labels[c]);
 			}
 		},
 		/*"gameversion": {
@@ -533,7 +556,7 @@ var user = {
 			"name": "MAX PLAYERS",
 			"current": parseInt(isset(localStorage.getItem('maxplayers'), 2)),
 			"min": 1,
-			"max": 8,
+			"max": 2,
 			"increment": 1,
 			"update": function() {
 				var c = settings.maxplayers.current;
@@ -732,24 +755,6 @@ var user = {
 			"update": function() {
 				var c = settings.brightness.current;
 				$("[data-option='brightness']").children('.value').text(c);
-			}
-		},
-		"fullscreen": {
-			"typeof": "select",
-			"category": "video",
-			"name": "FULLSCREEN",
-			"current": parseInt(isset(localStorage.getItem('quality'), 0)),
-			"min": 0,
-			"max": 2,
-			"labels": [
-            "FULLSCREEN",
-            "WINDOWED",
-            "BORDERLESS"
-        ],
-			"increment": 1,
-			"update": function() {
-				var c = settings.fullscreen.current;
-				$("[data-option='fullscreen']").children('.value').text(settings.fullscreen.labels[c]);
 			}
 		},
 		"antialiasing": {

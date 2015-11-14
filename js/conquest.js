@@ -60,37 +60,36 @@ function getServers(browser) {
 	servers = [];
 	gp_servers = 0;
 	gp_on = 0;
-	for (var i = 0; i < serverz.servers.length; i++) {
-		queryServer(serverz.servers[i], i, browser);
-	}
+	$.getJSON("http://192.99.124.167:8080/list", function(data) {
+		if (data.result.code !== 0) {
+			alert("Error received from master: " + data.result.msg);
+			return;
+		}
+		for (var i = 0; i < data.result.servers.length; i++) {
+			var serverIP = data.result.servers[i];
+			if (!serverIP.toString().contains("?"))
+				queryServer(serverIP, i, browser);
+		}
+	});
 }
 
 var pings = [];
 
-function queryServer(serverInfo, i, browser) {
-	if (serverInfo.numPlayers > 16 || serverInfo.maxPlayers > 16) {
-		return false;
-	}
-	var isPassworded = serverInfo.passworded !== undefined;
-		servers[i] = {
-			"address": sanitizeString(serverInfo.address),
-			"host": sanitizeString(serverInfo.hostPlayer),
-			"name": sanitizeString(serverInfo.name),
-			"variant": sanitizeString(serverInfo.variant),
-			"variantType": sanitizeString(serverInfo.variantType),
-			"map": sanitizeString(serverInfo.map),
-			"mapFile": sanitizeString(serverInfo.mapFile),
-			"status": sanitizeString(serverInfo.status),
-			"eldewritoVersion": sanitizeString(serverInfo.eldewritoVersion),
-			"ping": parseInt(serverInfo.ping),
-			"location_flag": serverInfo.location_flag,
-			"players": {
-				"max": parseInt(serverInfo.maxPlayers),
-				"current": parseInt(serverInfo.numPlayers)
-			},
-			"password": isPassworded
-		};
-	addServer(i);
+function queryServer(serverIP, i, browser) {
+	$.getJSON("http://" + serverIP, function(serverInfo) {
+			servers[i] = {
+				"address": sanitizeString(serverIP),
+				"name": sanitizeString(serverInfo.name),
+				"port": sanitizeString(serverInfo.port),
+				"hostPlayer": sanitizeString(serverInfo.hostPlayer),
+				"passworded": serverInfo.passworded,
+				"numPlayers": sanitizeString(serverInfo.numPlayers),
+				"maxPlayers": sanitizeString(serverInfo.maxPlayers),
+				"players": sanitizeString(serverInfo.players),
+				"region": sanitizeString(serverInfo.region)
+			};
+		addServer(i);
+	});
 }
 
 function getMapName(filename) {
@@ -115,15 +114,15 @@ function getMapName(filename) {
 var gp_servers = 0;
 
 function addServer(i) {
-	if (servers[i].map == "")
-		return;
 	++gp_servers;
 	var on = (!servers[i].variant) ? "" : "on";
 
-	servers[i].location_flag = typeof servers[i].location_flag == 'undefined' ? "[" : servers[i].location_flag;
-	servers[i].ping = servers[i].ping || 0;
+	servers[i].ping = 999;
 
-	$('#browser').append("<div data-gp='serverbrowser-" + gp_servers + "' class='server" + ((servers[i].password) ? " passworded" : "") + " ' id='server" + i + "' data-server=" + i + "><div class='thumb'><img src='img/maps/" + getMapName(servers[i].mapFile).toString().toUpperCase() + ".png'></div><div class='info'><span class='name'>" + ((servers[i].password) ? "[LOCKED] " : "") + servers[i].name + " (" + servers[i].host + ")  " + servers[i].location_flag + "<span id='ping-" + i + "'>"+servers[i].ping+"</span>ms]</span><span class='settings'>" + servers[i].variant + " " + on + " " + servers[i].map + " <span class='elversion'>" + servers[i].eldewritoVersion + "</span></span></div><div class='players'>" + servers[i].players.current + "/" + servers[i].players.max + "</div></div>");
+	/*servers[i].location_flag = typeof servers[i].location_flag == 'undefined' ? "[" : servers[i].location_flag;
+	servers[i].ping = servers[i].ping || 0;*/
+
+	$('#browser').append("<div data-gp='serverbrowser-" + gp_servers + "' class='server" + ((servers[i].passworded) ? " passworded" : "") + " ' id='server" + i + "' data-server=" + i + "><div class='thumb'><img src='img/space.jpg'></div><div class='info'><span class='name'>" + ((servers[i].passworded) ? "[LOCKED] " : "") + servers[i].name + " (" + servers[i].hostPlayer + ") [<img src='img/flags/" + servers[i].region.toString().toLowerCase() + ".png' title='' alt='' class='flag'/> <span id='ping-" + i + "'>"+servers[i].ping+"</span>ms]</span><span class='settings'> <span class='elversion'></span></span></div><div class='players'>" + servers[i].numPlayers + "/" + servers[i].maxPlayers + "</div></div>");
 	$('.server').hover(function() {
 		$('#click')[0].currentTime = 0;
 		$('#click')[0].play();
@@ -210,7 +209,8 @@ function initialize() {
 			$('#click')[0].currentTime = 0;
 			$('#click')[0].play();
 		});
-		changeSong2(isset("The Force Awakens2", "The Force Awakens"));
+		var r = Math.floor(Math.random() * songs.starwars.length);
+		changeSong2(songs.starwars[r]);
 	});
 	for (i = 0; i < Object.keys(settings).length; i++) {
 		set = Object.keys(settings)[i];
@@ -299,46 +299,39 @@ function changeSetting(s, by) {
 }
 
 function toggleNetwork() {
-	if (network == "offline") {
-		network = "online";
-		//callbacks.networkType(1);
-	} else {
-		network = "offline";
-		//callbacks.networkType(2);
+	if (host == 1) {
+		if (network == "offline") {
+			network = "online";
+			//app.startHttpServer();
+			//callbacks.networkType(1);
+		} else {
+			network = "offline";
+			//app.stopHttpServer();
+			//callbacks.networkType(2);
+		}
+		$('#network').text(network.toUpperCase());
 	}
-	$('#network').text(network.toUpperCase());
 	$('#click')[0].currentTime = 0;
 	$('#click')[0].play();
 }
 
 var friends = [], friends_online;
 
-function jumpToServer(ip) {
-		var d;
-		for (var i = 0; i < serverz.servers.length; i++) {
-			if (serverz.servers[i].address == ip)
-				d = serverz.servers[i];
-		}
+function jumpToServer() {
+
 		host = 0;
 		browsing = 0;
 		$('#lobby').empty();
 		$('#lobby').append("<tr class='top'><td class='info' colspan='2'>Current Lobby <span id='joined'>1</span>/<span id='maxplayers'>0</span></td></tr>");
-		if(d.numPlayers == d.maxPlayers) {
+		/*if(d.numPlayers == d.maxPlayers) {
 			$.snackbar({
 				content: "Game is full. Unable to join."
 			});
 			$('#notification')[0].currentTime = 0;
 			$('#notification')[0].play();
 			return;
-		}
-		changeMap2(getMapName(d.mapFile));
-		$('#subtitle').text(d.name + " : " + d.address);
-		if (d.variant === "")
-			d.variant = "Slayer";
-		$('#gametype-display').text(d.variant.toUpperCase());
-		if (d.variantType === "none")
-			d.variantType = "Slayer";
-		$('#gametype-icon').css('background', "url('img/gametypes/" + (d.variantType === "ctf" || d.variantType === "koth") ? d.variantType : d.variantType.toString().capitalizeFirstLetter + ".png') no-repeat 0 0/cover");
+		}*/
+		//$('#subtitle').text(d.name + " : " + d.address);
 		$('#dewrito').css({
 			"opacity": 0,
 		});
@@ -351,21 +344,20 @@ function jumpToServer(ip) {
 		$('#friendslist').css('right','-250px');
 		$('.options-section').hide();
 		$('#options').fadeOut(anit);
-		$('#friends-online').fadeIn(anit);
 		$('#back').fadeIn(anit);
 		$('#back').attr('data-action', 'custom-serverbrowser');
+		$('#back').hide();
 		$('#customgame').attr('data-from', 'serverbrowser');
-		playersJoin(d.numPlayers, d.maxPlayers, 20, d.address);
-		currentServer = d;
-		lobbyLoop(d.address);
-		loopPlayers = true;
-		$('#start').children('.label').text("JOIN GAME");
+		$('#start').children('.label').text("LEAVE GAME");
 		$('#title').text('CUSTOM GAME');
-		$('#network-toggle').hide();
-		$('#type-selection').show();
+		$('#network-toggle').attr('data-gp', 'customgame-x').show();
+		$('#type-selection').attr('data-gp', 'customgame-1').hide();
 		currentMenu = "customgame";
 		$('#slide')[0].currentTime = 0;
 		$('#slide')[0].play();
+		//playersJoin(settings.maxplayers.current, JSON.parse(//app.getPlayers()));
+		//app.updatePlayers(true);
+		$('#chatbox-content').empty();
 }
 
 function loadFriends() {
@@ -452,9 +444,101 @@ function isOnline(friend) {
 	return typeof serverz.players[friend] == 'undefined' ? 0 : 1; //Orion, check if friend is online or not here
 }
 
-var online = true;
+function chat(text) {
+	//Orion put the C# stuff here
+	$('#chatbox-content').append('<span class="chat-message self">' + settings.username.current + ': ' + addEmojis(text) + '</span>');
+	$('#chatbox-content').scrollTop($('#chatbox-content')[0].scrollHeight);
+	chatTime = 5000;
+	//app.sendChatMessage(text);
+}
+
+String.prototype.replaceAll = function(_f, _r, _c){
+
+  var o = this.toString();
+  var r = '';
+  var s = o;
+  var b = 0;
+  var e = -1;
+  if(_c){ _f = _f.toLowerCase(); s = o.toLowerCase(); }
+
+  while((e=s.indexOf(_f)) > -1)
+  {
+    r += o.substring(b, b+e) + _r;
+    s = s.substring(e+_f.length, s.length);
+    b += e+_f.length;
+  }
+
+  // Add Leftover
+  if(s.length>0){ r+=o.substring(o.length-s.length, o.length); }
+
+  // Return New String
+  return r;
+};
+
+var emoticons = [ [ ":D", "happy.png" ], [ ";)", "wink.png" ], [ ":)", "smiling.png" ], [ ":(", "sad.png" ], [ ":'(", "crying.png" ], [ ":o", "surprised.png" ], [ ":O", "shocked.png" ], [ "xd", "xd.png" ], [ ">_<", "xd.png" ], [ ">.<", "xd.png" ], [ "xp", "xp.png" ], [ "-_-", "unamused.png" ], [ ":p", "tongueface.png" ], [ ";p", "tonguewinkyface.png" ]];
+
+function addEmojis(text) {
+	if (settings.emoticons.current == 1)
+		return text;
+	for (var i = 0; i < emoticons.length; i++) {
+		if (emoticons[i][0].toLowerCase().contains(":o"))
+			text = text.replaceAll(emoticons[i][0], '<img src="./img/emoticons/' + emoticons[i][1] + '" style="width:16px;height:16px;vertical-align:-3px;">', false);
+		else
+			text = text.replaceAll(emoticons[i][0], '<img src="./img/emoticons/' + emoticons[i][1] + '" style="width:16px;height:16px;vertical-align:-3px;">', true);
+	}
+	return text;
+}
+
+function receiveText(text) {
+	//Orion put the C# stuff here
+	$('#chatbox-content').append('<span class="chat-message">'+text+'</span>');
+	$('#chatbox-content').scrollTop($('#chatbox-content')[0].scrollHeight);
+	chatTime = 5000;
+}
+
+var hideChat= setInterval(function() {
+	if(chatTime > 0) {
+		if(hidingChat) {chatTime-=10;}
+		$('#chatbox').css({
+			"opacity" : 1,
+			"background-color" : "rgba(0,0,0,0.5)"
+		});
+	} else if(chatTime <= 0) {
+		$('#chatbox').css({
+			"opacity" : 0.7,
+			"background-color" : "rgba(0,0,0,0)"
+		});
+	}
+},10), online = true, chatTime = 0, hidingChat = 1;
 
 $(document).ready(function() {
+	$('#space').kinetic();
+	$('#chatbox-input').keypress(function (e) {
+		if (e.which == 13) {
+	    	var text = $(this).val();
+			if (text.length > 0)
+				chat(text);
+			$(this).val("");
+	    	return false;
+	  	}
+	});
+	$('#chatbox-input').focus(function() {
+		chatTime = 5000;
+		hidingChat = 0;
+	});
+	$('#chatbox-input').blur(function() {
+		hidingChat = 1;
+	});
+	$('#chatbox').hover(
+		function() {
+			chatTime = 5000;
+			hidingChat = 0;
+		},
+		function() {
+			chatTime = 5000;
+			hidingChat = 1;
+		}
+	);
 	Mousetrap.bind('a', function() {
 		$("[data-gp='" + currentMenu + "-" + gp_on + "']").trigger('click');
 	});
@@ -525,13 +609,8 @@ $(document).ready(function() {
 		$('#slide')[0].play();
 		removeFriend();
 	});
-	$('#dewmenu-button').click(function() {
-		//alert("This button will work when DewMenu is ready.");
-		window.location.href = "http://dewmenu.halo.click/";
-		/*
-		dewRcon.send('game.menuurl "http://dewmenu.halo.click/"')
-  		dewRcon.send('Game.SetMenuEnabled 0');
-		*/
+	$('#devtools-button').click(function() {
+		//app.showDevTools();
 	});
 	$('#browser-settings').click(function() {
 		changeMenu("serverbrowser-options");
@@ -600,7 +679,7 @@ $(document).ready(function() {
 		filterServers();
 	});
 	$('#direct-connect').click(function() {
-		directConnect();
+		//app.directConnect();
 	});
 	$('#clear').click(function() {
 		clearFilters();
@@ -615,9 +694,14 @@ $(document).ready(function() {
 	$('#start').click(function() {
 		var mode = $('#start').children('.label').text().toString().split(" ");
 		if (mode[1] === "FORGE" || (mode[0] === "START" && mode[1] === "GAME"))
-			startgame("127.0.0.1:11775", mode);
-		else
-			startgame(currentServer.address, mode);
+			startgame();
+		else if (mode[0] == "LEAVE") {
+			//app.disconnect();
+			//app.updatePlayers(false);
+			$('#back').attr('data-action', 'serverbrowser-main');
+			changeMenu("custom-serverbrowser");
+			$('#back').show();
+		}
 	});
 	Mousetrap.bind('enter up up down down left right left right b a enter', function() {
 		settings.background.current = 9001;
@@ -664,10 +748,13 @@ $(document).ready(function() {
 	$("[data-action='menu']").click(function() {
 		changeMenu($(this).attr('data-menu'));
 	});
-	$("[data-action='devtools']").click(function() {
-		//app.showDevTools();
+	$("[data-action='quit']").click(function() {
+		//app.shutdown();
 	});
 	$('#back').click(function() {
+		if (currentMenu == "customgame" && $('#start').children('.label').text().contains("START")) {
+			//app.shutdownServer();
+		}
 		changeMenu($(this).attr('data-action'), 'back');
 		if (usingGamepad) {
 			gp_on = p_gp_on;
@@ -851,38 +938,20 @@ function totalPlayersLoop() {
 	setTimeout(totalPlayersLoop, 10000);
 }
 
-function playersJoin(number, max, time, ip) {
-	$.getJSON("http://" + ip, function(serverInfo) {
-		debugLog(ip);
-		players = serverInfo.players;
+function playersJoin(max, players) {
+	//$.getJSON("http://" + ip, function(serverInfo) {
 		var teamGame = false;
 		var colour = "#000000";
-		if (typeof serverInfo.passworded == 'undefined') {
-			for (var i = 0; i < players.length; i++) {
-				if (typeof players[i] != 'undefined') {
-					if (parseInt(players[i].team) > 1)
-						teamGame = false;
-					else
-						teamGame = true;
-				}
-			}
-		}
-		if (typeof serverInfo.passworded == 'undefined') {
-			players.sort(function(a, b) {
-				return a.team - b.team
-			});
-		}
+
 		$('#lobby').empty();
 		$('#lobby').append("<tr class='top' hex-colour='#000000' data-color='" + hexToRgb("#000000", 0.5) + "' style='background:" + hexToRgb("#000000", 0.5) + ";'><td class='info' colspan='2'>Current Lobby <span id='joined'>0</span>/<span id='maxplayers'>0</span></td></tr>");
-		$('#maxplayers').text(serverInfo.maxPlayers);
-		$('#joined').text(serverInfo.numPlayers);
-		if (typeof serverInfo.passworded != 'undefined')
-			return;
+		$('#maxplayers').text(max);
+		$('#joined').text(players.length);
 		for (var i = 0; i < players.length; i++) {
 			if (typeof players[i] != 'undefined' && players[i].name != "") {
-				if (teamGame)
-					colour = (parseInt(players[i].team) === 0) ? "#c02020" : "#214EC0";
-				$('#lobby').append("<tr id='player" + i + "' team='" + players[i].team + "' hex-colour= '" + colour + "' data-color='" + hexToRgb(colour, 0.5) + "' style='background:" + hexToRgb(colour, 0.5) + ";'><td class='name'>" + players[i].name + "</td><td class='rank'><img src='img/ranks/38.png'</td></tr>");
+				/*if (teamGame)
+					colour = (parseInt(players[i].team) === 0) ? "#c02020" : "#214EC0";*/
+				$('#lobby').append("<tr id='player" + i + "' team='" + players[i].team + "' hex-colour= '" + colour + "' data-color='" + hexToRgb(colour, 0.5) + "' style='background:" + hexToRgb(colour, 0.5) + ";'><td class='name'>" + players[i].name + "</td><td class='rank'>" + players[i].ping + "ms</td></tr>");
 				$('#player' + i).css("display", "none");
 				$('#player' + i).fadeIn(anit);
 			}
@@ -914,7 +983,7 @@ function playersJoin(number, max, time, ip) {
 			});
 			$(this).css("background-color", hexToRgb(bright, 0.75));
 		});
-	});
+	//});
 }
 
 function changeMenu(menu, details) {
@@ -931,7 +1000,7 @@ function changeMenu(menu, details) {
 		$('#main').css({
 			"top": "720px"
 		});
-		
+
 		host = 1;
 		forge = 0;
 		$('#title').text('CREATE GAME');
@@ -959,8 +1028,20 @@ function changeMenu(menu, details) {
 		$('#lobby').empty();
 		$('#lobby').append("<tr class='top'><td class='info' colspan='2'>Current Lobby <span id='joined'>1</span>/<span id='maxplayers'>16</span></td></tr>");
 		$('#start').children('.label').text("START GAME");
-		playersJoin(1, 2, 20, "127.0.0.1:11775");
 		currentMenu = "customgame";
+	}
+	if (menu == "main-map") {
+		$('#back').fadeOut(anit);
+		$('#space').css({
+			"top": "0px"
+		});
+		$('#main').css({
+			"top": "720px"
+		});
+		$('#dewrito').css({
+			"opacity": 0,
+		});
+		currentMenu = "map";
 	}
 	if (menu == "main-forge") {
 		$('#back').fadeIn(anit);
@@ -971,8 +1052,8 @@ function changeMenu(menu, details) {
 		$('#main').css({
 			"top": "720px"
 		});
-		
-		
+
+
 		host = 1;
 		forge = 1;
 		$('#title').text('CREATE GAME');
@@ -997,9 +1078,15 @@ function changeMenu(menu, details) {
 			"top": "-720px"
 		});
 		$('#lobby').empty();
-		$('#lobby').append("<tr class='top'><td class='info' colspan='2'>Current Lobby <span id='joined'>1</span>/<span id='maxplayers'>2</span></td></tr>");
+		$('#lobby').append("<tr class='top'><td class='info' colspan='2'>Current Lobby <span id='joined'>1</span>/<span id='maxplayers'>" + settings.maxplayers.current + "</span></td></tr>");
 		$('#start').children('.label').text("START GAME");
 		currentMenu = "customgame";
+		$('#chatbox-content').empty();
+		//playersJoin(settings.maxplayers.current, JSON.parse(//app.getPlayers()));
+		if ($('#network').text() == "ONLINE")
+			//app.startHttpServer();
+		//app.updatePlayers(true);
+		//app.startServer();
 	}
 	if (menu == "custom-main") {
 		$('#dewrito').css({
@@ -1015,25 +1102,25 @@ function changeMenu(menu, details) {
 		});
 		$('#back').attr('data-action', 'main-main2');
 		currentMenu = "main";
+		//app.updatePlayers(false);
 	}
 	if (menu == "main-quickjoin") {
 		var lowestPing = 5000;
-		for (var i = 0; i < serverz.servers.length; i++) {
-			if (typeof serverz.servers[i] != 'undefined') {
-				if (serverz.servers[i].ping < lowestPing && (parseInt(serverz.servers[i].numPlayers) < parseInt(serverz.servers[i].maxPlayers)) && !serverz.servers[i].passworded) {
-					lowestPing = parseInt(serverz.servers[i].ping);
-					currentServer = serverz.servers[i];
+		for (var i = 0; i < servers.length; i++) {
+			if (typeof servers[i] != 'undefined') {
+				if (servers[i].ping < lowestPing && (parseInt(servers[i].numPlayers) < parseInt(servers[i].maxPlayers)) && !servers[i].passworded) {
+					lowestPing = parseInt(servers[i].ping);
+					currentServer = servers[i];
 				}
 			}
-			if (i == serverz.servers.length - 1) {
-				jumpToServer(currentServer.address);
-				setTimeout(function() {
-					startgame(currentServer.address, 'JOIN GAME'.split(' '));
-				}, 500);
-			}
+			if (i == servers.length - 1)
+				//app.connect(currentServer.address.split(':')[0] + ":" + currentServer.port);
 		}
 	}
 	if (menu == "serverbrowser-custom" && details) {
+		//app.connect(servers[details].address.split(':')[0] + ":" + servers[details].port);
+		return;
+
 		if (getURLParameter('browser'))
 			$('#back').show();
 		host = 0;
@@ -1059,7 +1146,6 @@ function changeMenu(menu, details) {
 			});
 			$('#back').attr('data-action', 'custom-serverbrowser');
 			$('#customgame').attr('data-from', 'serverbrowser');
-			playersJoin(d.players.current, d.players.max, 20, d.address);
 			currentServer = d;
 			lobbyLoop(servers[selectedserver].address);
 			loopPlayers = true;
@@ -1131,6 +1217,7 @@ function changeMenu(menu, details) {
 			"top": "720px"
 		});
 		currentMenu = "main";
+		getServers(true);
 	}
 	if (menu == "main-main3") {
 		//app.showMessageBox("Test");
@@ -1436,27 +1523,15 @@ function playerInfo(name) {
 	}
 }
 
-function startgame(ip, mode) {
-	if (!true) {
-		$.snackbar({
-			content: 'You must be connected to the game to join or start a server.'
-		});
-		$('#notification')[0].currentTime = 0;
-		$('#notification')[0].play();
+function startgame() {
+	if (parseInt($('#joined').text()) < 2) {
+		//app.showMessageBox("There aren't enough players to start the game.");
 		return;
 	}
-	/*if (currentServer.eldewritoVersion != settings.gameversion.current) {
-		$.snackbar({
-			content: 'You must have the same version as the server in order to join.'
-		});
-		$('#notification')[0].currentTime = 0;
-		$('#notification')[0].play();
-		return;
-	}*/ // Orion please fix this when you get the chance
+
 	loopPlayers = false;
 	var password;
-	if (mode[0] === "JOIN")
-		password = currentServer.password == true ? prompt(currentServer.name + " has a password, enter the password to join", "") : "";
+
 	$('#beep')[0].play();
 	setTimeout(function() {
 		$('#beep')[0].play();
@@ -1470,31 +1545,7 @@ function startgame(ip, mode) {
 	$('#music')[0].pause();
 	$('#black').fadeIn(3000);
 	delay(function() {
-		if (mode[0] === "JOIN") {
-			//$('#hoImage').css('background-image','url(./img/' + settings.logo.labels[settings.logo.current] + '.png)');
-			dewRcon.send('connect ' + ip + ' ' + password);
-			if (currentServer.status != "InLobby") {
-				console.log(currentServer);
-				$('#loadingMapName').text(currentServer.map.toString().toUpperCase());
-				$('#loadingMapImage').css('background-image', 'url(./img/loading/maps/' + getMapName(currentServer.mapFile.toString()).toLowerCase() + '.png)');
-				$('#loadingGametypeImage').css('background-image', 'url(./img/gametypes/' + currentServer.variantType.toString().capitalizeFirstLetter() + '.png)');
-				$('#mapOverlay').css('background-image', 'url(./img/loading/maps/' + currentServer.map.toString().toLowerCase() + '-overlay.png)');
-				$('#loading').show();
-				$('#back').hide();
-			} else {
-				dewRcon.send('Game.SetMenuEnabled 0');
-			}
-		} else if (mode[1] === "FORGE") {
-			$('#loadingMapName').text(currentServer.map.toString().toUpperCase());
-			$('#loadingMapImage').css('background-image', 'url(./img/loading/maps/' + currentServer.map.toString().toLowerCase() + '.png)');
-			$('#loadingGametypeImage').css('background-image', 'url(./img/gametypes/' + currentServer.variantType.toString().capitalizeFirstLetter() + '.png)');
-			$('#mapOverlay').css('background-image', 'url(./img/loading/maps/' + currentServer.map.toString().toLowerCase() + '-overlay.png)');
-			$('#loading').show();
-			$('#back').hide();
-			dewRcon.send('game.forceload ' + getMapFile($('#currentmap').text().toString().toLowerCase()) + ' 5')
-		} else if (mode[0] === "START" && mode[1] === "GAME") {
-			dewRcon.send('start');
-		}
+
 	}, 3700);
 }
 

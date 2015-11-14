@@ -3,29 +3,16 @@
 <head>
 	<title>Galactic Conquest</title>
 	<link href="css/snackbar.min.css" rel="stylesheet" type="text/css">
-	<link href="css/dewrito.css" rel="stylesheet" type="text/css">
-	<link id="style" href="css/reach.css" rel="stylesheet" type="text/css">
-	<link href="css/spectrum.css" rel="stylesheet" type="text/css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.7.0/spectrum.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.4.6/mousetrap.min.js"></script>
+	<link href="css/conquest.css" rel="stylesheet" type="text/css">
+	<script src="js/jquery.min.js"></script>
+	<script src="js/mousetrap.min.js"></script>
+	<script src="js/jquery.kinetic.min.js"></script>
 	<script src="js/gamepad.min.js"></script>
 	<script src="js/snackbar.js"></script>
-    <script src="js/dewHelper.js"></script>
-	<script src="js/dewGamepad.js"></script>
+    <script src="js/helper.js"></script>
+	<script src="js/gamepad.js"></script>
 </head>
 <body>
-	<script>
-		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		})(window,document,'script','http://www.google-analytics.com/analytics.js','ga');
-
-		ga('create', 'UA-65066722-1', 'auto');
-		ga('send', 'pageview');
-	</script>
 	<script>
 		function clickIE4() {
 			if (event.button == 2) {
@@ -88,13 +75,12 @@
 		</div>-->
 		<div class="menu-container animated" id="serverbrowser">
 			<div id="direct-connect">Direct Connect</div>
-			<div id="browser-title">SERVER BROWSER</div>
+			<div id="browser-title">SERVERS</div>
 			<div id="browser-buttons">
 				<div id="refresh"><img src="img/refresh.svg" /> </div>
 				<div data-action="menu" data-menu="serverbrowser-type" id="browser-gametype">Choose Gametype</div>
 				<div data-action="menu" data-menu="serverbrowser-map" id="browser-map">Choose Map</div>
 				<div id="browser-full">Showing Full</div>
-				<div id="browser-locked">Showing Locked</div>
 				<div id="clear">Reset</div>
 			</div>
 			<div id="line3"></div>
@@ -121,6 +107,34 @@
 				<table id="lobby" cellspacing="0"></table>
 			</div>
 			<div id="arrow-right"></div>
+			<div id="chatbox" class="animated">
+				<div id="chatbox-content">
+					<!--<span class="chat-message self">TheFeelTrain: Hey there</span>
+					<span class="chat-message">Orion: G'day mate</span>
+					<span class="chat-message self">TheFeelTrain: I'm typing some stuff into the chat</span>
+					<span class="chat-message">Orion: Me too mate</span>
+					<span class="chat-message self">TheFeelTrain: Want to play a game?</span>
+					<span class="chat-message">Orion: I'd love to mate. Me and the lads love to play games down under mate.</span>-->
+				</div>
+				<input id="chatbox-input" placeholder="Type a message..." />
+			</div>
+		</div>
+		<div class="menu-container animated" id="space">
+			<div id="space-container">
+				<div id="polismassa" class="planet red"></div>
+				<div id="mustafar" class="planet red"></div>
+				<div id="utapau" class="planet red"></div>
+				<div id="coruscant" class="planet blue"></div>
+				<div id="dagobah" class="planet blue"></div>
+				<div id="mygeeto" class="planet red"></div>
+				<div id="naboo" class="planet blue"></div>
+				<div id="kashyyyk" class="planet blue"></div>
+				<div id="geonosis" class="planet red"></div>
+				<div id="yavin4" class="planet blue"></div>
+				<div id="felucia" class="planet red"></div>
+				<div id="kamino" class="planet blue"></div>
+				<div id="tatooine" class="planet blue"></div>
+			</div>
 		</div>
 		<div class="menu-container animated" id="main3">
 			<div class="select-main">
@@ -134,15 +148,16 @@
 				<div data-gp="main2-1" data-action="menu" data-menu="main2-main" class="selection"><span class="label">PLAY MULTIPLAYER</span><span class="value">&nbsp;</span> </div>
 				<div data-gp="main2-2" data-action="menu" data-menu="main-options" class="selection"><span class="label">SETTINGS</span><span class="value">&nbsp;</span> </div>
 				<div data-gp="main2-3" data-action="menu" data-menu="main2-credits" class="selection"><span class="label">CREDITS</span><span class="value">&nbsp;</span> </div>
-				<div data-gp="main2-4" data-action="devtools" data-menu="main2-credits" class="selection"><span class="label">DEV TOOLS</span><span class="value">&nbsp;</span> </div>
+				<div data-gp="main2-4" data-action="quit" data-menu="main2-credits" class="selection"><span class="label">QUIT</span><span class="value">&nbsp;</span> </div>
 			</div>
-			<!--<div id="dewmenu-button">Switch to DewMenu</div>-->
+			<div id="devtools-button">Dev Tools</div>
 		</div>
 		<div class="menu-container animated" id="main">
 			<div class="select-main">
 				<div data-gp="main-1" data-action="menu" data-menu="main-quickjoin" class="selection"><span class="label">QUICK JOIN</span><span class="value">&nbsp;</span> </div>
 				<div data-gp="main-2" data-action="menu" data-menu="main-serverbrowser" class="selection"><span class="label">BROWSE SERVERS</span><span class="value">&nbsp;</span> </div>
 				<div data-gp="main-3" data-action="menu" data-menu="main-forge" class="selection"><span class="label">CREATE GAME</span><span class="value">&nbsp;</span> </div>
+				<div data-gp="main-4" data-action="menu" data-menu="main-map" class="selection"><span class="label">TEST MAP</span><span class="value">&nbsp;</span> </div>
 			</div>
 		</div>
 		<div class="menu-container animated" id="credits">
@@ -154,6 +169,10 @@
 				<tr class="credit">
 					<td class="label">Networking &amp; Bug Fixes</td>
 					<td class="name">Orion</td>
+				</tr>
+				<tr class="credit">
+					<td class="label">Beta Testing</td>
+					<td class="name">Shaggyboy</td>
 				</tr>
 			</table>
 		</div>
@@ -210,8 +229,6 @@
 					<div data-gp="customgame-options-1" data-setting="menu" class="selection"><span class="label">GAME SETTINGS</span> </div>
 					<div data-gp="customgame-options-2" data-setting="host" class="selection"><span class="label">HOST SETTINGS</span> </div>
 				</div>
-				<div class="options-select2 animated" id="settings-menu"></div>
-				<div class="options-select2 animated" id="settings-host"></div>
 			</div>
 		</div>
 		<div id="dewrito" class="animated"></div>
@@ -226,7 +243,7 @@
 		<audio id="slide" src="audio/halo3/a_button.wav" type="audio/wav"></audio>
 	</div>
 </body>
-<script src="js/dewMenu.js"></script>
-<script src="js/dewrito.js"></script>
-<script src="js/dewSettings.js"></script>
+<script src="js/menu.js"></script>
+<script src="js/conquest.js"></script>
+<script src="js/settings.js"></script>
 </html>
