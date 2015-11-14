@@ -1113,7 +1113,7 @@ function changeMenu(menu, details) {
 					currentServer = servers[i];
 				}
 			}
-			if (i == servers.length - 1)
+			//if (i == servers.length - 1)
 				//app.connect(currentServer.address.split(':')[0] + ":" + currentServer.port);
 		}
 	}
