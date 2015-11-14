@@ -209,7 +209,10 @@ function initialize() {
 			$('#click')[0].currentTime = 0;
 			$('#click')[0].play();
 		});
-		changeSong2("The Force Awakens2");
+		var r = Math.floor(Math.random() * songs.starwars.length - 1);
+		if (r < 0)
+			r = 0;
+		changeSong2(songs.starwars[r]);
 	});
 	for (i = 0; i < Object.keys(settings).length; i++) {
 		set = Object.keys(settings)[i];
