@@ -1252,8 +1252,8 @@ function changeMenu(menu, details) {
 			"top": "720px"
 		});
 		$('#dewrito').css({
-			"top": "-30px",
-			"left": "400px",
+			"top": "15px",
+			"left": "440px",
 			"right": "",
 			"bottom": "",
 			"-webkit-transition-timing-function": "200ms",
