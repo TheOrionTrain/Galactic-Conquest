@@ -1083,7 +1083,7 @@ function changeMenu(menu, details) {
 		currentMenu = "customgame";
 		$('#chatbox-content').empty();
 		//playersJoin(settings.maxplayers.current, JSON.parse(//app.getPlayers()));
-		if ($('#network').text() == "ONLINE")
+		//if ($('#network').text() == "ONLINE")
 			//app.startHttpServer();
 		//app.updatePlayers(true);
 		//app.startServer();
