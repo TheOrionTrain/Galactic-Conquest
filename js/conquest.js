@@ -446,10 +446,10 @@ function isOnline(friend) {
 
 function chat(text) {
 	//Orion put the C# stuff here
-	$('#chatbox-content').append('<span class="chat-message self">' + settings.username.current + ': ' + addEmojis(text) + '</span>');
+	/*$('#chatbox-content').append('<span class="chat-message self">' + settings.username.current + ': ' + addEmojis(text) + '</span>');
 	$('#chatbox-content').scrollTop($('#chatbox-content')[0].scrollHeight);
-	chatTime = 5000;
-	app.sendChatMessage(text);
+	chatTime = 5000;*/
+	app.sendChatMessage(settings.username.current, text, JSON.stringify(emoticons), true);
 }
 
 String.prototype.replaceAll = function(_f, _r, _c){
@@ -475,9 +475,10 @@ String.prototype.replaceAll = function(_f, _r, _c){
   return r;
 };
 
-var emoticons = [ [ ":D", "happy.png" ], [ ";)", "wink.png" ], [ ":)", "smiling.png" ], [ ":(", "sad.png" ], [ ":'(", "crying.png" ], [ ":o", "surprised.png" ], [ ":O", "shocked.png" ], [ "xd", "xd.png" ], [ ">_<", "xd.png" ], [ ">.<", "xd.png" ], [ "xp", "xp.png" ], [ "-_-", "unamused.png" ], [ ":p", "tongueface.png" ], [ ";p", "tonguewinkyface.png" ]];
+//To add a new emoticon download the image, put it into its appropriate directory and then add it to this list. It should automatically work with the program now.
+var emoticons = [ [ ":D", "happy.png" ], [ ";\)", "wink.png" ], [ ":\)", "smiling.png" ], [ ":\(", "sad.png" ], [ ":'\(", "crying.png" ], [ ":o", "surprised.png" ], [ ":O", "shocked.png" ], [ "xd", "xd.png" ], [ ">_<", "xd.png" ], [ ">.<", "xd.png" ], [ "xp", "xp.png" ], [ "-_-", "unamused.png" ], [ ":p", "tongueface.png" ], [ ";p", "tonguewinkyface.png" ]];
 
-function addEmojis(text) {
+/*function addEmojis(text) {
 	if (settings.emoticons.current == 1)
 		return text;
 	for (var i = 0; i < emoticons.length; i++) {
@@ -487,7 +488,7 @@ function addEmojis(text) {
 			text = text.replaceAll(emoticons[i][0], '<img src="./img/emoticons/' + emoticons[i][1] + '" style="width:16px;height:16px;vertical-align:-3px;">', true);
 	}
 	return text;
-}
+}*/
 
 function receiveText(text) {
 	//Orion put the C# stuff here
