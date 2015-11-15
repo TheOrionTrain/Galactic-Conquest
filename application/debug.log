@@ -88,3 +88,11 @@
 [1110/123127:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
 [1110/123127:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
 [1110/123127:ERROR:audio_output_device.cc(261)] IO loop going away before the audio device has been stopped
+[1115/103325:ERROR:renderer_main.cc(200)] Running without renderer sandbox
+[1115/103341:FATAL:gamepad_shared_memory_reader.cc(27)] Check failed: RenderThread::Get()->Send(new GamepadHostMsg_StartPolling( &renderer_shared_memory_handle_)). 
+[1115/103546:ERROR:renderer_main.cc(200)] Running without renderer sandbox
+[1115/103548:ERROR:audio_low_latency_output_win.cc(181)] Bailing out due to non-perfect timing.  Buffer size of 480 is not an even divisor of 1056
+[1115/103548:ERROR:audio_low_latency_output_win.cc(181)] Bailing out due to non-perfect timing.  Buffer size of 480 is not an even divisor of 1056
+[1115/103548:ERROR:gpu_video_decode_accelerator.cc(276)] HW video decode not available for profile 11
+[1115/103549:ERROR:gpu_video_decode_accelerator.cc(276)] HW video decode not available for profile 11
+[1115/103550:INFO:raw_input_data_fetcher_win.cc(101)] RegisterRawInputDevices() failed for RIDEV_REMOVE: The parameter is incorrect. (0x57)
