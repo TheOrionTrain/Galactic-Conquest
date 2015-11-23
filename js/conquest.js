@@ -512,8 +512,67 @@ var hideChat= setInterval(function() {
 	}
 },10), online = true, chatTime = 0, hidingChat = 1;
 
+function drawGraphLine(x1, y1, x2, y2, color) {
+	var dist = Math.ceil(Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2)));
+	var angle = Math.atan2(y2-y1, x2-x1)*180/Math.PI;
+	var xshift = dist - Math.abs(x2-x1);
+	var yshift = Math.abs(y1-y2)/2;
+	var div = document.createElement('div');
+	div.style.backgroundColor = color;
+	div.style.position = 'absolute';
+	div.style.left = (x1 - xshift/2) + 'px';
+	div.style.top = (Math.min(y1,y2) + yshift) + 'px';
+	div.style.width = dist+'px';
+	div.style.height = '3px';
+	div.style.WebkitTransform = 'rotate('+angle+'deg)';
+	div.style.MozTransform = 'rotate('+angle+'deg)';
+	div.style.zIndex = 1;
+	console.log("yes");
+	$('#space-container').append(div);
+}
+
+function connectPlanets(pl1,pl2) {
+	var p1 = $('#'+pl1).position(),
+		p2 = $('#'+pl2).position();
+
+	p1.left = p1.left+($('#'+pl1).width()/2);
+	p2.left = p2.left+($('#'+pl2).width()/2);
+	p1.top = p1.top+($('#'+pl1).height()/2);
+	p2.top = p2.top+($('#'+pl2).height()/2);
+
+	drawGraphLine(p1.left,p1.top,p2.left,p2.top,"rgba(255,255,255,0.333)");
+}
+
 $(document).ready(function() {
 	$('#space').kinetic();
+	connectPlanets("polismassa","white1");
+	connectPlanets("polismassa","white2");
+	connectPlanets("white1","mustafar");
+	connectPlanets("white1","utapau");
+	connectPlanets("white2","white3");
+	connectPlanets("white3","coruscant");
+	connectPlanets("coruscant","mygeeto");
+	connectPlanets("mustafar","white4");
+	connectPlanets("utapau","white4");
+	connectPlanets("white4","dagobah");
+	connectPlanets("utapau","white5");
+	connectPlanets("dagobah","white5");
+	connectPlanets("white5","white6");
+	connectPlanets("white6","naboo");
+	connectPlanets("white6","geonosis");
+	connectPlanets("naboo","white7");
+	connectPlanets("mygeeto","white7");
+	connectPlanets("white7","kashyyyk");
+	connectPlanets("geonosis","tatooine");
+	connectPlanets("kamino","tatooine");
+	connectPlanets("felucia","kamino");
+	connectPlanets("yavin4","felucia");
+	connectPlanets("mygeeto","white8");
+	connectPlanets("white8","kashyyyk");
+	connectPlanets("white8","yavin4");
+	connectPlanets("naboo","white9");
+	connectPlanets("white9","kashyyyk");
+	connectPlanets("white9","kamino");
 	$('#chatbox-input').keypress(function (e) {
 		if (e.which == 13) {
 	    	var text = $(this).val();
