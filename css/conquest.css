@@ -1475,10 +1475,12 @@ html {
     z-index: 2;
     transform-origin: center;
     transition: 0.2s;
+    -webkit-backface-visibility: hidden;
+    -webkit-transform: translateZ(0) scale(1.0, 1.0);
 }
 
 .planet:hover, .whitepoint:hover {
-    transform: scale(1.1);
+    transform: translateZ(0) scale(1.1);
     cursor: pointer;
 }
 
