@@ -523,7 +523,7 @@ function drawGraphLine(x1, y1, x2, y2, color) {
 	div.style.left = (x1 - xshift/2) + 'px';
 	div.style.top = (Math.min(y1,y2) + yshift) + 'px';
 	div.style.width = dist+'px';
-	div.style.height = '3px';
+	div.style.height = '2px';
 	div.style.WebkitTransform = 'rotate('+angle+'deg)';
 	div.style.MozTransform = 'rotate('+angle+'deg)';
 	div.style.zIndex = 1;
@@ -540,7 +540,7 @@ function connectPlanets(pl1,pl2) {
 	p1.top = p1.top+($('#'+pl1).height()/2);
 	p2.top = p2.top+($('#'+pl2).height()/2);
 
-	drawGraphLine(p1.left,p1.top,p2.left,p2.top,"rgba(255,255,255,0.125)");
+	drawGraphLine(p1.left,p1.top,p2.left,p2.top,"rgba(255,255,255,0.2)");
 }
 
 $(document).ready(function() {
