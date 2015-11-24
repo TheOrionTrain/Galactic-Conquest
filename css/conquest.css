@@ -1461,7 +1461,7 @@ html {
 #space-container {
     width: 1920px;
     height: 720px;
-    background: url('../img/background.jpg') no-repeat 0 0/cover;
+    /*background: url('../img/background.jpg') no-repeat 0 0/cover;*/
     overflow: hidden;
 }
 
