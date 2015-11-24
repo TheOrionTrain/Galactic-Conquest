@@ -1501,11 +1501,18 @@ html {
 }
 
 .connection.touch {
-    background: rgba(255,255,255,0.667);
+    background: url('../img/dash.png');
+    animation: backgroundScroll 1s linear infinite;
+    opacity: 0.8;
 }
 
 .whitepoint.touch {
     background: rgba(255,255,255,1);
+}
+
+@keyframes backgroundScroll {
+    from {background-position: 0 0;}
+    to {background-position: -24px 0;}
 }
 
 .planet.red {
