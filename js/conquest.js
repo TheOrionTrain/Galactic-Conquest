@@ -572,16 +572,38 @@ $(document).ready(function() {
 	connectPlanets("white9","kamino");
 	$('.planet, .whitepoint').hover(
 		function() {
-			var touch = $(this).attr('id'), t = touch.split(",");
+			var touch = $(this).attr('id');
 			$('.connection').removeClass('touch');
+			$('.connection').removeClass('left');
+			$('.connection').removeClass('right');
 			$('.connection').each(function() {
+				var t = $(this).attr('data-collision').split(",");
 				if($(this).attr('data-collision').includes(touch)) {
 					$(this).addClass('touch');
+					if(touch == t[0]) {
+						if($('#'+t[0]).position().left < $('#'+t[1]).position().left) {
+							$(this).addClass('right');
+						} else {
+							$(this).addClass('left');
+						}
+					} else {
+						if($('#'+t[1]).position().left < $('#'+t[0]).position().left) {
+							$(this).addClass('right');
+						} else {
+							$(this).addClass('left');
+						}
+					}
 				}
 			});
-			$('.planet, .whitepoint').removeClass('touch');
-			$('#'+t[0]).addClass('touch');
-			$('#'+t[1]).addClass('touch');
+			if(touch == "white6") {
+				$("[data-collision='white6,naboo']").removeClass('left').addClass('right');
+			}
+			if(touch == "white9") {
+				$("[data-collision='white9,kashyyyk']").removeClass('left').addClass('right');
+			}
+			if(touch == "kashyyyk") {
+				$("[data-collision='white9,kashyyyk']").removeClass('right').addClass('left');
+			}
 		},
 		function() {
 			$('.planet, .whitepoint').removeClass('touch');
