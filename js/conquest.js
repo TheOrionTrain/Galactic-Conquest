@@ -512,35 +512,32 @@ var hideChat= setInterval(function() {
 	}
 },10), online = true, chatTime = 0, hidingChat = 1;
 
-function drawGraphLine(x1, y1, x2, y2, color) {
+function drawGraphLine(x1, y1, x2, y2, color,collide) {
 	var dist = Math.ceil(Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2)));
 	var angle = Math.atan2(y2-y1, x2-x1)*180/Math.PI;
 	var xshift = dist - Math.abs(x2-x1);
 	var yshift = Math.abs(y1-y2)/2;
 	var div = document.createElement('div');
-	div.style.backgroundColor = color;
-	div.style.position = 'absolute';
 	div.style.left = (x1 - xshift/2) + 'px';
 	div.style.top = (Math.min(y1,y2) + yshift) + 'px';
 	div.style.width = dist+'px';
 	div.style.height = '2px';
 	div.style.WebkitTransform = 'rotate('+angle+'deg)';
 	div.style.MozTransform = 'rotate('+angle+'deg)';
-	div.style.zIndex = 1;
-	console.log("yes");
+	div.dataset.collision = collide;
+	div.className = "connection";
 	$('#space-container').append(div);
 }
 
 function connectPlanets(pl1,pl2) {
 	var p1 = $('#'+pl1).position(),
-		p2 = $('#'+pl2).position();
-
+		p2 = $('#'+pl2).position(),
+		c = [pl1,pl2];
 	p1.left = p1.left+($('#'+pl1).width()/2);
 	p2.left = p2.left+($('#'+pl2).width()/2);
 	p1.top = p1.top+($('#'+pl1).height()/2);
 	p2.top = p2.top+($('#'+pl2).height()/2);
-
-	drawGraphLine(p1.left,p1.top,p2.left,p2.top,"rgba(255,255,255,0.2)");
+	drawGraphLine(p1.left,p1.top,p2.left,p2.top,"rgba(255,255,255,0.2)",c);
 }
 
 $(document).ready(function() {
@@ -573,6 +570,24 @@ $(document).ready(function() {
 	connectPlanets("naboo","white9");
 	connectPlanets("white9","kashyyyk");
 	connectPlanets("white9","kamino");
+	$('.planet, .whitepoint').hover(
+		function() {
+			var touch = $(this).attr('id'), t = touch.split(",");
+			$('.connection').removeClass('touch');
+			$('.connection').each(function() {
+				if($(this).attr('data-collision').includes(touch)) {
+					$(this).addClass('touch');
+				}
+			});
+			$('.planet, .whitepoint').removeClass('touch');
+			$('#'+t[0]).addClass('touch');
+			$('#'+t[1]).addClass('touch');
+		},
+		function() {
+			$('.planet, .whitepoint').removeClass('touch');
+			$('.connection').removeClass('touch');
+		}
+	);
 	$('#chatbox-input').keypress(function (e) {
 		if (e.which == 13) {
 	    	var text = $(this).val();

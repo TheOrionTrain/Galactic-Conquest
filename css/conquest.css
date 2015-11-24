@@ -1473,6 +1473,13 @@ html {
     height: 50px;
     border-radius: 50%;
     z-index: 2;
+    transform-origin: center;
+    transition: 0.2s;
+}
+
+.planet:hover, .whitepoint:hover {
+    transform: scale(1.1);
+    cursor: pointer;
 }
 
 .whitepoint {
@@ -1482,6 +1489,23 @@ html {
     height: 12px;
     border-radius: 50%;
     z-index: 2;
+    transform-origin: center;
+    transition: 0.2s;
+}
+
+.connection {
+    position: absolute;
+    z-index: 1;
+    background: rgba(255,255,255,0.2);
+    transition: 0.2s;
+}
+
+.connection.touch {
+    background: rgba(255,255,255,0.667);
+}
+
+.whitepoint.touch {
+    background: rgba(255,255,255,1);
 }
 
 .planet.red {
