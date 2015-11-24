@@ -540,7 +540,7 @@ function connectPlanets(pl1,pl2) {
 	p1.top = p1.top+($('#'+pl1).height()/2);
 	p2.top = p2.top+($('#'+pl2).height()/2);
 
-	drawGraphLine(p1.left,p1.top,p2.left,p2.top,"rgba(255,255,255,0.333)");
+	drawGraphLine(p1.left,p1.top,p2.left,p2.top,"rgba(255,255,255,0.125)");
 }
 
 $(document).ready(function() {
