@@ -1128,6 +1128,7 @@ function changeMenu(menu, details) {
 		currentMenu = "customgame";
 	}
 	if (menu == "main-map") {
+		changeSong2("Galactic Conquest");
 		$('#back').fadeOut(anit);
 		$('#space').css({
 			"top": "0px"
@@ -1911,6 +1912,9 @@ function changeSong1(game) {
 }
 
 function changeSong2(song) {
+	if(song == "Galactic Conquest") {
+		$('#music').attr('loop', "true");
+	}
 	var directory = "music/";
 	songIndex = songs["starwars"].indexOf(song);
 	thisSong = songs["starwars"][songIndex];
