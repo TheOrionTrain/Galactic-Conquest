@@ -1461,7 +1461,7 @@ html {
 #space-container {
     width: 1920px;
     height: 720px;
-    /*background: url('../img/background.jpg') no-repeat 0 0/cover;*/
+    background: url('../img/background.jpg') no-repeat 0 0/cover;
     overflow: hidden;
 }
 
@@ -1477,10 +1477,21 @@ html {
     transition: 0.2s;
     -webkit-backface-visibility: hidden;
     -webkit-transform: translateZ(0) scale(1.0, 1.0);
+    box-sizing: border-box;
 }
 
 .planet:hover, .whitepoint:hover {
     transform: translateZ(0) scale(1.1);
+    cursor: pointer;
+}
+
+.planet.touch.red {
+    transform: translateZ(0) scale(1.2);
+    cursor: pointer;
+}
+
+.planet.touch.blue {
+    transform: translateZ(0) scale(1.2);
     cursor: pointer;
 }
 
@@ -1498,7 +1509,7 @@ html {
 .connection {
     position: absolute;
     z-index: 1;
-    background: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.1);
     transition: 0.2s;
 }
 
@@ -1513,6 +1524,14 @@ html {
 
 .connection.touch.right {
     animation: dashRight 1s linear infinite;
+}
+
+.connection.hov {
+    background: rgba(255,255,255,0.4);
+}
+
+.whitepoint.hov {
+    background: rgba(255,255,255,1);
 }
 
 .whitepoint.touch {
