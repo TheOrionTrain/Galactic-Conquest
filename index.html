@@ -46,33 +46,9 @@
             <div id="loadingGametypeImage"></div>
 		</div>
 		<div id="popup"></div>
-		<!--<div id="players-online">Loading...</div>
-		<div id="friends-online">Loading...</div>-->
 		<div id="black"></div>
 		<div id="back">Back</div>
-		<!--<div id="version">Loading...</div>
-		<div class="animated" id="friendslist">
-			<div id="friends-close"></div>
-			<div class="friends-title">Friends</div>
-			<div id="friends"></div>
-			<div id="addfriend">
-				<input id="friend-input" type="text" />
-				<div id="friend-add">+</div>
-				<div id="friend-remove">-</div>
-			</div>
-		</div>
-		<div id="playerinfo" class="animated">
-			<div id="player-title">
-				<div id="player-rank-display"></div>
-				<div id="player-info"> <span id="player-name"></span> <span id="player-level-display"></span> </div>
-			</div>
-			<div id="player-armor"></div>
-			<div id="player-stats">
-				<div id="player-kd-display"></div>
-				<canvas id="player-kd-chart"></canvas>
-			</div>
-			<div id="player-level"></div>
-		</div>-->
+		<div id="version">Loading...</div>
 		<div class="menu-container animated" id="serverbrowser">
 			<div id="direct-connect">Direct Connect</div>
 			<div id="browser-title">SERVERS</div>
@@ -86,7 +62,6 @@
 			<div id="line3"></div>
 			<div id="browser" class="regular"></div>
 			<div id="line4"></div>
-			<!--<div id="browser-settings">Settings</div>-->
 		</div>
 		<div class="menu-container animated" id="customgame" data-from="serverbrowser">
 			<div id="map-thumb">
@@ -98,9 +73,8 @@
 			<div id="select">
 				<div data-gp="customgame-0" id="network-toggle" class="selection"><span class="label">NETWORK</span><span id="network" class="value">OFFLINE</span> </div>
 				<div data-gp="customgame-1" id="type-selection" data-action="menu" data-menu="custom-type" class="selection"><span class="label">GAME TYPE</span><span id="gametype-display" class="value">SLAYER</span> </div>
-				<!--<div data-gp="customgame-2" data-action="menu" data-menu="custom-map" class="selection"><span class="label">MAP</span><span id="currentmap" class="value">EDGE</span> </div>-->
-				<div data-gp="customgame-3" data-action="menu" data-menu="custom-options" class="selection"><span class="label">SERVER SETTINGS</span><span class="value">&nbsp;</span> </div>
-				<div data-gp="customgame-4" class="selection" id="start"><span class="label">JOIN GAME</span><span class="value">&nbsp;</span> </div>
+				<div data-gp="customgame-2" data-action="menu" data-menu="custom-options" class="selection"><span class="label">SERVER SETTINGS</span><span class="value">&nbsp;</span> </div>
+				<div data-gp="customgame-3" class="selection" id="start"><span class="label">JOIN GAME</span><span class="value">&nbsp;</span> </div>
 			</div>
 			<div id="line2"></div>
 			<div id="lobby-container">
@@ -108,14 +82,7 @@
 			</div>
 			<div id="arrow-right"></div>
 			<div id="chatbox" class="animated">
-				<div id="chatbox-content">
-					<!--<span class="chat-message self">TheFeelTrain: Hey there</span>
-					<span class="chat-message">Orion: G'day mate</span>
-					<span class="chat-message self">TheFeelTrain: I'm typing some stuff into the chat</span>
-					<span class="chat-message">Orion: Me too mate</span>
-					<span class="chat-message self">TheFeelTrain: Want to play a game?</span>
-					<span class="chat-message">Orion: I'd love to mate. Me and the lads love to play games down under mate.</span>-->
-				</div>
+				<div id="chatbox-content"></div>
 				<input id="chatbox-input" placeholder="Type a message..." />
 			</div>
 		</div>
@@ -183,10 +150,6 @@
 					<td class="label">Beta Testing</td>
 					<td class="name">Shaggyboy</td>
 				</tr>
-				<tr class="credit">
-					<td class="label">3D Spiral Galaxy Animation</td>
-					<td class="name">Xibalba</td>
-				</tr>
 			</table>
 		</div>
 		<div class="options-menu" id="options">
@@ -195,8 +158,6 @@
 				<div class="options-title">GAME SETTINGS</div>
 				<div class="options-select animated">
 					<div data-gp="dewrito-options-1" data-setting="menu" class="selection"><span class="label">MENU SETTINGS</span> </div>
-					<!--<div data-gp="dewrito-options-2" data-action="menu" data-menu="options-music" class="selection"><span class="label">MUSIC</span> </div>
-					<div data-gp="dewrito-options-3" data-action="menu" data-menu="options-haloonline" class="selection"><span class="label">HALO ONLINE SETTINGS</span> </div>-->
 					<div data-gp="dewrito-options-2" data-setting="eldewrito" class="selection"><span class="label">PLAYER SETTINGS</span> </div>
 					<div data-gp="dewrito-options-3" data-setting="host" class="selection"><span class="label">SERVER SETTINGS</span> </div>
 				</div>
@@ -204,24 +165,6 @@
 				<div class="options-select2 animated" id="settings-eldewrito"></div>
 				<div class="options-select2 animated" id="settings-host"></div>
 			</div>
-			<!--<div class="options-section" id="haloonline">
-				<div class="options-title">HALO ONLINE SETTINGS</div>
-				<div class="options-select animated">
-					<div data-gp="haloonline-1" data-setting="gameplay" class="selection"><span class="label">GAMEPLAY SETTINGS</span> </div>
-					<div data-gp="haloonline-2" data-setting="controls" class="selection"><span class="label">CONTROLS</span> </div>
-					<div data-gp="haloonline-3" data-setting="video" class="selection"><span class="label">VIDEO SETTINGS</span> </div>
-					<div data-gp="haloonline-4" data-setting="audio" class="selection"><span class="label">AUDIO SETTINGS</span> </div>
-				</div>
-				<div class="options-select2 animated" id="settings-gameplay"></div>
-				<div class="options-select2 animated" id="settings-controls"></div>
-				<div class="options-select2 animated" id="settings-video"></div>
-				<div class="options-select2 animated" id="settings-audio"></div>
-			</div>
-			<div class="options-section" id="choosemusic">
-				<div class="options-title">SELECT MUSIC</div>
-				<div id="music-album-cover"></div>
-				<div class="music-select animated"></div>
-			</div>-->
 			<div class="options-section" id="choosemap">
 				<div class="options-title">SELECT MAP</div>
 				<div id="map-thumb-options"></div>
