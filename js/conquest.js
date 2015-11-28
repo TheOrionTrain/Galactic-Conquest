@@ -799,7 +799,7 @@ $(document).ready(function() {
 		toggleNetwork();
 	});
 	$('#version').click(function() {
-		console.log(ModHandler.hasMod("Test"));
+		console.log(ModHandler.hasMod("Default"));
 		//clearAllCookies();
 	});
 	var e = ((window.innerHeight - $('#menu').height()) / 2) - 40;
