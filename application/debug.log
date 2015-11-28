@@ -136,3 +136,21 @@
     at innerDispatch (chrome-devtools://devtools/inspector.js:1364:58)
     at Object.InspectorFrontendAPIImpl._dispatch (chrome-devtools://devtools/inspector.js:1363:1)", source: chrome-devtools://devtools/inspector.js (1364)
 [1129/070239:INFO:raw_input_data_fetcher_win.cc(101)] RegisterRawInputDevices() failed for RIDEV_REMOVE: The parameter is incorrect. (0x57)
+[1129/092417:ERROR:renderer_main.cc(200)] Running without renderer sandbox
+[1129/092418:ERROR:audio_low_latency_output_win.cc(181)] Bailing out due to non-perfect timing.  Buffer size of 480 is not an even divisor of 1056
+[1129/092418:ERROR:audio_low_latency_output_win.cc(181)] Bailing out due to non-perfect timing.  Buffer size of 480 is not an even divisor of 1056
+[1129/092419:ERROR:gpu_video_decode_accelerator.cc(276)] HW video decode not available for profile 11
+[1129/092419:ERROR:gpu_video_decode_accelerator.cc(276)] HW video decode not available for profile 11
+[1129/092420:ERROR:renderer_main.cc(200)] Running without renderer sandbox
+[1129/092421:ERROR:CONSOLE(1364)] "TypeError: Cannot read property 'scriptId' of null TypeError: Cannot read property 'scriptId' of null
+    at Object.WebInspector.PresentationConsoleMessageHelper._parsedScriptSource (chrome-devtools://devtools/inspector.js:8169:201)
+    at Object.WebInspector.Object.dispatchEventToListeners (chrome-devtools://devtools/inspector.js:744:185)
+    at Object.WebInspector.DebuggerModel._parsedScriptSource (chrome-devtools://devtools/inspector.js:5029:6)
+    at Object.WebInspector.DebuggerDispatcher.scriptParsed (chrome-devtools://devtools/inspector.js:5073:22)
+    at Object.InspectorBackendClass.DispatcherPrototype.dispatch (chrome-devtools://devtools/inspector.js:3813:63)
+    at Object.InspectorBackendClass.Connection.dispatch (chrome-devtools://devtools/inspector.js:3722:31)
+    at Object.InspectorBackendClass.MainConnection._dispatchMessage (chrome-devtools://devtools/inspector.js:3743:7)
+    at Object.WebInspector.Object.dispatchEventToListeners (chrome-devtools://devtools/inspector.js:744:185)
+    at innerDispatch (chrome-devtools://devtools/inspector.js:1364:58)
+    at Object.InspectorFrontendAPIImpl._dispatch (chrome-devtools://devtools/inspector.js:1363:1)", source: chrome-devtools://devtools/inspector.js (1364)
+[1129/092429:INFO:raw_input_data_fetcher_win.cc(101)] RegisterRawInputDevices() failed for RIDEV_REMOVE: The parameter is incorrect. (0x57)
