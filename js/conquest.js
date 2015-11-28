@@ -34,7 +34,8 @@ var players = [],
 	thisSong,
 	nextSong,
 	songIndex,
-	localBackground = isset(localStorage.getItem('localbackground'), 0);
+	localBackground = isset(localStorage.getItem('localbackground'), 0),
+	mod = "Default";
 
 (function() {
 	var e = (window.innerHeight - 80) / 2;
@@ -184,8 +185,9 @@ function initialize() {
 	if (window.location.protocol == "https:") {
 		alert("The server browser doesn't work over HTTPS, switch to HTTP if possible.");
 	}
-	$.getJSON("http://shadowfita.github.io/galactic-conquest/music.json", function(j) {
-		songs = j;
+	//$.getJSON("http://shadowfita.github.io/galactic-conquest/music.json", function(j) {
+		songs = JSON.parse(app.readFile("mods/Default/music.json"));
+		console.log(songs);
 		for (i = 0; i < Object.keys(songs).length; i++) {
 			b = Object.keys(songs)[i];
 			//$('#choosemusic').children('.music-select').append("<div data-gp='music-"+(i+1)+"' data-game='starwars' class='selection'><span class='label'>" + getGame(b).toUpperCase() + "</span></div>");
@@ -211,7 +213,7 @@ function initialize() {
 		});
 		var r = Math.floor(Math.random() * songs.starwars.length);
 		changeSong2(songs.starwars[r]);
-	});
+	//});
 	for (i = 0; i < Object.keys(settings).length; i++) {
 		set = Object.keys(settings)[i];
 		var category = settings[set].category;
@@ -797,7 +799,7 @@ $(document).ready(function() {
 		toggleNetwork();
 	});
 	$('#version').click(function() {
-		console.log(ModHandler.getMods());
+		console.log(ModHandler.hasMod("Test"));
 		//clearAllCookies();
 	});
 	var e = ((window.innerHeight - $('#menu').height()) / 2) - 40;
@@ -1930,7 +1932,7 @@ function changeSong2(song) {
 	if(song == "Galactic Conquest") {
 		$('#music').attr('loop', "true");
 	}
-	var directory = "music/";
+	var directory = "mods/Default/music/";
 	songIndex = songs["starwars"].indexOf(song);
 	thisSong = songs["starwars"][songIndex];
 	nextSong = songs["starwars"][songIndex + 1];
