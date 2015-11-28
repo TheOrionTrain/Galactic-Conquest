@@ -201,7 +201,7 @@ var user = {
 					var r = Math.floor(Math.random() * settings.background.labels.length - 2);
 					if (r < 0)
 						r = 0;
-					$('#videos').append("<video id='bg1' src='video/" + settings.background.labels[r] + ".webm' autoplay type='video/webm'></video>");
+					$('#videos').append("<video id='bg1' src='mods/Default/video/" + settings.background.labels[r] + ".webm' autoplay type='video/webm'></video>");
 					$('#bg1').show();
 					$('#bg1')[0].addEventListener('ended', function() {
 						settings.background.current = 12;
@@ -211,7 +211,7 @@ var user = {
 					$('#bg1')[0].play();
 				} else {
 					$('#bg-cover').css('background', 'rgba(0,0,0,0.20)');
-					$('#videos').append("<video id='bg1' src='video/" + settings.background.labels[c] + ".webm' autoplay type='video/webm'></video>");
+					$('#videos').append("<video id='bg1' src='mods/Default/video/" + settings.background.labels[c] + ".webm' autoplay type='video/webm'></video>");
 					$('#bg1').show();
 					$('#bg1')[0].addEventListener('ended', function() {
 						settings.background.current = c;
