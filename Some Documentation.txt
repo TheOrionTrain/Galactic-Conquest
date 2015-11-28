@@ -25,7 +25,7 @@ app.disconnect() - Disconnects from current server.
 
 app.directConnect() - Opens an input box that a player can type an ip and port into.
 
-app.shutdownServer() - Shutsdown a created server.
+app.shutdownServer() - Shutdown an active server.
 
 app.sendChatMessage(string name, string message, string emoticons, boolean sending) - Sends a message into the lobby chatbox, E.G app.sendChatMessage("Orion", "Hello World!", emoticons, false); shows a message just to the client, setting it to true instead of false will show it to the other player in the server.
 
