@@ -797,7 +797,8 @@ $(document).ready(function() {
 		toggleNetwork();
 	});
 	$('#version').click(function() {
-		clearAllCookies();
+		console.log(ModHandler.getMods());
+		//clearAllCookies();
 	});
 	var e = ((window.innerHeight - $('#menu').height()) / 2) - 40;
 	$('#start').click(function() {
@@ -1151,6 +1152,8 @@ function changeMenu(menu, details) {
 		$('#dewrito').css({
 			"opacity": 0,
 		});
+		settings.background.current = 3;
+		settings.background.update();
 		currentMenu = "map";
 	}
 	if (menu == "main-forge") {
