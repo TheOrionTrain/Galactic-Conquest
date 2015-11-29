@@ -1630,3 +1630,54 @@ html {
 #white7 { left: 1170px; top: 280px; }
 #white8 { left: 1400px; top: 230px; }
 #white9 { left: 1430px; top: 390px; }
+
+#map-tabs {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+}
+
+.map-tab {
+    width: 200px;
+    text-align: center;
+    color: #fff;
+    font-size: 26px;
+    display: inline-block;
+    text-transform: uppercase;
+}
+
+#map-credits {
+    color: #fff;
+    font-size: 18px;
+    position: fixed;
+    top: 10px;
+    right: 20px;
+    text-transform: uppercase;
+}
+
+#map-actions {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+}
+
+#map-actions .action {
+    font-weight: 300;
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.85);
+    width: 250px;
+    height: 30px;
+    border-left: 2px solid rgba(255, 255, 255, 0);
+    box-sizing: border-box;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    transition: 0.5s;
+    padding: 3px 10px;
+}
+
+#map-actions .action:hover {
+    border-left: 2px solid rgba(255, 255, 255, 0.3) !important;
+    background-color: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.95);
+}
