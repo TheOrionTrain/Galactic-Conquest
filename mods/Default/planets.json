@@ -1,0 +1,114 @@
+{
+  "Republic":{
+    "Polis Massa":{
+      "Bonus": 30,
+      "Victory": 500
+    },
+    "Dagobah":{
+      "Bonus": 30,
+      "Victory": 500
+    },
+    "Naboo":{
+      "Bonus": 30,
+      "Victory": 600
+    },
+    "Tatooine":{
+      "Bonus": 30,
+      "Victory": 500
+    },
+    "Kashyyk":{
+      "Bonus": 30,
+      "Victory": 500
+    },
+    "Coruscant":{
+      "Bonus": 30,
+      "Victory": 600
+    },
+    "Kamino":{
+      "Bonus": 100,
+      "Victory": 1000
+    }
+  },
+  "CIS":{
+    "Mygeeto":{
+      "Bonus": 30,
+      "Victory": 500
+    },
+    "Yavin 4":{
+      "Bonus": 30,
+      "Victory": 500
+    },
+    "Felucia":{
+      "Bonus": 30,
+      "Victory": 500
+    },
+    "Utapau":{
+      "Bonus": 30,
+      "Victory": 600
+    },
+    "Mustafar":{
+      "Bonus": 30,
+      "Victory": 600
+    },
+    "Geonosis":{
+      "Bonus": 100,
+      "Victory": 1000
+    }
+  },
+  "Empire":{
+    "Coruscant":{
+      "Bonus": 30,
+      "Victory": 600
+    },
+    "Mygeeto":{
+      "Bonus": 30,
+      "Victory": 500
+    },
+    "Mustafar":{
+      "Bonus": 30,
+      "Victory": 600
+    },
+    "Utapau":{
+      "Bonus": 30,
+      "Victory": 500
+    },
+    "Tatooine":{
+      "Bonus": 30,
+      "Victory": 500
+    },
+    "Endor":{
+      "Bonus": 100,
+      "Victory": 1000
+    }
+  },
+  "Rebels":{
+    "Polis Massa":{
+      "Bonus": 30,
+      "Victory": 500
+    },
+    "Dagobah":{
+      "Bonus": 30,
+      "Victory": 600
+    },
+    "Naboo":{
+      "Bonus": 30,
+      "Victory": 500
+    },
+    "Kashyyk":{
+      "Bonus": 30,
+      "Victory": 500
+    },
+    "Yavin 4":{
+      "Bonus": 30,
+      "Victory": 600
+    },
+    "Felucia":{
+      "Bonus": 30,
+      "Victory": 500
+    },
+    "Hoth":{
+      "Bonus": 100,
+      "Victory": 1000
+    }
+  }
+}
