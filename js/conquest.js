@@ -43,14 +43,14 @@ var players = [],
 	if (d !== undefined && d == "1") {
 		console.log("debug yes");
 	}
-	
+
 	if(window.console && console.log){
         var old = console.log;
         console.log = function(){
             old.apply(this, arguments)
 			Logger.print("CLIENT", arguments[0].toString());
         }
-    }  
+    }
 })();
 
 function debugLog(val) {
@@ -827,7 +827,7 @@ $(document).ready(function() {
 		settings.background.current = 9001;
 		settings.background.update();
 	});
-	$('.selection').hover(function() {
+	$('.selection, .action').hover(function() {
 		$('#click')[0].currentTime = 0;
 		$('#click')[0].play();
 	});
