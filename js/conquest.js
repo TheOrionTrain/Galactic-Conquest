@@ -219,8 +219,8 @@ function initialize() {
 			$('#click')[0].currentTime = 0;
 			$('#click')[0].play();
 		});
-		var r = Math.floor(Math.random() * songs.starwars.length);
-		changeSong2(songs.starwars[r]);
+		var r = Math.floor(Math.random() * songs.length);
+		changeSong2(songs[r]);
 	//});
 	for (i = 0; i < Object.keys(settings).length; i++) {
 		set = Object.keys(settings)[i];
@@ -459,7 +459,7 @@ function chat(text) {
 	/*$('#chatbox-content').append('<span class="chat-message self">' + settings.username.current + ': ' + addEmojis(text) + '</span>');
 	$('#chatbox-content').scrollTop($('#chatbox-content')[0].scrollHeight);
 	chatTime = 5000;*/
-	app.sendChatMessage(settings.username.current, text, JSON.stringify(emoticons), true);
+	app.sendChatMessage(settings.username.current, text, app.readFile("mods/Default/emoticons.json"), true);
 }
 
 String.prototype.replaceAll = function(_f, _r, _c){
@@ -1941,11 +1941,11 @@ function changeSong2(song) {
 		$('#music').attr('loop', "true");
 	}
 	var directory = "mods/Default/music/";
-	songIndex = songs["starwars"].indexOf(song);
-	thisSong = songs["starwars"][songIndex];
-	nextSong = songs["starwars"][songIndex + 1];
-	if (songIndex + 1 >= songs["starwars"].length) {
-		nextSong = songs["starwars"][0];
+	songIndex = songs.indexOf(song);
+	thisSong = songs[songIndex];
+	nextSong = songs[songIndex + 1];
+	if (songIndex + 1 >= songs.length) {
+		nextSong = songs[0];
 	}
 	$('.music-select2 .selection').removeClass('selected');
 	$("[data-song='" + song + "']").addClass('selected');
