@@ -189,8 +189,7 @@ function loadSettings(i) {
 }
 
 function initialize() {
-	ModHandler.loadMod("Default");
-	
+	//ModHandler.loadMod("Default");
 	var set, b, g, i, e;
 	if (window.location.protocol == "https:") {
 		alert("The server browser doesn't work over HTTPS, switch to HTTP if possible.");
@@ -223,6 +222,7 @@ function initialize() {
 		});
 		var r = Math.floor(Math.random() * songs.length);
 		changeSong2(songs[r]);
+		app.clearConsole();
 	//});
 	for (i = 0; i < Object.keys(settings).length; i++) {
 		set = Object.keys(settings)[i];
@@ -754,7 +754,8 @@ $(document).ready(function() {
 			dewRcon.send('Game.SetMenuEnabled 0');
 		}, anit);
 	});
-	initialize();
+	ModHandler.loadMod("Template");
+	//initialize();
 	$('#notification')[0].currentTime = 0;
 	$('#notification')[0].play();
 	//getMasterServers();
