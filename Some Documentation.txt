@@ -33,6 +33,8 @@ app.ping(string ip) - Ping's a provided ip address.
 
 app.readFile(string file) - Reads all text in a file, E.G: var file = app.readFile("mods/Default/music.json");
 
+app.clearConsole() - Clears command prompt window.
+
 /*
  * ModHandler
  * The ModHandler variable is used to call all mod related methods through javascript.
