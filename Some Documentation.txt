@@ -41,3 +41,5 @@ app.readFile(string file) - Reads all text in a file, E.G: var file = app.readFi
 ModHandler.getMods() - Returns a list of mods in the mods folder.
 
 ModHandler.hasMod(string name) - Checks if the player has the mod specified, E.G: if (ModHandler.hasMod("Default") == true)
+
+ModHandler.loadMod(string name) - Loads desired mod.
