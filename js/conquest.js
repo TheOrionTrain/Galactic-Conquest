@@ -241,7 +241,7 @@ function initialize() {
 		function() {
 			$('#click')[0].currentTime = 0;
 			$('#click')[0].play();
-			changeMod2($(this).attr('data-mod'));
+			hoverMod($(this).attr('data-mod'));
 		},
 		function() {
 			$('#click')[0].currentTime = 0;
@@ -1911,38 +1911,15 @@ function getMapId(map) {
 
 var currentModGame = "starwars", currentMod = "Default";
 
-function changeMod1(game) {
-	console.log(game);
-	if (!online)
-		return;
+function hoverMod(mod) {
 	$('.mod-select .selection').removeClass('selected');
-	$("[data-game='" + game + "']").addClass('selected');
-	$('.mod-select').css({
-		"left": "100px"
+	$("[data-mod='" + mod + "']").addClass('selected');
+	$('#mod-cover').css({
+		"background-image": "url('mods/" + mod + "/img.jpg')"
 	});
-	$('#mods-' + currentModGame.replace(/\s/g, "")).hide().css({
-		"left": "310px",
-		"opacity": 0
-	});
-	$('#mods-' + game.replace(/\s/g, "")).css('display', 'block');
-	$('#mods-' + game.replace(/\s/g, "")).animate({
-		"left": "360px",
-		"opacity": 1
-	}, anit / 8);
-	currentModGame = game;
-	if ($('#back').attr('data-action') != "setting-settings") {
-		last_back = $('#back').attr('data-action');
-	}
-	last_menu = currentMenu;
-	currentMenu = "mods-" + currentModGame;
-	if (usingGamepad) {
-		p_gp_on = gp_on;
-		gp_on = 1;
-		gamepadSelect(currentMenu + "-" + gp_on);
-	}
-	$('#back').attr('data-action', 'setting-settings');
-	$('#slide')[0].currentTime = 0;
-	$('#slide')[0].play();
+	var modInfo = JSON.parse(app.readFile("mods/" + mod + "/info.json"));
+	$('#mod-name').text(mod.toUpperCase());
+	$('#mod-info').html(modInfo["description"] + "<br><br><br> Created by " + modInfo["author"]);
 }
 
 function changeMod2(mod) {
