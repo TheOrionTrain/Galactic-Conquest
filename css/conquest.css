@@ -439,7 +439,8 @@ audio {
     left: 0;
 }
 #map-thumb,
-#map-thumb-options {
+#map-thumb-options,
+#mod-cover {
     position: absolute;
     top: 80px;
     width: 450px;
@@ -448,15 +449,7 @@ audio {
     border-radius: 4px;
 }
 #mod-cover {
-    position: absolute;
-    top: 120px;
-    width: 300px;
-    height: 300px;
-    background: url('../mods/Default/icon.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    border-radius: 4px;
-    right: 120px;
+    background: url('../mods/Default/img.jpg') no-repeat 0 0/cover;
 }
 #credits table {
     width: 680px;
@@ -497,12 +490,13 @@ audio {
     -webkit-box-shadow: 0px 0px 20px 8px rgba(0, 0, 0, 0.5);
     box-shadow: 0px 0px 20px 8px rgba(0, 0, 0, 0.5);
 }
-#map-thumb-options {
+#map-thumb-options, #mod-cover {
     right: 150px;
     border: 2px solid rgba(255, 255, 255, 1);
 }
 #map-name-options,
-#mod-game,
+#mod-name,
+#mod-info,
 #map-info-options,
 #type-name-options,
 #type-info-options {
@@ -513,14 +507,15 @@ audio {
     width: 450px;
 }
 #map-name-options,
-#mod-game,
+#mod-name,
 #type-name-options {
     top: 320px;
     font-size: 26px;
     opacity: 0.85;
 }
 #map-info-options,
-#type-info-options {
+#type-info-options,
+#mod-info {
     top: 380px;
     font-size: 16px;
     opacity: 0.7;
