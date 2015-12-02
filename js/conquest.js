@@ -188,42 +188,43 @@ function loadSettings(i) {
 	}, 5);
 }
 
+function initializeMusic() {
+	songs = JSON.parse(app.readFile("mods/" + mod + "/music.json"));
+	console.log(songs);
+	for (i = 0; i < Object.keys(songs).length; i++) {
+		b = Object.keys(songs)[i];
+		//$('#choosemusic').children('.music-select').append("<div data-gp='music-"+(i+1)+"' data-game='starwars' class='selection'><span class='label'>" + getGame(b).toUpperCase() + "</span></div>");
+		$('#choosemusic').append("<div class='music-select2 animated' id='songs-" + b + "'></div>");
+		for (e = 0; e < Object.keys(songs[b]).length; e++) {
+			g = songs[b][e];
+			$('#songs-' + b).append("<div data-gp='songs-"+b+"-"+(e+1)+"' data-song='starwars' class='selection'><span class='label'>" + g.toUpperCase() + "</span></div>");
+		}
+	}
+	$('.music-select .selection').click(function() {
+		changeSong1($(this).attr('data-game'));
+	});
+	$('.music-select2 .selection').click(function() {
+		changeSong2($(this).attr('data-song'));
+	});
+	$('.music-select .selection').hover(function() {
+		$('#click')[0].currentTime = 0;
+		$('#click')[0].play();
+	});
+	$('.music-select2 .selection').hover(function() {
+		$('#click')[0].currentTime = 0;
+		$('#click')[0].play();
+	});
+	var r = Math.floor(Math.random() * songs.length);
+	changeSong2(songs[r]);
+	app.clearConsole();
+}
+
 function initialize() {
-	//ModHandler.loadMod("Default");
+	initializeMusic();
 	var set, b, g, i, e;
 	if (window.location.protocol == "https:") {
 		alert("The server browser doesn't work over HTTPS, switch to HTTP if possible.");
 	}
-	//$.getJSON("http://shadowfita.github.io/galactic-conquest/music.json", function(j) {
-		songs = JSON.parse(app.readFile("mods/" + mod + "/music.json"));
-		console.log(songs);
-		for (i = 0; i < Object.keys(songs).length; i++) {
-			b = Object.keys(songs)[i];
-			//$('#choosemusic').children('.music-select').append("<div data-gp='music-"+(i+1)+"' data-game='starwars' class='selection'><span class='label'>" + getGame(b).toUpperCase() + "</span></div>");
-			$('#choosemusic').append("<div class='music-select2 animated' id='songs-" + b + "'></div>");
-			for (e = 0; e < Object.keys(songs[b]).length; e++) {
-				g = songs[b][e];
-				$('#songs-' + b).append("<div data-gp='songs-"+b+"-"+(e+1)+"' data-song='starwars' class='selection'><span class='label'>" + g.toUpperCase() + "</span></div>");
-			}
-		}
-		$('.music-select .selection').click(function() {
-			changeSong1($(this).attr('data-game'));
-		});
-		$('.music-select2 .selection').click(function() {
-			changeSong2($(this).attr('data-song'));
-		});
-		$('.music-select .selection').hover(function() {
-			$('#click')[0].currentTime = 0;
-			$('#click')[0].play();
-		});
-		$('.music-select2 .selection').hover(function() {
-			$('#click')[0].currentTime = 0;
-			$('#click')[0].play();
-		});
-		var r = Math.floor(Math.random() * songs.length);
-		changeSong2(songs[r]);
-		app.clearConsole();
-	//});
 
 	/* Very spaghetti code for mod selection. Will fix later(tm) */
 
@@ -236,10 +237,17 @@ function initialize() {
 	$('.mod-select .selection').click(function() {
 		changeMod2($(this).attr('data-mod'));
 	});
-	$('.mod-select .selection').hover(function() {
-		$('#click')[0].currentTime = 0;
-		$('#click')[0].play();
-	});
+	$('.mod-select .selection').hover(
+		function() {
+			$('#click')[0].currentTime = 0;
+			$('#click')[0].play();
+			changeMod2($(this).attr('data-mod'));
+		},
+		function() {
+			$('#click')[0].currentTime = 0;
+			$('#click')[0].play();
+		}
+	);
 	changeMod2("Default");
 
 	/* Spaghetti for mods ends here */
@@ -1938,18 +1946,21 @@ function changeMod1(game) {
 }
 
 function changeMod2(mod) {
-	$('.mod-select .selection').removeClass('selected');
-	$("[data-mod='" + mod + "']").addClass('selected');
-	$('#mod-cover').css({
-		"background-image": "url('mods/" + mod + "/img.jpg')"
-	});
-	var modInfo = JSON.parse(app.readFile("mods/" + mod + "/info.json"));
-	$('#mod-name').text(mod.toUpperCase());
-	$('#mod-info').html(modInfo["description"] + "<br><br><br> Created by " + modInfo["author"]);
-	localStorage.setItem('mod', mod);
-	localStorage.setItem('modgame', currentModGame);
-	$('#notification')[0].currentTime = 0;
-	$('#notification')[0].play();
+	if(mod != currentMod) {
+		$('.mod-select .selection').removeClass('selected');
+		$("[data-mod='" + mod + "']").addClass('selected');
+		$('#mod-cover').css({
+			"background-image": "url('mods/" + mod + "/img.jpg')"
+		});
+		var modInfo = JSON.parse(app.readFile("mods/" + mod + "/info.json"));
+		$('#mod-name').text(mod.toUpperCase());
+		$('#mod-info').html(modInfo["description"] + "<br><br><br> Created by " + modInfo["author"]);
+		localStorage.setItem('mod', mod);
+		$('#notification')[0].currentTime = 0;
+		$('#notification')[0].play();
+		ModHandler.loadMod(mod);
+		currentMod = mod;
+	}
 }
 
 function changeType1(maintype) {
