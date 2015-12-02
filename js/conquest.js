@@ -1941,11 +1941,13 @@ function changeMod2(mod) {
 	$('.mod-select .selection').removeClass('selected');
 	$("[data-mod='" + mod + "']").addClass('selected');
 	$('#mod-cover').css({
-		"background-image": "url('mods/" + mod + "/icon.png')"
+		"background-image": "url('mods/" + mod + "/img.jpg')"
 	});
+	var modInfo = JSON.parse(app.readFile("mods/" + mod + "/info.json"));
+	$('#mod-name').text(mod.toUpperCase());
+	$('#mod-info').html(modInfo["description"] + "<br><br><br> Created by " + modInfo["author"]);
 	localStorage.setItem('mod', mod);
 	localStorage.setItem('modgame', currentModGame);
-	$.snackbar({content: 'Mod ' + mod + ' selected.'});
 	$('#notification')[0].currentTime = 0;
 	$('#notification')[0].play();
 }
