@@ -12,7 +12,7 @@ var players = [],
 	currentGame = "HaloOnline",
 	currentType = "Slayer",
 	currentSetting = "menu",
-	currentAlbum = isset(localStorage.getItem('album'), "halo3"),
+	currentAlbum = isset(localStorage.getItem('album'), "starwars"),
 	currentServer,
 	selectedserver,
 	loopPlayers,
@@ -43,7 +43,6 @@ var players = [],
 	if (d !== undefined && d == "1") {
 		console.log("debug yes");
 	}
-
 	if(window.console && console.log){
         var old = console.log;
         console.log = function(){
@@ -101,36 +100,12 @@ function queryServer(serverIP, i, browser) {
 	});
 }
 
-function getMapName(filename) {
-	switch (filename) {
-		case "guardian":
-			return "Guardian";
-		case "riverworld":
-			return "Valhalla";
-		case "s3d_avalanche":
-			return "Diamondback";
-		case "s3d_edge":
-			return "Edge";
-		case "s3d_reactor":
-			return "Reactor";
-		case "s3d_turf":
-			return "Icebox";
-		default:
-			return "Edge";
-	}
-}
-
 var gp_servers = 0;
 
 function addServer(i) {
 	++gp_servers;
 	var on = (!servers[i].variant) ? "" : "on";
-
 	servers[i].ping = app.ping(servers[i].address);
-
-	/*servers[i].location_flag = typeof servers[i].location_flag == 'undefined' ? "[" : servers[i].location_flag;
-	servers[i].ping = servers[i].ping || 0;*/
-
 	$('#browser').append("<div data-gp='serverbrowser-" + gp_servers + "' class='server" + ((servers[i].passworded) ? " passworded" : "") + " ' id='server" + i + "' data-server=" + i + "><div class='thumb'><img src='mods/" + mod + "/img.jpg'></div><div class='info'><span class='name'>" + ((servers[i].passworded) ? "[LOCKED] " : "") + servers[i].name + " (" + servers[i].hostPlayer + ") [<img src='mods/" + mod + "/flags/" + servers[i].region.toString().toLowerCase() + ".png' title='' alt='' class='flag'/> <span id='ping-" + i + "'>"+servers[i].ping+"</span>ms]</span><span class='settings'> <span class='elversion'></span></span></div><div class='players'>" + servers[i].numPlayers + "/" + servers[i].maxPlayers + "</div></div>");
 	$('.server').hover(function() {
 		$('#click')[0].currentTime = 0;
@@ -225,9 +200,6 @@ function initialize() {
 	if (window.location.protocol == "https:") {
 		alert("The server browser doesn't work over HTTPS, switch to HTTP if possible.");
 	}
-
-	/* Very spaghetti code for mod selection. Will fix later(tm) */
-
 	mods = JSON.parse(ModHandler.getMods());
 	console.log(mods);
 	for (i = 0; i < mods.length; i++) {
@@ -249,9 +221,6 @@ function initialize() {
 		}
 	);
 	changeMod2("Default");
-
-	/* Spaghetti for mods ends here */
-
 	for (i = 0; i < Object.keys(settings).length; i++) {
 		set = Object.keys(settings)[i];
 		var category = settings[set].category;
@@ -285,7 +254,6 @@ function initialize() {
 		}
 		settings[set].update();
 	}
-	//loadSettings(Object.keys(settings).length);
 	for (i = 0; i < Object.keys(maps).length; i++) {
 		b = Object.keys(maps)[i];
 		$('#choosemap').children('.map-select').append("<div data-game='" + b + "' class='selection'><span class='label'>" + maps[b].name + "</span></div>");
@@ -343,11 +311,9 @@ function toggleNetwork() {
 		if (network == "offline") {
 			network = "online";
 			app.startHttpServer();
-			//callbacks.networkType(1);
 		} else {
 			network = "offline";
 			app.stopHttpServer();
-			//callbacks.networkType(2);
 		}
 		$('#network').text(network.toUpperCase());
 	}
@@ -358,20 +324,10 @@ function toggleNetwork() {
 var friends = [], friends_online;
 
 function jumpToServer() {
-
 		host = 0;
 		browsing = 0;
 		$('#lobby').empty();
 		$('#lobby').append("<tr class='top'><td class='info' colspan='2'>Current Lobby <span id='joined'>1</span>/<span id='maxplayers'>0</span></td></tr>");
-		/*if(d.numPlayers == d.maxPlayers) {
-			$.snackbar({
-				content: "Game is full. Unable to join."
-			});
-			$('#notification')[0].currentTime = 0;
-			$('#notification')[0].play();
-			return;
-		}*/
-		//$('#subtitle').text(d.name + " : " + d.address);
 		$('#dewrito').css({
 			"opacity": 0,
 		});
@@ -481,57 +437,33 @@ function removeFriend() {
 }
 
 function isOnline(friend) {
-	return typeof serverz.players[friend] == 'undefined' ? 0 : 1; //Orion, check if friend is online or not here
+	return typeof serverz.players[friend] == 'undefined' ? 0 : 1;
 }
 
 function chat(text) {
-	//Orion put the C# stuff here
-	/*$('#chatbox-content').append('<span class="chat-message self">' + settings.username.current + ': ' + addEmojis(text) + '</span>');
-	$('#chatbox-content').scrollTop($('#chatbox-content')[0].scrollHeight);
-	chatTime = 5000;*/
 	app.sendChatMessage(settings.username.current, text, app.readFile("mods/" + mod + "/emoticons.json"), true);
 }
 
 String.prototype.replaceAll = function(_f, _r, _c){
-
   var o = this.toString();
   var r = '';
   var s = o;
   var b = 0;
   var e = -1;
   if(_c){ _f = _f.toLowerCase(); s = o.toLowerCase(); }
-
   while((e=s.indexOf(_f)) > -1)
   {
     r += o.substring(b, b+e) + _r;
     s = s.substring(e+_f.length, s.length);
     b += e+_f.length;
   }
-
-  // Add Leftover
   if(s.length>0){ r+=o.substring(o.length-s.length, o.length); }
-
-  // Return New String
   return r;
 };
 
-//To add a new emoticon download the image, put it into its appropriate directory and then add it to this list. It should automatically work with the program now.
 var emoticons = [ [ ":D", "happy.png" ], [ ";\)", "wink.png" ], [ ":\)", "smiling.png" ], [ ":\(", "sad.png" ], [ ":'\(", "crying.png" ], [ ":o", "surprised.png" ], [ ":O", "shocked.png" ], [ "xd", "xd.png" ], [ ">_<", "xd.png" ], [ ">.<", "xd.png" ], [ "xp", "xp.png" ], [ "-_-", "unamused.png" ], [ ":p", "tongueface.png" ], [ ";p", "tonguewinkyface.png" ]];
 
-/*function addEmojis(text) {
-	if (settings.emoticons.current == 1)
-		return text;
-	for (var i = 0; i < emoticons.length; i++) {
-		if (emoticons[i][0].toLowerCase().contains(":o"))
-			text = text.replaceAll(emoticons[i][0], '<img src="./img/' + mod + '/emoticons/' + emoticons[i][1] + '" style="width:16px;height:16px;vertical-align:-3px;">', false);
-		else
-			text = text.replaceAll(emoticons[i][0], '<img src="./img/' + mod + '/emoticons/' + emoticons[i][1] + '" style="width:16px;height:16px;vertical-align:-3px;">', true);
-	}
-	return text;
-}*/
-
 function receiveText(text) {
-	//Orion put the C# stuff here
 	$('#chatbox-content').append('<span class="chat-message">'+text+'</span>');
 	$('#chatbox-content').scrollTop($('#chatbox-content')[0].scrollHeight);
 	chatTime = 5000;
@@ -1025,7 +957,6 @@ function lobbyLoop(ip) {
 
 	setTimeout(function() {
 		if (!success) {
-			// Handle error accordingly
 			console.log("Failed to contact server, retrying.");
 			if (loopPlayers)
 				setTimeout(function() { lobbyLoop(ip); }, 3000);
@@ -1041,18 +972,9 @@ function getTotalPlayers() {
 
 function directConnect() {
 	var ip = prompt("Enter IP Address: ");
-	//var pass = prompt("Enter Password: ");
-	//connect function here
 	jumpToServer(ip);
-	//dewRcon.send('connect ' + ip + ' ' + pass);
 }
 
-function getCurrentVersion() {
-	$.getJSON("http://dewrito.eriq.xyz/update", function(data) {
-		//currentVersion = data.version.toString();
-		//$('#version').text('eldewrito ' + currentVersion);
-	});
-}
 
 function totalPlayersLoop() {
 	$.getJSON("http://192.99.124.166:8080/all", function(data) {
@@ -1523,7 +1445,6 @@ function changeMenu(menu, details) {
 			$('#back').attr('data-action', 'options-custom');
 			$('#customgame').fadeOut(anit);
 			$('#options').fadeIn(anit);
-			//$('#dewrito').css('top', '400px');
 			$('#dewrito').css({
 				"opacity": 0.9,
 				"-webkit-transition-timing-function": "200ms",
@@ -1538,7 +1459,6 @@ function changeMenu(menu, details) {
 			$('#back').attr('data-action', 'options-custom');
 			$('#customgame').fadeOut(anit);
 			$('#options').fadeIn(anit);
-			//$('#dewrito').css('top', '400px');
 			$('#dewrito').css({
 				"opacity": 0.9,
 				"-webkit-transition-timing-function": "200ms",
@@ -1826,49 +1746,6 @@ function changeMap1(game) {
 	$('#slide')[0].play();
 }
 
-function getGame(game) {
-	switch (game) {
-		case "haloce":
-			return "Halo Combat Evolved";
-		case "hcea":
-			return "Halo Anniversary";
-		case "halo2":
-			return "Halo 2";
-		case "h2a":
-			return "Halo 2 Anniversary";
-		case "halo3":
-			return "Halo 3";
-		case "odst":
-			return "Halo 3 ODST";
-		case "reach":
-			return "Halo Reach";
-		case "online":
-			return "Halo Online";
-		case "halo5":
-			return "Halo 5";
-	}
-}
-
-function getMapFile(name) {
-	if (typeof name != 'undefined') {
-		switch (name.toString().toLowerCase()) {
-			case "guardian":
-				return "guardian";
-			case "valhalla":
-				return "riverworld";
-			case "diamondback":
-				return "s3d_avalanche";
-			case "edge":
-				return "s3d_edge";
-			case "reactor":
-				return "s3d_reactor";
-			case "icebox":
-				return "s3d_turf";
-		}
-		return "";
-	}
-}
-
 function changeMap2(map, click) {
 	$('#map-thumb').css({
 		"background-image": "url('mods/" + mod + "/maps/" + map.toString().toUpperCase() + ".png')"
@@ -1894,24 +1771,9 @@ function changeMap2(map, click) {
 	}
 }
 
-function getMapId(map) {
-	switch (map.toString().toLowerCase()) {
-		case "diamondback":
-			return 0;
-		case "edge":
-			return 1;
-		case "icebox":
-			return 3;
-		case "reactor":
-			return 4;
-		case "valhalla":
-			return 5;
-	}
-}
+var currentMod = "Default";
 
-var currentModGame = "starwars", currentMod = "Default";
-
-function hoverMod(mod) {
+function displayMod(mod) {
 	$('.mod-select .selection').removeClass('selected');
 	$("[data-mod='" + mod + "']").addClass('selected');
 	$('#mod-cover').css({
@@ -1924,14 +1786,7 @@ function hoverMod(mod) {
 
 function changeMod2(mod) {
 	if(mod != currentMod) {
-		$('.mod-select .selection').removeClass('selected');
-		$("[data-mod='" + mod + "']").addClass('selected');
-		$('#mod-cover').css({
-			"background-image": "url('mods/" + mod + "/img.jpg')"
-		});
-		var modInfo = JSON.parse(app.readFile("mods/" + mod + "/info.json"));
-		$('#mod-name').text(mod.toUpperCase());
-		$('#mod-info').html(modInfo["description"] + "<br><br><br> Created by " + modInfo["author"]);
+		displayMod(mod);
 		localStorage.setItem('mod', mod);
 		$('#notification')[0].currentTime = 0;
 		$('#notification')[0].play();
