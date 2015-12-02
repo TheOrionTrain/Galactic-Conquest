@@ -227,28 +227,16 @@ function initialize() {
 
 	/* Very spaghetti code for mod selection. Will fix later(tm) */
 
-	mods = { "starwars" : JSON.parse(ModHandler.getMods()) };
+	mods = JSON.parse(ModHandler.getMods());
 	console.log(mods);
-	for (i = 0; i < Object.keys(mods).length; i++) {
-		b = Object.keys(mods)[i];
-		$('#choosemod').children('.mod-select').append("<div data-gp='mod-"+(i+1)+"' data-game='starwars' class='selection'><span class='label'>" + b.toUpperCase() + "</span></div>");
-		$('#choosemod').append("<div class='mod-select2 animated' id='mods-" + b + "'></div>");
-		for (e = 0; e < Object.keys(mods[b]).length; e++) {
-			g = mods[b][e];
-			$('#mods-' + b).append("<div data-gp='mod-"+b+"-"+(e+1)+"' data-mod='" + g + "' class='selection'><span class='label'>" + g.toUpperCase() + "</span></div>");
-		}
+	for (i = 0; i < mods.length; i++) {
+		b = mods[i];
+		$('#choosemod').children('.mod-select').append("<div data-gp='mod-"+(i+1)+"' data-mod='" + b + "' class='selection'><span class='label'>" + b.toUpperCase() + "</span></div>");
 	}
 	$('.mod-select .selection').click(function() {
-		changeMod1($(this).attr('data-game'));
-	});
-	$('.mod-select2 .selection').click(function() {
 		changeMod2($(this).attr('data-mod'));
 	});
 	$('.mod-select .selection').hover(function() {
-		$('#click')[0].currentTime = 0;
-		$('#click')[0].play();
-	});
-	$('.mod-select2 .selection').hover(function() {
 		$('#click')[0].currentTime = 0;
 		$('#click')[0].play();
 	});
@@ -1950,7 +1938,7 @@ function changeMod1(game) {
 }
 
 function changeMod2(mod) {
-	$('.mod-select2 .selection').removeClass('selected');
+	$('.mod-select .selection').removeClass('selected');
 	$("[data-mod='" + mod + "']").addClass('selected');
 	$('#mod-cover').css({
 		"background-image": "url('mods/" + mod + "/icon.png')"
