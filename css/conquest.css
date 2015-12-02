@@ -453,7 +453,7 @@ audio {
     width: 300px;
     height: 300px;
     background: url('../mods/Default/icon.png');
-    background-size: cover;
+    background-size: contain;
     background-repeat: no-repeat;
     border-radius: 4px;
     right: 120px;

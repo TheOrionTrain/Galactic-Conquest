@@ -227,7 +227,7 @@ function initialize() {
 
 	/* Very spaghetti code for mod selection. Will fix later(tm) */
 
-	mods = JSON.parse(app.readFile("mods.json"));
+	mods = { "starwars" : JSON.parse(ModHandler.getMods()) };
 	console.log(mods);
 	for (i = 0; i < Object.keys(mods).length; i++) {
 		b = Object.keys(mods)[i];
@@ -252,7 +252,7 @@ function initialize() {
 		$('#click')[0].currentTime = 0;
 		$('#click')[0].play();
 	});
-	changeMod2(mods[0]);
+	changeMod2("Default");
 
 	/* Spaghetti for mods ends here */
 
@@ -786,7 +786,6 @@ $(document).ready(function() {
 			dewRcon.send('Game.SetMenuEnabled 0');
 		}, anit);
 	});
-	//ModHandler.loadMod("Template");
 	initialize();
 	$('#notification')[0].currentTime = 0;
 	$('#notification')[0].play();
