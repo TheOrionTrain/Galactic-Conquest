@@ -48,7 +48,7 @@
 		<div id="popup"></div>
 		<div id="black"></div>
 		<div id="back">Back</div>
-		<div id="version">Loading...</div>
+		<div id="version">ALPHA</div>
 		<div class="menu-container animated" id="serverbrowser">
 			<div id="direct-connect">Direct Connect</div>
 			<div id="browser-title">SERVERS</div>
@@ -89,9 +89,9 @@
 		<div class="menu-container animated" id="space">
 			<div id="map-interface">
 				<div id="map-tabs">
-					<div class="map-tab">Move</div>
-					<div class="map-tab">Bonus</div>
-					<div class="map-tab">Units</div>
+					<div class="map-tab">MOVE</div>
+					<div class="map-tab">BONUS</div>
+					<div class="map-tab">UNITS</div>
 				</div>
 				<div id="map-credits">1000 Credits</div>
 				<div id="map-actions">
@@ -101,29 +101,31 @@
 					<div class="action">MOVE</div>
 				</div>
 			</div>
-			<div id="space-container">
-				<div id="polismassa" class="planet red"></div>
-				<div id="mustafar" class="planet red"></div>
-				<div id="utapau" class="planet red"></div>
-				<div id="coruscant" class="planet blue"></div>
-				<div id="dagobah" class="planet blue"></div>
-				<div id="mygeeto" class="planet red"></div>
-				<div id="naboo" class="planet blue"></div>
-				<div id="kashyyyk" class="planet blue"></div>
-				<div id="geonosis" class="planet red"></div>
-				<div id="yavin4" class="planet blue"></div>
-				<div id="felucia" class="planet red"></div>
-				<div id="kamino" class="planet blue"></div>
-				<div id="tatooine" class="planet blue"></div>
-				<div id="white1" class="whitepoint"></div>
-				<div id="white2" class="whitepoint"></div>
-				<div id="white3" class="whitepoint"></div>
-				<div id="white4" class="whitepoint"></div>
-				<div id="white5" class="whitepoint"></div>
-				<div id="white6" class="whitepoint"></div>
-				<div id="white7" class="whitepoint"></div>
-				<div id="white8" class="whitepoint"></div>
-				<div id="white9" class="whitepoint"></div>
+			<div id="space-container-container">
+				<div id="space-container">
+					<div id="polismassa" class="planet red"></div>
+					<div id="mustafar" class="planet red"></div>
+					<div id="utapau" class="planet red"></div>
+					<div id="coruscant" class="planet blue"></div>
+					<div id="dagobah" class="planet blue"></div>
+					<div id="mygeeto" class="planet red"></div>
+					<div id="naboo" class="planet blue"></div>
+					<div id="kashyyyk" class="planet blue"></div>
+					<div id="geonosis" class="planet red"></div>
+					<div id="yavin4" class="planet blue"></div>
+					<div id="felucia" class="planet red"></div>
+					<div id="kamino" class="planet blue"></div>
+					<div id="tatooine" class="planet blue"></div>
+					<div id="white1" class="whitepoint"></div>
+					<div id="white2" class="whitepoint"></div>
+					<div id="white3" class="whitepoint"></div>
+					<div id="white4" class="whitepoint"></div>
+					<div id="white5" class="whitepoint"></div>
+					<div id="white6" class="whitepoint"></div>
+					<div id="white7" class="whitepoint"></div>
+					<div id="white8" class="whitepoint"></div>
+					<div id="white9" class="whitepoint"></div>
+				</div>
 			</div>
 		</div>
 		<div class="menu-container animated" id="main3">
@@ -174,12 +176,17 @@
 					<div data-gp="dewrito-options-1" data-setting="menu" class="selection"><span class="label">MENU SETTINGS</span> </div>
 					<div data-gp="dewrito-options-2" data-setting="eldewrito" class="selection"><span class="label">PLAYER SETTINGS</span> </div>
 					<div data-gp="dewrito-options-3" data-setting="host" class="selection"><span class="label">SERVER SETTINGS</span> </div>
-					<div data-gp="dewrito-options-4" data-setting="mods" class="selection"><span class="label">MODS</span> </div>
+					<div data-gp="dewrito-options-4" data-action="menu" data-menu="options-mod" class="selection"><span class="label">MODS</span> </div>
 				</div>
 				<div class="options-select2 animated" id="settings-menu"></div>
 				<div class="options-select2 animated" id="settings-eldewrito"></div>
 				<div class="options-select2 animated" id="settings-host"></div>
 				<div class="options-select2 animated" id="settings-mods"></div>
+			</div>
+			<div class="options-section" id="choosemod">
+				<div class="options-title">SELECT MOD</div>
+				<div id="mod-cover"></div>
+				<div class="mod-select animated"></div>
 			</div>
 			<div class="options-section" id="choosemap">
 				<div class="options-title">SELECT MAP</div>

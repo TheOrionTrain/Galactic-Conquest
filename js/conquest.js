@@ -224,6 +224,38 @@ function initialize() {
 		changeSong2(songs[r]);
 		app.clearConsole();
 	//});
+
+	/* Very spaghetti code for mod selection. Will fix later(tm) */
+
+	mods = JSON.parse(app.readFile("mods.json"));
+	console.log(mods);
+	for (i = 0; i < Object.keys(mods).length; i++) {
+		b = Object.keys(mods)[i];
+		$('#choosemod').children('.mod-select').append("<div data-gp='mod-"+(i+1)+"' data-game='starwars' class='selection'><span class='label'>" + b.toUpperCase() + "</span></div>");
+		$('#choosemod').append("<div class='mod-select2 animated' id='mods-" + b + "'></div>");
+		for (e = 0; e < Object.keys(mods[b]).length; e++) {
+			g = mods[b][e];
+			$('#mods-' + b).append("<div data-gp='mod-"+b+"-"+(e+1)+"' data-mod='" + g + "' class='selection'><span class='label'>" + g.toUpperCase() + "</span></div>");
+		}
+	}
+	$('.mod-select .selection').click(function() {
+		changeMod1($(this).attr('data-game'));
+	});
+	$('.mod-select2 .selection').click(function() {
+		changeMod2($(this).attr('data-mod'));
+	});
+	$('.mod-select .selection').hover(function() {
+		$('#click')[0].currentTime = 0;
+		$('#click')[0].play();
+	});
+	$('.mod-select2 .selection').hover(function() {
+		$('#click')[0].currentTime = 0;
+		$('#click')[0].play();
+	});
+	changeMod2(mods[0]);
+
+	/* Spaghetti for mods ends here */
+
 	for (i = 0; i < Object.keys(settings).length; i++) {
 		set = Object.keys(settings)[i];
 		var category = settings[set].category;
@@ -553,7 +585,7 @@ function connectPlanets(pl1,pl2) {
 }
 
 $(document).ready(function() {
-	$('#space').kinetic();
+	$('#space-container-container').kinetic();
 	connectPlanets("polismassa","white1");
 	connectPlanets("polismassa","white2");
 	connectPlanets("white1","mustafar");
@@ -754,8 +786,8 @@ $(document).ready(function() {
 			dewRcon.send('Game.SetMenuEnabled 0');
 		}, anit);
 	});
-	ModHandler.loadMod("Template");
-	//initialize();
+	//ModHandler.loadMod("Template");
+	initialize();
 	$('#notification')[0].currentTime = 0;
 	$('#notification')[0].play();
 	//getMasterServers();
@@ -1454,18 +1486,18 @@ function changeMenu(menu, details) {
 		$('#dewrito-options').fadeIn(anit);
 		currentMenu = "dewrito-options";
 	}
-	if (menu == "options-music") {
-		$('#back').attr('data-action', 'music-options');
+	if (menu == "options-mod") {
+		$('#back').attr('data-action', 'mod-options');
 		$('#dewrito-options').hide();
-		$('#choosemusic').fadeIn(anit);
-		currentMenu = "music";
+		$('#choosemod').fadeIn(anit);
+		currentMenu = "mod";
 	}
-	if (menu == "music-options") {
+	if (menu == "mod-options") {
 		$('#back').attr('data-action', 'options-main');
 		if (getURLParameter('browser')) {
 			$('#back').attr('data-action', 'options-serverbrowser');
 		}
-		$('#choosemusic').hide();
+		$('#choosemod').hide();
 		$('#dewrito-options').fadeIn(anit);
 		currentMenu = "dewrito-options";
 	}
@@ -1880,6 +1912,55 @@ function getMapId(map) {
 		case "valhalla":
 			return 5;
 	}
+}
+
+var currentModGame = "starwars", currentMod = "Default";
+
+function changeMod1(game) {
+	console.log(game);
+	if (!online)
+		return;
+	$('.mod-select .selection').removeClass('selected');
+	$("[data-game='" + game + "']").addClass('selected');
+	$('.mod-select').css({
+		"left": "100px"
+	});
+	$('#mods-' + currentModGame.replace(/\s/g, "")).hide().css({
+		"left": "310px",
+		"opacity": 0
+	});
+	$('#mods-' + game.replace(/\s/g, "")).css('display', 'block');
+	$('#mods-' + game.replace(/\s/g, "")).animate({
+		"left": "360px",
+		"opacity": 1
+	}, anit / 8);
+	currentModGame = game;
+	if ($('#back').attr('data-action') != "setting-settings") {
+		last_back = $('#back').attr('data-action');
+	}
+	last_menu = currentMenu;
+	currentMenu = "mods-" + currentModGame;
+	if (usingGamepad) {
+		p_gp_on = gp_on;
+		gp_on = 1;
+		gamepadSelect(currentMenu + "-" + gp_on);
+	}
+	$('#back').attr('data-action', 'setting-settings');
+	$('#slide')[0].currentTime = 0;
+	$('#slide')[0].play();
+}
+
+function changeMod2(mod) {
+	$('.mod-select2 .selection').removeClass('selected');
+	$("[data-mod='" + mod + "']").addClass('selected');
+	$('#mod-cover').css({
+		"background-image": "url('mods/" + mod + "/icon.png')"
+	});
+	localStorage.setItem('mod', mod);
+	localStorage.setItem('modgame', currentModGame);
+	$.snackbar({content: 'Mod ' + mod + ' selected.'});
+	$('#notification')[0].currentTime = 0;
+	$('#notification')[0].play();
 }
 
 function changeType1(maintype) {
