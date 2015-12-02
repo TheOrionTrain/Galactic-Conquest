@@ -447,12 +447,14 @@ audio {
     background: url('../img/space.jpg') no-repeat 0 0/cover;
     border-radius: 4px;
 }
-#music-album-cover {
+#mod-cover {
     position: absolute;
     top: 120px;
     width: 300px;
     height: 300px;
-    background: url('../img/album/halo3.jpg') no-repeat 0 0/cover;
+    background: url('../mods/Default/icon.png');
+    background-size: cover;
+    background-repeat: no-repeat;
     border-radius: 4px;
     right: 120px;
 }
@@ -500,7 +502,7 @@ audio {
     border: 2px solid rgba(255, 255, 255, 1);
 }
 #map-name-options,
-#music-game,
+#mod-game,
 #map-info-options,
 #type-name-options,
 #type-info-options {
@@ -511,7 +513,7 @@ audio {
     width: 450px;
 }
 #map-name-options,
-#music-game,
+#mod-game,
 #type-name-options {
     top: 320px;
     font-size: 26px;
@@ -589,7 +591,7 @@ audio {
     width: 450px;
 }
 .map-select,
-.music-select,
+.mod-select,
 .type-select,
 .options-select {
     position: absolute;
@@ -598,7 +600,7 @@ audio {
     width: 260px;
 }
 .map-select .selection,
-.music-select .selection,
+.mod-select .selection,
 .type-select .selection {
     background: url('../img/right.png') no-repeat 232px 8px/36px 18px;
 }
@@ -660,7 +662,7 @@ audio {
     background: rgba(255, 255, 255, 0.5);
 }
 #choosemap ::-webkit-scrollbar,
-#choosemusic ::-webkit-scrollbar,
+#choosemod ::-webkit-scrollbar,
 #choosetype ::-webkit-scrollbar,
 #customgame ::-webkit-scrollbar,
 #friendslist ::-webkit-scrollbar {
@@ -683,7 +685,7 @@ audio {
     opacity: 0;
 }
 
-.music-select2 {
+.mod-select2 {
     position: absolute;
     top: 150px;
     left: 310px;
@@ -695,8 +697,8 @@ audio {
     opacity: 0;
 }
 
-.music-select .selection .label,
-.music-select2 .selection .label {
+.mod-select .selection .label,
+.mod-select2 .selection .label {
     text-align: left;
     display: table-cell;
     width: 400px;
@@ -718,8 +720,8 @@ audio {
     height: 80px;
 }
 .selection {overflow: hidden;}
-.music-select .selection,
-.music-select2 .selection {
+.mod-select .selection,
+.mod-select2 .selection {
     font-weight: 300;
     font-size: 23px;
     color: rgba(255, 255, 255, 0.85);
@@ -733,7 +735,7 @@ audio {
     transition: 0.5s;
 }
 
-.music-select .selection, .music-select2 .label {
+.mod-select .selection, .mod-select2 .label {
     width: 260px;
 }
 
@@ -755,12 +757,12 @@ audio {
     transition: 0.5s;
 }
 .map-select .selection,
-.music-select .selection,
+.mod-select .selection,
 .type-select .selection,
 .options-select .selection {
     background: url('../img/right.png') no-repeat 232px 8px/18px 18px;
 }
-.music-select .selection {
+.mod-select .selection {
     background: url('../img/right.png') no-repeat 230px 8px/18px 18px;
 }
 .left,
@@ -1054,7 +1056,7 @@ audio {
 #version {
     right: 5px;
     bottom: 5px;
-    font-size: 14px;
+    font-size: 15px;
     opacity: 0.5;
     font-family: "Conduit ITC";
     font-weight: 300;
@@ -1465,6 +1467,16 @@ html {
     overflow: hidden;
 }
 
+#space-container-container {
+    width: 1280px;
+    height: 720px;
+    top: 0;
+    left: 0;
+    position: absolute;
+    z-index: 1;
+    overflow: hidden;
+}
+
 .planet {
     background-repeat: no-repeat;
     background-size: 50px;
@@ -1632,9 +1644,10 @@ html {
 #white9 { left: 1430px; top: 390px; }
 
 #map-tabs {
-    position: fixed;
+    position: absolute;
     top: 10px;
     left: 10px;
+    z-index: 2;
 }
 
 .map-tab {
@@ -1643,22 +1656,22 @@ html {
     color: #fff;
     font-size: 26px;
     display: inline-block;
-    text-transform: uppercase;
 }
 
 #map-credits {
     color: #fff;
     font-size: 18px;
-    position: fixed;
+    position: absolute;
     top: 10px;
     right: 20px;
-    text-transform: uppercase;
+    z-index: 2;
 }
 
 #map-actions {
-    position: fixed;
+    position: absolute;
     bottom: 20px;
     left: 20px;
+    z-index: 2;
 }
 
 #map-actions .action {
