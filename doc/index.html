@@ -18,10 +18,13 @@
             if(window.location.hash) {
                 $('#nav-container ul li').removeClass('selected');
                 var e = window.location.hash.split('#')[1];
-                $('#nav-container ul li[data-nav="'+e+'"]').addClass('selected');
-                $('.content').hide();
-                $('.content[data-nav="'+e+'"]').show();
+
+            } else {
+                e = "start";
             }
+            $('#nav-container ul li[data-nav="'+e+'"]').addClass('selected');
+            $('.content').hide();
+            $('.content[data-nav="'+e+'"]').show();
         });
     </script>
     <style>
