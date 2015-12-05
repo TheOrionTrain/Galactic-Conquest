@@ -1,0 +1,47 @@
+Here's some crappy documentation written by Orion.
+
+/*
+ * app
+ * The app variable is used to call form methods through javascript.
+ */
+
+app.sendStatus(boolean online) - Send whether the player is online or offline, E.G: app.sendStatus(true); would mean the player is online.
+
+app.updatePlayerList() - Updates the lobby player list.
+
+app.showDevTools() - Shows Chromium dev tools.
+
+app.showMessageBox(string message) - Shows a message/popup box with a message inside it, E.G: app.showMessageBox("Hello World!"); would show 'Hello World!' in a box.
+
+app.getPlayers() - Retrieves the player list.
+
+app.updatePlayers(boolean b) - Starts updating a game lobby player list every 5 seconds if set to true.
+
+app.startServer() - Creates a server.
+
+app.connect(string ip) - Connects to a specified ip address and port, E.G: app.connect("127.0.0.1:55555");
+
+app.disconnect() - Disconnects from current server.
+
+app.directConnect() - Opens an input box that a player can type an ip and port into.
+
+app.shutdownServer() - Shutdown an active server.
+
+app.sendChatMessage(string name, string message, string emoticons, boolean sending) - Sends a message into the lobby chatbox, E.G app.sendChatMessage("Orion", "Hello World!", emoticons, false); shows a message just to the client, setting it to true instead of false will show it to the other player in the server.
+
+app.ping(string ip) - Ping's a provided ip address.
+
+app.readFile(string file) - Reads all text in a file, E.G: var file = app.readFile("mods/Default/music.json");
+
+app.clearConsole() - Clears command prompt window.
+
+/*
+ * ModHandler
+ * The ModHandler variable is used to call all mod related methods through javascript.
+ */
+ 
+ModHandler.getMods() - Returns a list of mods in the mods folder.
+
+ModHandler.hasMod(string name) - Checks if the player has the mod specified, E.G: if (ModHandler.hasMod("Default") == true)
+
+ModHandler.loadMod(string name) - Loads desired mod.

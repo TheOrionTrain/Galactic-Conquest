@@ -46,33 +46,9 @@
             <div id="loadingGametypeImage"></div>
 		</div>
 		<div id="popup"></div>
-		<!--<div id="players-online">Loading...</div>
-		<div id="friends-online">Loading...</div>-->
 		<div id="black"></div>
 		<div id="back">Back</div>
-		<!--<div id="version">Loading...</div>
-		<div class="animated" id="friendslist">
-			<div id="friends-close"></div>
-			<div class="friends-title">Friends</div>
-			<div id="friends"></div>
-			<div id="addfriend">
-				<input id="friend-input" type="text" />
-				<div id="friend-add">+</div>
-				<div id="friend-remove">-</div>
-			</div>
-		</div>
-		<div id="playerinfo" class="animated">
-			<div id="player-title">
-				<div id="player-rank-display"></div>
-				<div id="player-info"> <span id="player-name"></span> <span id="player-level-display"></span> </div>
-			</div>
-			<div id="player-armor"></div>
-			<div id="player-stats">
-				<div id="player-kd-display"></div>
-				<canvas id="player-kd-chart"></canvas>
-			</div>
-			<div id="player-level"></div>
-		</div>-->
+		<div id="version">ALPHA</div>
 		<div class="menu-container animated" id="serverbrowser">
 			<div id="direct-connect">Direct Connect</div>
 			<div id="browser-title">SERVERS</div>
@@ -86,7 +62,6 @@
 			<div id="line3"></div>
 			<div id="browser" class="regular"></div>
 			<div id="line4"></div>
-			<!--<div id="browser-settings">Settings</div>-->
 		</div>
 		<div class="menu-container animated" id="customgame" data-from="serverbrowser">
 			<div id="map-thumb">
@@ -98,9 +73,8 @@
 			<div id="select">
 				<div data-gp="customgame-0" id="network-toggle" class="selection"><span class="label">NETWORK</span><span id="network" class="value">OFFLINE</span> </div>
 				<div data-gp="customgame-1" id="type-selection" data-action="menu" data-menu="custom-type" class="selection"><span class="label">GAME TYPE</span><span id="gametype-display" class="value">SLAYER</span> </div>
-				<!--<div data-gp="customgame-2" data-action="menu" data-menu="custom-map" class="selection"><span class="label">MAP</span><span id="currentmap" class="value">EDGE</span> </div>-->
-				<div data-gp="customgame-3" data-action="menu" data-menu="custom-options" class="selection"><span class="label">SERVER SETTINGS</span><span class="value">&nbsp;</span> </div>
-				<div data-gp="customgame-4" class="selection" id="start"><span class="label">JOIN GAME</span><span class="value">&nbsp;</span> </div>
+				<div data-gp="customgame-2" data-action="menu" data-menu="custom-options" class="selection"><span class="label">SERVER SETTINGS</span><span class="value">&nbsp;</span> </div>
+				<div data-gp="customgame-3" class="selection" id="start"><span class="label">JOIN GAME</span><span class="value">&nbsp;</span> </div>
 			</div>
 			<div id="line2"></div>
 			<div id="lobby-container">
@@ -108,32 +82,50 @@
 			</div>
 			<div id="arrow-right"></div>
 			<div id="chatbox" class="animated">
-				<div id="chatbox-content">
-					<!--<span class="chat-message self">TheFeelTrain: Hey there</span>
-					<span class="chat-message">Orion: G'day mate</span>
-					<span class="chat-message self">TheFeelTrain: I'm typing some stuff into the chat</span>
-					<span class="chat-message">Orion: Me too mate</span>
-					<span class="chat-message self">TheFeelTrain: Want to play a game?</span>
-					<span class="chat-message">Orion: I'd love to mate. Me and the lads love to play games down under mate.</span>-->
-				</div>
+				<div id="chatbox-content"></div>
 				<input id="chatbox-input" placeholder="Type a message..." />
 			</div>
 		</div>
 		<div class="menu-container animated" id="space">
-			<div id="space-container">
-				<div id="polismassa" class="planet red"></div>
-				<div id="mustafar" class="planet red"></div>
-				<div id="utapau" class="planet red"></div>
-				<div id="coruscant" class="planet blue"></div>
-				<div id="dagobah" class="planet blue"></div>
-				<div id="mygeeto" class="planet red"></div>
-				<div id="naboo" class="planet blue"></div>
-				<div id="kashyyyk" class="planet blue"></div>
-				<div id="geonosis" class="planet red"></div>
-				<div id="yavin4" class="planet blue"></div>
-				<div id="felucia" class="planet red"></div>
-				<div id="kamino" class="planet blue"></div>
-				<div id="tatooine" class="planet blue"></div>
+			<div id="map-interface">
+				<div id="map-tabs">
+					<div class="map-tab">MOVE</div>
+					<div class="map-tab">BONUS</div>
+					<div class="map-tab">UNITS</div>
+				</div>
+				<div id="map-credits">1000 Credits</div>
+				<div id="map-actions">
+					<div class="action">SELECT</div>
+					<div class="action">HELP</div>
+					<div class="action">SKIP</div>
+					<div class="action">MOVE</div>
+				</div>
+			</div>
+			<div id="space-container-container">
+				<div id="space-container">
+					<div id="polismassa" class="planet red"></div>
+					<div id="mustafar" class="planet red"></div>
+					<div id="utapau" class="planet red"></div>
+					<div id="coruscant" class="planet blue"></div>
+					<div id="dagobah" class="planet blue"></div>
+					<div id="mygeeto" class="planet red"></div>
+					<div id="naboo" class="planet blue"></div>
+					<div id="kashyyyk" class="planet blue"></div>
+					<div id="geonosis" class="planet red"></div>
+					<div id="yavin4" class="planet blue"></div>
+					<div id="felucia" class="planet red"></div>
+					<div id="kamino" class="planet blue"></div>
+					<div id="tatooine" class="planet blue"></div>
+					<div id="white1" class="whitepoint"></div>
+					<div id="white2" class="whitepoint"></div>
+					<div id="white3" class="whitepoint"></div>
+					<div id="white4" class="whitepoint"></div>
+					<div id="white5" class="whitepoint"></div>
+					<div id="white6" class="whitepoint"></div>
+					<div id="white7" class="whitepoint"></div>
+					<div id="white8" class="whitepoint"></div>
+					<div id="white9" class="whitepoint"></div>
+				</div>
 			</div>
 		</div>
 		<div class="menu-container animated" id="main3">
@@ -182,33 +174,22 @@
 				<div class="options-title">GAME SETTINGS</div>
 				<div class="options-select animated">
 					<div data-gp="dewrito-options-1" data-setting="menu" class="selection"><span class="label">MENU SETTINGS</span> </div>
-					<!--<div data-gp="dewrito-options-2" data-action="menu" data-menu="options-music" class="selection"><span class="label">MUSIC</span> </div>
-					<div data-gp="dewrito-options-3" data-action="menu" data-menu="options-haloonline" class="selection"><span class="label">HALO ONLINE SETTINGS</span> </div>-->
 					<div data-gp="dewrito-options-2" data-setting="eldewrito" class="selection"><span class="label">PLAYER SETTINGS</span> </div>
 					<div data-gp="dewrito-options-3" data-setting="host" class="selection"><span class="label">SERVER SETTINGS</span> </div>
+					<div data-gp="dewrito-options-4" data-action="menu" data-menu="options-mod" class="selection"><span class="label">MODS</span> </div>
 				</div>
 				<div class="options-select2 animated" id="settings-menu"></div>
 				<div class="options-select2 animated" id="settings-eldewrito"></div>
 				<div class="options-select2 animated" id="settings-host"></div>
+				<div class="options-select2 animated" id="settings-mods"></div>
 			</div>
-			<!--<div class="options-section" id="haloonline">
-				<div class="options-title">HALO ONLINE SETTINGS</div>
-				<div class="options-select animated">
-					<div data-gp="haloonline-1" data-setting="gameplay" class="selection"><span class="label">GAMEPLAY SETTINGS</span> </div>
-					<div data-gp="haloonline-2" data-setting="controls" class="selection"><span class="label">CONTROLS</span> </div>
-					<div data-gp="haloonline-3" data-setting="video" class="selection"><span class="label">VIDEO SETTINGS</span> </div>
-					<div data-gp="haloonline-4" data-setting="audio" class="selection"><span class="label">AUDIO SETTINGS</span> </div>
-				</div>
-				<div class="options-select2 animated" id="settings-gameplay"></div>
-				<div class="options-select2 animated" id="settings-controls"></div>
-				<div class="options-select2 animated" id="settings-video"></div>
-				<div class="options-select2 animated" id="settings-audio"></div>
+			<div class="options-section" id="choosemod">
+				<div class="options-title">SELECT MOD</div>
+				<div id="mod-cover"></div>
+				<div id="mod-name">DEFAULT</div>
+				<div id="mod-info">Build and maintain fleets and try to achieve galactic dominance by conquering enemy worlds. A map of the galaxy shows planets controlled by the player, enemy-controlled planets, and pockets of empty space.</div>
+				<div class="mod-select animated"></div>
 			</div>
-			<div class="options-section" id="choosemusic">
-				<div class="options-title">SELECT MUSIC</div>
-				<div id="music-album-cover"></div>
-				<div class="music-select animated"></div>
-			</div>-->
 			<div class="options-section" id="choosemap">
 				<div class="options-title">SELECT MAP</div>
 				<div id="map-thumb-options"></div>
@@ -243,7 +224,6 @@
 		<audio id="slide" src="audio/halo3/a_button.wav" type="audio/wav"></audio>
 	</div>
 </body>
-<script src="js/menu.js"></script>
 <script src="js/conquest.js"></script>
 <script src="js/settings.js"></script>
 </html>

@@ -439,7 +439,8 @@ audio {
     left: 0;
 }
 #map-thumb,
-#map-thumb-options {
+#map-thumb-options,
+#mod-cover {
     position: absolute;
     top: 80px;
     width: 450px;
@@ -447,14 +448,8 @@ audio {
     background: url('../img/space.jpg') no-repeat 0 0/cover;
     border-radius: 4px;
 }
-#music-album-cover {
-    position: absolute;
-    top: 120px;
-    width: 300px;
-    height: 300px;
-    background: url('../img/album/halo3.jpg') no-repeat 0 0/cover;
-    border-radius: 4px;
-    right: 120px;
+#mod-cover {
+    background: url('../mods/Default/img.jpg') no-repeat 0 0/cover;
 }
 #credits table {
     width: 680px;
@@ -495,12 +490,13 @@ audio {
     -webkit-box-shadow: 0px 0px 20px 8px rgba(0, 0, 0, 0.5);
     box-shadow: 0px 0px 20px 8px rgba(0, 0, 0, 0.5);
 }
-#map-thumb-options {
+#map-thumb-options, #mod-cover {
     right: 150px;
     border: 2px solid rgba(255, 255, 255, 1);
 }
 #map-name-options,
-#music-game,
+#mod-name,
+#mod-info,
 #map-info-options,
 #type-name-options,
 #type-info-options {
@@ -511,14 +507,15 @@ audio {
     width: 450px;
 }
 #map-name-options,
-#music-game,
+#mod-name,
 #type-name-options {
     top: 320px;
     font-size: 26px;
     opacity: 0.85;
 }
 #map-info-options,
-#type-info-options {
+#type-info-options,
+#mod-info {
     top: 380px;
     font-size: 16px;
     opacity: 0.7;
@@ -589,7 +586,7 @@ audio {
     width: 450px;
 }
 .map-select,
-.music-select,
+.mod-select,
 .type-select,
 .options-select {
     position: absolute;
@@ -598,7 +595,7 @@ audio {
     width: 260px;
 }
 .map-select .selection,
-.music-select .selection,
+.mod-select .selection,
 .type-select .selection {
     background: url('../img/right.png') no-repeat 232px 8px/36px 18px;
 }
@@ -660,7 +657,7 @@ audio {
     background: rgba(255, 255, 255, 0.5);
 }
 #choosemap ::-webkit-scrollbar,
-#choosemusic ::-webkit-scrollbar,
+#choosemod ::-webkit-scrollbar,
 #choosetype ::-webkit-scrollbar,
 #customgame ::-webkit-scrollbar,
 #friendslist ::-webkit-scrollbar {
@@ -683,7 +680,7 @@ audio {
     opacity: 0;
 }
 
-.music-select2 {
+.mod-select2 {
     position: absolute;
     top: 150px;
     left: 310px;
@@ -695,8 +692,8 @@ audio {
     opacity: 0;
 }
 
-.music-select .selection .label,
-.music-select2 .selection .label {
+.mod-select .selection .label,
+.mod-select2 .selection .label {
     text-align: left;
     display: table-cell;
     width: 400px;
@@ -718,8 +715,8 @@ audio {
     height: 80px;
 }
 .selection {overflow: hidden;}
-.music-select .selection,
-.music-select2 .selection {
+.mod-select .selection,
+.mod-select2 .selection {
     font-weight: 300;
     font-size: 23px;
     color: rgba(255, 255, 255, 0.85);
@@ -733,7 +730,7 @@ audio {
     transition: 0.5s;
 }
 
-.music-select .selection, .music-select2 .label {
+.mod-select .selection, .mod-select2 .label {
     width: 260px;
 }
 
@@ -755,12 +752,12 @@ audio {
     transition: 0.5s;
 }
 .map-select .selection,
-.music-select .selection,
+.mod-select .selection,
 .type-select .selection,
 .options-select .selection {
     background: url('../img/right.png') no-repeat 232px 8px/18px 18px;
 }
-.music-select .selection {
+.mod-select .selection {
     background: url('../img/right.png') no-repeat 230px 8px/18px 18px;
 }
 .left,
@@ -1054,7 +1051,7 @@ audio {
 #version {
     right: 5px;
     bottom: 5px;
-    font-size: 14px;
+    font-size: 15px;
     opacity: 0.5;
     font-family: "Conduit ITC";
     font-weight: 300;
@@ -1461,26 +1458,109 @@ html {
 #space-container {
     width: 1920px;
     height: 720px;
-    background: url('../img/background.jpg') no-repeat 0 0/cover;
+    /*background: url('../img/background.jpg') no-repeat 0 0/cover;*/
+    overflow: hidden;
+}
+
+#space-container-container {
+    width: 1280px;
+    height: 720px;
+    top: 0;
+    left: 0;
+    position: absolute;
+    z-index: 1;
+    overflow: hidden;
 }
 
 .planet {
     background-repeat: no-repeat;
-    background-size: 60px;
+    background-size: 50px;
     position: absolute;
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
+    z-index: 2;
+    transform-origin: center;
+    transition: 0.2s;
+    -webkit-backface-visibility: hidden;
+    -webkit-transform: translateZ(0) scale(1.0, 1.0);
+    box-sizing: border-box;
+}
+
+.planet:hover, .whitepoint:hover {
+    transform: translateZ(0) scale(1.1);
+    cursor: pointer;
+}
+
+.planet.touch.red {
+    transform: translateZ(0) scale(1.2);
+    cursor: pointer;
+}
+
+.planet.touch.blue {
+    transform: translateZ(0) scale(1.2);
+    cursor: pointer;
+}
+
+.whitepoint {
+    background: rgba(255,255,255,0.667);
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    z-index: 2;
+    transform-origin: center;
+    transition: 0.2s;
+}
+
+.connection {
+    position: absolute;
+    z-index: 1;
+    background: rgba(255,255,255,0.1);
+    transition: 0.2s;
+}
+
+.connection.touch {
+    background: url('../img/dash.png');
+    opacity: 0.8;
+}
+
+.connection.touch.left {
+    animation: dashLeft 1s linear infinite;
+}
+
+.connection.touch.right {
+    animation: dashRight 1s linear infinite;
+}
+
+.connection.hov {
+    background: rgba(255,255,255,0.4);
+}
+
+.whitepoint.hov {
+    background: rgba(255,255,255,1);
+}
+
+.whitepoint.touch {
+    background: rgba(255,255,255,1);
+}
+
+@keyframes dashLeft {
+    from {background-position: 0 0;}
+    to {background-position: -24px 0;}
+}
+
+@keyframes dashRight {
+    from {background-position: 0 0;}
+    to {background-position: 24px 0;}
 }
 
 .planet.red {
-    -webkit-box-shadow: 0px 0px 30px 8px rgba(255, 0, 0, 0.333);
-    box-shadow: 0px 0px 30px 8px rgba(255, 0, 0, 0.333);
+    box-shadow: 0px 0px 100px 16px rgba(255, 50, 50, 0.44);
 }
 
 .planet.blue {
-    -webkit-box-shadow: 0px 0px 30px 8px rgba(0, 0, 255, 0.333);
-    box-shadow: 0px 0px 30px 8px rgba(0, 0, 255, 0.333);
+    box-shadow: 0px 0px 100px 16px rgba(55, 100, 200, 0.44);
 }
 
 #polismassa {
@@ -1520,30 +1600,92 @@ html {
 
 #kashyyyk {
     background-image: url('../img/planets/Kashyyyk.png');
-    left: 1350px; top: 300px;
+    left: 1420px; top: 300px;
 }
 
 #geonosis {
     background-image: url('../img/planets/Geonosis.png');
-    left: 1300px; top: 500px;
+    left: 1340px; top: 500px;
 }
 
 #yavin4 {
     background-image: url('../img/planets/Yavin 4.png');
-    left: 1420px; top: 160px;
+    left: 1540px; top: 140px;
 }
 
 #felucia {
     background-image: url('../img/planets/Felucia.png');
-    left: 1580px; top: 230px;
+    left: 1700px; top: 230px;
 }
 
 #kamino {
     background-image: url('../img/planets/Kamino.png');
-    left: 1620px; top: 380px;
+    left: 1710px; top: 380px;
 }
 
 #tatooine {
     background-image: url('../img/planets/Tatooine.png');
-    left: 1640px; top: 490px;
+    left: 1720px; top: 490px;
+}
+
+#white1 { left: 440px; top: 450px; }
+#white2 { left: 350px; top: 300px; }
+#white3 { left: 640px; top: 200px; }
+#white4 { left: 700px; top: 450px; }
+#white5 { left: 950px; top: 550px; }
+#white6 { left: 1100px; top: 500px; }
+#white7 { left: 1170px; top: 280px; }
+#white8 { left: 1400px; top: 230px; }
+#white9 { left: 1430px; top: 390px; }
+
+#map-tabs {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+}
+
+.map-tab {
+    width: 200px;
+    text-align: center;
+    color: #fff;
+    font-size: 26px;
+    display: inline-block;
+}
+
+#map-credits {
+    color: #fff;
+    font-size: 18px;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    z-index: 2;
+}
+
+#map-actions {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 2;
+}
+
+#map-actions .action {
+    font-weight: 300;
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.85);
+    width: 250px;
+    height: 30px;
+    border-left: 2px solid rgba(255, 255, 255, 0);
+    box-sizing: border-box;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    transition: 0.5s;
+    padding: 3px 10px;
+}
+
+#map-actions .action:hover {
+    border-left: 2px solid rgba(255, 255, 255, 0.3) !important;
+    background-color: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.95);
 }

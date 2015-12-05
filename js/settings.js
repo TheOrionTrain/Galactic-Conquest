@@ -183,28 +183,38 @@ var user = {
 			"name": "BACKGROUND",
 			"current": parseInt(isset(localStorage.getItem('background'), "video")),
 			"min": 0,
-			"max": 3,
+			"max": 4,
 			"labels": [
             "video",
             "video2",
             "video3",
+			"galaxy",
 			"Random"
         ],
 			"increment": 1,
 			"update": function() {
 				var c = settings.background.current,
-					l = "Random",
-					d = (localBackground == 1) ? "video/" : "http://192.99.124.166/video/";
+					l = c == 3 ? "" : "Random";
 				$('#videos').empty();
 				if (l == "Random") {
 					$('#bg-cover').css('background', 'rgba(0,0,0,0.20)');
-					var r = Math.floor(Math.random() * settings.background.labels.length - 1);
+					var r = Math.floor(Math.random() * settings.background.labels.length - 2);
 					if (r < 0)
 						r = 0;
-					$('#videos').append("<video id='bg1' src='video/" + settings.background.labels[r] + ".webm' autoplay type='video/webm'></video>");
+					$('#videos').append("<video id='bg1' src='mods/Default/video/" + settings.background.labels[r] + ".webm' autoplay type='video/webm'></video>");
 					$('#bg1').show();
 					$('#bg1')[0].addEventListener('ended', function() {
 						settings.background.current = 12;
+						settings.background.update();
+					});
+					$("[data-option='background']").children('.value').text("Random");
+					$('#bg1')[0].play();
+				} else {
+					$('#bg-cover').css('background', 'rgba(0,0,0,0.20)');
+					$('#videos').append("<video id='bg1' src='mods/Default/video/" + settings.background.labels[c] + ".webm' autoplay type='video/webm'></video>");
+					$('#bg1').show();
+					$('#bg1')[0].addEventListener('ended', function() {
+						settings.background.current = c;
 						settings.background.update();
 					});
 					$("[data-option='background']").children('.value').text("Random");

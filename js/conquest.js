@@ -12,7 +12,7 @@ var players = [],
 	currentGame = "HaloOnline",
 	currentType = "Slayer",
 	currentSetting = "menu",
-	currentAlbum = isset(localStorage.getItem('album'), "halo3"),
+	currentAlbum = isset(localStorage.getItem('album'), "starwars"),
 	currentServer,
 	selectedserver,
 	loopPlayers,
@@ -34,7 +34,8 @@ var players = [],
 	thisSong,
 	nextSong,
 	songIndex,
-	localBackground = isset(localStorage.getItem('localbackground'), 0);
+	localBackground = isset(localStorage.getItem('localbackground'), 0),
+	mod = "Default";
 
 (function() {
 	var e = (window.innerHeight - 80) / 2;
@@ -42,6 +43,13 @@ var players = [],
 	if (d !== undefined && d == "1") {
 		console.log("debug yes");
 	}
+	if(window.console && console.log){
+        var old = console.log;
+        console.log = function(){
+            old.apply(this, arguments)
+			//Logger.print("CLIENT", arguments[0].toString());
+        }
+    }
 })();
 
 function debugLog(val) {
@@ -92,37 +100,13 @@ function queryServer(serverIP, i, browser) {
 	});
 }
 
-function getMapName(filename) {
-	switch (filename) {
-		case "guardian":
-			return "Guardian";
-		case "riverworld":
-			return "Valhalla";
-		case "s3d_avalanche":
-			return "Diamondback";
-		case "s3d_edge":
-			return "Edge";
-		case "s3d_reactor":
-			return "Reactor";
-		case "s3d_turf":
-			return "Icebox";
-		default:
-			return "Edge";
-	}
-}
-
 var gp_servers = 0;
 
 function addServer(i) {
 	++gp_servers;
 	var on = (!servers[i].variant) ? "" : "on";
-
-	servers[i].ping = 999;
-
-	/*servers[i].location_flag = typeof servers[i].location_flag == 'undefined' ? "[" : servers[i].location_flag;
-	servers[i].ping = servers[i].ping || 0;*/
-
-	$('#browser').append("<div data-gp='serverbrowser-" + gp_servers + "' class='server" + ((servers[i].passworded) ? " passworded" : "") + " ' id='server" + i + "' data-server=" + i + "><div class='thumb'><img src='img/space.jpg'></div><div class='info'><span class='name'>" + ((servers[i].passworded) ? "[LOCKED] " : "") + servers[i].name + " (" + servers[i].hostPlayer + ") [<img src='img/flags/" + servers[i].region.toString().toLowerCase() + ".png' title='' alt='' class='flag'/> <span id='ping-" + i + "'>"+servers[i].ping+"</span>ms]</span><span class='settings'> <span class='elversion'></span></span></div><div class='players'>" + servers[i].numPlayers + "/" + servers[i].maxPlayers + "</div></div>");
+	servers[i].ping = 0;//app.ping(servers[i].address);
+	$('#browser').append("<div data-gp='serverbrowser-" + gp_servers + "' class='server" + ((servers[i].passworded) ? " passworded" : "") + " ' id='server" + i + "' data-server=" + i + "><div class='thumb'><img src='mods/" + mod + "/img.jpg'></div><div class='info'><span class='name'>" + ((servers[i].passworded) ? "[LOCKED] " : "") + servers[i].name + " (" + servers[i].hostPlayer + ") [<img src='mods/" + mod + "/flags/" + servers[i].region.toString().toLowerCase() + ".png' title='' alt='' class='flag'/> <span id='ping-" + i + "'>"+servers[i].ping+"</span>ms]</span><span class='settings'> <span class='elversion'></span></span></div><div class='players'>" + servers[i].numPlayers + "/" + servers[i].maxPlayers + "</div></div>");
 	$('.server').hover(function() {
 		$('#click')[0].currentTime = 0;
 		$('#click')[0].play();
@@ -179,39 +163,69 @@ function loadSettings(i) {
 	}, 5);
 }
 
+function initializeMusic() {
+	songs = JSON.parse('['+
+  '"The Force Awakens",'+
+  '"The Force Awakens2",'+
+  '"Battle of Heroes",'+
+  '"The Imperial March"'+
+']');
+	console.log(songs);
+	for (i = 0; i < Object.keys(songs).length; i++) {
+		b = Object.keys(songs)[i];
+		//$('#choosemusic').children('.music-select').append("<div data-gp='music-"+(i+1)+"' data-game='starwars' class='selection'><span class='label'>" + getGame(b).toUpperCase() + "</span></div>");
+		$('#choosemusic').append("<div class='music-select2 animated' id='songs-" + b + "'></div>");
+		for (e = 0; e < Object.keys(songs[b]).length; e++) {
+			g = songs[b][e];
+			$('#songs-' + b).append("<div data-gp='songs-"+b+"-"+(e+1)+"' data-song='starwars' class='selection'><span class='label'>" + g.toUpperCase() + "</span></div>");
+		}
+	}
+	$('.music-select .selection').click(function() {
+		changeSong1($(this).attr('data-game'));
+	});
+	$('.music-select2 .selection').click(function() {
+		changeSong2($(this).attr('data-song'));
+	});
+	$('.music-select .selection').hover(function() {
+		$('#click')[0].currentTime = 0;
+		$('#click')[0].play();
+	});
+	$('.music-select2 .selection').hover(function() {
+		$('#click')[0].currentTime = 0;
+		$('#click')[0].play();
+	});
+	var r = Math.floor(Math.random() * songs.length);
+	changeSong2(songs[r]);
+	//app.clearConsole();
+}
+
 function initialize() {
+	initializeMusic();
 	var set, b, g, i, e;
 	if (window.location.protocol == "https:") {
 		alert("The server browser doesn't work over HTTPS, switch to HTTP if possible.");
 	}
-	$.getJSON("http://shadowfita.github.io/galactic-conquest/music.json", function(j) {
-		songs = j;
-		for (i = 0; i < Object.keys(songs).length; i++) {
-			b = Object.keys(songs)[i];
-			//$('#choosemusic').children('.music-select').append("<div data-gp='music-"+(i+1)+"' data-game='starwars' class='selection'><span class='label'>" + getGame(b).toUpperCase() + "</span></div>");
-			$('#choosemusic').append("<div class='music-select2 animated' id='songs-" + b + "'></div>");
-			for (e = 0; e < Object.keys(songs[b]).length; e++) {
-				g = songs[b][e];
-				$('#songs-' + b).append("<div data-gp='songs-"+b+"-"+(e+1)+"' data-song='starwars' class='selection'><span class='label'>" + g.toUpperCase() + "</span></div>");
-			}
-		}
-		$('.music-select .selection').click(function() {
-			changeSong1($(this).attr('data-game'));
-		});
-		$('.music-select2 .selection').click(function() {
-			changeSong2($(this).attr('data-song'));
-		});
-		$('.music-select .selection').hover(function() {
-			$('#click')[0].currentTime = 0;
-			$('#click')[0].play();
-		});
-		$('.music-select2 .selection').hover(function() {
-			$('#click')[0].currentTime = 0;
-			$('#click')[0].play();
-		});
-		var r = Math.floor(Math.random() * songs.starwars.length);
-		changeSong2(songs.starwars[r]);
+	//mods = JSON.parse(ModHandler.getMods());
+	//console.log(mods);
+	/*for (i = 0; i < mods.length; i++) {
+		b = mods[i];
+		$('#choosemod').children('.mod-select').append("<div data-gp='mod-"+(i+1)+"' data-mod='" + b + "' class='selection'><span class='label'>" + b.toUpperCase() + "</span></div>");
+	}
+	$('.mod-select .selection').click(function() {
+		changeMod2($(this).attr('data-mod'));
 	});
+	$('.mod-select .selection').hover(
+		function() {
+			$('#click')[0].currentTime = 0;
+			$('#click')[0].play();
+			hoverMod($(this).attr('data-mod'));
+		},
+		function() {
+			$('#click')[0].currentTime = 0;
+			$('#click')[0].play();
+		}
+	);
+	changeMod2("Default");*/
 	for (i = 0; i < Object.keys(settings).length; i++) {
 		set = Object.keys(settings)[i];
 		var category = settings[set].category;
@@ -245,7 +259,6 @@ function initialize() {
 		}
 		settings[set].update();
 	}
-	//loadSettings(Object.keys(settings).length);
 	for (i = 0; i < Object.keys(maps).length; i++) {
 		b = Object.keys(maps)[i];
 		$('#choosemap').children('.map-select').append("<div data-game='" + b + "' class='selection'><span class='label'>" + maps[b].name + "</span></div>");
@@ -303,11 +316,9 @@ function toggleNetwork() {
 		if (network == "offline") {
 			network = "online";
 			//app.startHttpServer();
-			//callbacks.networkType(1);
 		} else {
 			network = "offline";
 			//app.stopHttpServer();
-			//callbacks.networkType(2);
 		}
 		$('#network').text(network.toUpperCase());
 	}
@@ -318,20 +329,10 @@ function toggleNetwork() {
 var friends = [], friends_online;
 
 function jumpToServer() {
-
 		host = 0;
 		browsing = 0;
 		$('#lobby').empty();
 		$('#lobby').append("<tr class='top'><td class='info' colspan='2'>Current Lobby <span id='joined'>1</span>/<span id='maxplayers'>0</span></td></tr>");
-		/*if(d.numPlayers == d.maxPlayers) {
-			$.snackbar({
-				content: "Game is full. Unable to join."
-			});
-			$('#notification')[0].currentTime = 0;
-			$('#notification')[0].play();
-			return;
-		}*/
-		//$('#subtitle').text(d.name + " : " + d.address);
 		$('#dewrito').css({
 			"opacity": 0,
 		});
@@ -441,56 +442,33 @@ function removeFriend() {
 }
 
 function isOnline(friend) {
-	return typeof serverz.players[friend] == 'undefined' ? 0 : 1; //Orion, check if friend is online or not here
+	return typeof serverz.players[friend] == 'undefined' ? 0 : 1;
 }
 
 function chat(text) {
-	//Orion put the C# stuff here
-	$('#chatbox-content').append('<span class="chat-message self">' + settings.username.current + ': ' + addEmojis(text) + '</span>');
-	$('#chatbox-content').scrollTop($('#chatbox-content')[0].scrollHeight);
-	chatTime = 5000;
-	//app.sendChatMessage(text);
+	//app.sendChatMessage(settings.username.current, text, //app.readFile("mods/" + mod + "/emoticons.json"), true);
 }
 
 String.prototype.replaceAll = function(_f, _r, _c){
-
   var o = this.toString();
   var r = '';
   var s = o;
   var b = 0;
   var e = -1;
   if(_c){ _f = _f.toLowerCase(); s = o.toLowerCase(); }
-
   while((e=s.indexOf(_f)) > -1)
   {
     r += o.substring(b, b+e) + _r;
     s = s.substring(e+_f.length, s.length);
     b += e+_f.length;
   }
-
-  // Add Leftover
   if(s.length>0){ r+=o.substring(o.length-s.length, o.length); }
-
-  // Return New String
   return r;
 };
 
-var emoticons = [ [ ":D", "happy.png" ], [ ";)", "wink.png" ], [ ":)", "smiling.png" ], [ ":(", "sad.png" ], [ ":'(", "crying.png" ], [ ":o", "surprised.png" ], [ ":O", "shocked.png" ], [ "xd", "xd.png" ], [ ">_<", "xd.png" ], [ ">.<", "xd.png" ], [ "xp", "xp.png" ], [ "-_-", "unamused.png" ], [ ":p", "tongueface.png" ], [ ";p", "tonguewinkyface.png" ]];
-
-function addEmojis(text) {
-	if (settings.emoticons.current == 1)
-		return text;
-	for (var i = 0; i < emoticons.length; i++) {
-		if (emoticons[i][0].toLowerCase().contains(":o"))
-			text = text.replaceAll(emoticons[i][0], '<img src="./img/emoticons/' + emoticons[i][1] + '" style="width:16px;height:16px;vertical-align:-3px;">', false);
-		else
-			text = text.replaceAll(emoticons[i][0], '<img src="./img/emoticons/' + emoticons[i][1] + '" style="width:16px;height:16px;vertical-align:-3px;">', true);
-	}
-	return text;
-}
+var emoticons = [ [ ":D", "happy.png" ], [ ";\)", "wink.png" ], [ ":\)", "smiling.png" ], [ ":\(", "sad.png" ], [ ":'\(", "crying.png" ], [ ":o", "surprised.png" ], [ ":O", "shocked.png" ], [ "xd", "xd.png" ], [ ">_<", "xd.png" ], [ ">.<", "xd.png" ], [ "xp", "xp.png" ], [ "-_-", "unamused.png" ], [ ":p", "tongueface.png" ], [ ";p", "tonguewinkyface.png" ]];
 
 function receiveText(text) {
-	//Orion put the C# stuff here
 	$('#chatbox-content').append('<span class="chat-message">'+text+'</span>');
 	$('#chatbox-content').scrollTop($('#chatbox-content')[0].scrollHeight);
 	chatTime = 5000;
@@ -511,8 +489,116 @@ var hideChat= setInterval(function() {
 	}
 },10), online = true, chatTime = 0, hidingChat = 1;
 
+function drawGraphLine(x1, y1, x2, y2, color,collide) {
+	var dist = Math.ceil(Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2)));
+	var angle = Math.atan2(y2-y1, x2-x1)*180/Math.PI;
+	var xshift = dist - Math.abs(x2-x1);
+	var yshift = Math.abs(y1-y2)/2;
+	var div = document.createElement('div');
+	div.style.left = (x1 - xshift/2) + 'px';
+	div.style.top = (Math.min(y1,y2) + yshift) + 'px';
+	div.style.width = dist+'px';
+	div.style.height = '2px';
+	div.style.WebkitTransform = 'rotate('+angle+'deg)';
+	div.style.MozTransform = 'rotate('+angle+'deg)';
+	div.dataset.collision = collide;
+	div.className = "connection";
+	$('#space-container').append(div);
+}
+
+function connectPlanets(pl1,pl2) {
+	var p1 = $('#'+pl1).position(),
+		p2 = $('#'+pl2).position(),
+		c = [pl1,pl2];
+	p1.left = p1.left+($('#'+pl1).width()/2);
+	p2.left = p2.left+($('#'+pl2).width()/2);
+	p1.top = p1.top+($('#'+pl1).height()/2);
+	p2.top = p2.top+($('#'+pl2).height()/2);
+	drawGraphLine(p1.left,p1.top,p2.left,p2.top,"rgba(255,255,255,0.2)",c);
+}
+
 $(document).ready(function() {
-	$('#space').kinetic();
+	$('#space-container-container').kinetic();
+	connectPlanets("polismassa","white1");
+	connectPlanets("polismassa","white2");
+	connectPlanets("white1","mustafar");
+	connectPlanets("white1","utapau");
+	connectPlanets("white2","white3");
+	connectPlanets("white3","coruscant");
+	connectPlanets("coruscant","mygeeto");
+	connectPlanets("mustafar","white4");
+	connectPlanets("utapau","white4");
+	connectPlanets("white4","dagobah");
+	connectPlanets("utapau","white5");
+	connectPlanets("dagobah","white5");
+	connectPlanets("white5","white6");
+	connectPlanets("white6","naboo");
+	connectPlanets("white6","geonosis");
+	connectPlanets("naboo","white7");
+	connectPlanets("mygeeto","white7");
+	connectPlanets("white7","kashyyyk");
+	connectPlanets("geonosis","tatooine");
+	connectPlanets("kamino","tatooine");
+	connectPlanets("felucia","kamino");
+	connectPlanets("yavin4","felucia");
+	connectPlanets("mygeeto","white8");
+	connectPlanets("white8","kashyyyk");
+	connectPlanets("white8","yavin4");
+	connectPlanets("naboo","white9");
+	connectPlanets("white9","kashyyyk");
+	connectPlanets("white9","kamino");
+	$('.planet, .whitepoint').click(function() {
+		$('.planet, .whitepoint').removeClass('touch');
+		$(this).addClass('touch');
+		var touch = $(this).attr('id');
+		$('.connection').removeClass('touch left right hov');
+		$('.connection').each(function() {
+			var t = $(this).attr('data-collision').split(",");
+			if($(this).attr('data-collision').includes(touch)) {
+				$(this).addClass('touch');
+				if(touch == t[0]) {
+					if($('#'+t[0]).position().left < $('#'+t[1]).position().left) {
+						$(this).addClass('right');
+					} else {
+						$(this).addClass('left');
+					}
+				} else {
+					if($('#'+t[1]).position().left < $('#'+t[0]).position().left) {
+						$(this).addClass('right');
+					} else {
+						$(this).addClass('left');
+					}
+				}
+			}
+		});
+		if(touch == "white6") {
+			$("[data-collision='white6,naboo']").removeClass('left').addClass('right');
+		}
+		if(touch == "white9") {
+			$("[data-collision='white9,kashyyyk']").removeClass('left').addClass('right');
+		}
+		if(touch == "kashyyyk") {
+			$("[data-collision='white9,kashyyyk']").removeClass('right').addClass('left');
+		}
+	});
+	$('.planet, .whitepoint').hover(
+		function() {
+			var hov = $(this).attr('id');
+			$('.connection').removeClass('hov');
+			$('.connection').each(function() {
+				if($(this).attr('data-collision').includes(hov) && !$(this).hasClass('touch')) {
+					$(this).addClass('hov');
+				}
+			});
+			$('.planet, .whitepoint').removeClass('hov');
+			$('#'+t[0]).addClass('hov');
+			$('#'+t[1]).addClass('hov');
+		},
+		function() {
+			$('.planet, .whitepoint').removeClass('hov');
+			$('.connection').removeClass('hov');
+		}
+	);
 	$('#chatbox-input').keypress(function (e) {
 		if (e.which == 13) {
 	    	var text = $(this).val();
@@ -688,7 +774,8 @@ $(document).ready(function() {
 		toggleNetwork();
 	});
 	$('#version').click(function() {
-		clearAllCookies();
+		//console.log(ModHandler.hasMod("Default"));
+		//clearAllCookies();
 	});
 	var e = ((window.innerHeight - $('#menu').height()) / 2) - 40;
 	$('#start').click(function() {
@@ -707,7 +794,7 @@ $(document).ready(function() {
 		settings.background.current = 9001;
 		settings.background.update();
 	});
-	$('.selection').hover(function() {
+	$('.selection, .action').hover(function() {
 		$('#click')[0].currentTime = 0;
 		$('#click')[0].play();
 	});
@@ -816,7 +903,7 @@ function lobbyLoop(ip) {
 		if (serverInfo.variant == "")
 				serverInfo.variant = "Slayer";
 		$('#gametype-display').text(serverInfo.variant.toUpperCase());
-		$('#gametype-icon').css('background', "url('img/gametypes/" + (serverInfo.variantType === "ctf" || serverInfo.variantType === "koth") ? serverInfo.variantType : serverInfo.variantType.toString().capitalizeFirstLetter + ".png') no-repeat 0 0/cover");
+		$('#gametype-icon').css('background', "url('mods/" + mod + "/gametypes/" + (serverInfo.variantType === "ctf" || serverInfo.variantType === "koth") ? serverInfo.variantType : serverInfo.variantType.toString().capitalizeFirstLetter + ".png') no-repeat 0 0/cover");
 
 		if (typeof serverInfo.passworded == 'undefined') {
 			players.sort(function(a, b) {
@@ -836,7 +923,7 @@ function lobbyLoop(ip) {
 				if (typeof players[i] != 'undefined' && players[i].name != "") {
 					if (teamGame)
 						colour = (parseInt(players[i].team) === 0) ? "#c02020" : "#214EC0";
-					$('#lobby').append("<tr id='player" + i + "' team='" + players[i].team + "' hex-colour= '" + colour + "' data-color='" + hexToRgb(colour, 0.5) + "' style='background:" + hexToRgb(colour, 0.5) + ";'><td class='name'>" + players[i].name + "</td><td class='rank'><img src='img/ranks/38.png'</td></tr>");
+					$('#lobby').append("<tr id='player" + i + "' team='" + players[i].team + "' hex-colour= '" + colour + "' data-color='" + hexToRgb(colour, 0.5) + "' style='background:" + hexToRgb(colour, 0.5) + ";'><td class='name'>" + players[i].name + "</td><td class='rank'><img src='mods/" + mod + "/ranks/38.png'</td></tr>");
 					$('#player' + i).css("display", "none");
 					$('#player' + i).fadeIn(anit);
 				}
@@ -875,7 +962,6 @@ function lobbyLoop(ip) {
 
 	setTimeout(function() {
 		if (!success) {
-			// Handle error accordingly
 			console.log("Failed to contact server, retrying.");
 			if (loopPlayers)
 				setTimeout(function() { lobbyLoop(ip); }, 3000);
@@ -891,18 +977,9 @@ function getTotalPlayers() {
 
 function directConnect() {
 	var ip = prompt("Enter IP Address: ");
-	//var pass = prompt("Enter Password: ");
-	//connect function here
 	jumpToServer(ip);
-	//dewRcon.send('connect ' + ip + ' ' + pass);
 }
 
-function getCurrentVersion() {
-	$.getJSON("http://dewrito.eriq.xyz/update", function(data) {
-		//currentVersion = data.version.toString();
-		//$('#version').text('eldewrito ' + currentVersion);
-	});
-}
 
 function totalPlayersLoop() {
 	$.getJSON("http://192.99.124.166:8080/all", function(data) {
@@ -1011,7 +1088,7 @@ function changeMenu(menu, details) {
 		if (currentType == "Ctf")
 			currentType = "ctf";
 		$('#gametype-icon').css({
-			"background-image": "url('img/gametypes/" + currentType + ".png')"
+			"background-image": "url('mods/" + mod + "/gametypes/" + currentType + ".png')"
 		});
 		$('#customgame').attr('data-from', 'main');
 		$('#dewrito').css({
@@ -1031,6 +1108,7 @@ function changeMenu(menu, details) {
 		currentMenu = "customgame";
 	}
 	if (menu == "main-map") {
+		changeSong2("Galactic Conquest");
 		$('#back').fadeOut(anit);
 		$('#space').css({
 			"top": "0px"
@@ -1041,6 +1119,8 @@ function changeMenu(menu, details) {
 		$('#dewrito').css({
 			"opacity": 0,
 		});
+		settings.background.current = 3;
+		settings.background.update();
 		currentMenu = "map";
 	}
 	if (menu == "main-forge") {
@@ -1063,7 +1143,7 @@ function changeMenu(menu, details) {
 		$('#currentmap').attr('data-gp', 'customgame-2').hide();
 		currentType = "Forge";
 		$('#gametype-icon').css({
-			"background-image": "url('img/gametypes/" + currentType + ".png')"
+			"background-image": "url('mods/" + mod + "/gametypes/" + currentType + ".png')"
 		});
 		$('#customgame').attr('data-from', 'main');
 		$('#dewrito').css({
@@ -1137,7 +1217,7 @@ function changeMenu(menu, details) {
 			$('#gametype-display').text(d.variant.toUpperCase());
 			if (d.variantType === "none")
 				d.variantType = "Slayer";
-			$('#gametype-icon').css('background', "url('img/gametypes/" + (d.variantType === "ctf" || d.variantType === "koth") ? d.variantType : d.variantType.toString().capitalizeFirstLetter + ".png') no-repeat 0 0/cover");
+			$('#gametype-icon').css('background', "url('mods/" + mod + "/gametypes/" + (d.variantType === "ctf" || d.variantType === "koth") ? d.variantType : d.variantType.toString().capitalizeFirstLetter + ".png') no-repeat 0 0/cover");
 			$('#serverbrowser').css({
 				"top": "720px"
 			});
@@ -1251,7 +1331,7 @@ function changeMenu(menu, details) {
 		$('#main2').css({
 			"top": "720px"
 		});
-		$('#dewrito').css({//Why is this so broken
+		$('#dewrito').css({
 			"top": "15px",
 			"left": "440px",
 			"right": "",
@@ -1260,7 +1340,7 @@ function changeMenu(menu, details) {
 			"-webkit-transition-delay": "0ms"
 		});
 		$('#dewrito').css({
-			'background': "url('img/GC.png') no-repeat 0 0/cover"
+			'background': "url('mods/" + mod + "/logo.png') no-repeat 0 0/cover"
 		});
 		currentMenu = "credits";
 	}
@@ -1284,7 +1364,7 @@ function changeMenu(menu, details) {
 			"background": "rgba(0,0,0,0.25)"
 		});
 		$('#dewrito').css({
-			'background': "url('img/GC.png') no-repeat 0 0/cover"
+			'background': "url('mods/" + mod + "/logo.png') no-repeat 0 0/cover"
 		});
 		currentMenu = "main2";
 	}
@@ -1328,18 +1408,18 @@ function changeMenu(menu, details) {
 		$('#dewrito-options').fadeIn(anit);
 		currentMenu = "dewrito-options";
 	}
-	if (menu == "options-music") {
-		$('#back').attr('data-action', 'music-options');
+	if (menu == "options-mod") {
+		$('#back').attr('data-action', 'mod-options');
 		$('#dewrito-options').hide();
-		$('#choosemusic').fadeIn(anit);
-		currentMenu = "music";
+		$('#choosemod').fadeIn(anit);
+		currentMenu = "mod";
 	}
-	if (menu == "music-options") {
+	if (menu == "mod-options") {
 		$('#back').attr('data-action', 'options-main');
 		if (getURLParameter('browser')) {
 			$('#back').attr('data-action', 'options-serverbrowser');
 		}
-		$('#choosemusic').hide();
+		$('#choosemod').hide();
 		$('#dewrito-options').fadeIn(anit);
 		currentMenu = "dewrito-options";
 	}
@@ -1370,7 +1450,6 @@ function changeMenu(menu, details) {
 			$('#back').attr('data-action', 'options-custom');
 			$('#customgame').fadeOut(anit);
 			$('#options').fadeIn(anit);
-			//$('#dewrito').css('top', '400px');
 			$('#dewrito').css({
 				"opacity": 0.9,
 				"-webkit-transition-timing-function": "200ms",
@@ -1385,7 +1464,6 @@ function changeMenu(menu, details) {
 			$('#back').attr('data-action', 'options-custom');
 			$('#customgame').fadeOut(anit);
 			$('#options').fadeIn(anit);
-			//$('#dewrito').css('top', '400px');
 			$('#dewrito').css({
 				"opacity": 0.9,
 				"-webkit-transition-timing-function": "200ms",
@@ -1453,7 +1531,7 @@ function changeMenu(menu, details) {
 			"right": "100px"
 		});
 		$('#back').attr('data-action', 'player-custom');
-		$('#playermodel').css('background-image', "url('img/players/" + details + ".png')");
+		$('#playermodel').css('background-image', "url('mods/" + mod + "/players/" + details + ".png')");
 		playerInfo(details);
 		currentMenu = "playerinfo";
 	}
@@ -1500,8 +1578,8 @@ function playerInfo(name) {
 					$('#player-kd-display').text(kdr.toFixed(2));
 					$('#player-name').text(name);
 					$('#player-level-display').text("Level 39");
-					$('#player-rank-display').css('background', "url('img/ranks/39.png') no-repeat center center/72px 72px");
-					$('#player-armor').css('background', "url('img/players/user.png') no-repeat 0 -50px/320px 704px");
+					$('#player-rank-display').css('background', "url('mods/" + mod + "/ranks/39.png') no-repeat center center/72px 72px");
+					$('#player-armor').css('background', "url('mods/" + mod + "/players/user.png') no-repeat 0 -50px/320px 704px");
 					if (info.nameplate) {
 						$('#player-title').css('background-image', "");
 					} else {
@@ -1517,8 +1595,8 @@ function playerInfo(name) {
 		$('#player-kd-display').text("0.00");
 		$('#player-name').text(user.name);
 		$('#player-level-display').text("Level " + user.rank);
-		$('#player-rank-display').css('background', "url('img/ranks/" + user.rank + ".png') no-repeat center center/72px 72px");
-		$('#player-armor').css('background', "url('img/players/user.png') no-repeat 0 -50px/320px 704px");
+		$('#player-rank-display').css('background', "url('mods/" + mod + "/ranks/" + user.rank + ".png') no-repeat center center/72px 72px");
+		$('#player-armor').css('background', "url('mods/" + mod + "/players/user.png') no-repeat 0 -50px/320px 704px");
 		$('#player-title').css('background-image', "");
 	}
 }
@@ -1673,55 +1751,12 @@ function changeMap1(game) {
 	$('#slide')[0].play();
 }
 
-function getGame(game) {
-	switch (game) {
-		case "haloce":
-			return "Halo Combat Evolved";
-		case "hcea":
-			return "Halo Anniversary";
-		case "halo2":
-			return "Halo 2";
-		case "h2a":
-			return "Halo 2 Anniversary";
-		case "halo3":
-			return "Halo 3";
-		case "odst":
-			return "Halo 3 ODST";
-		case "reach":
-			return "Halo Reach";
-		case "online":
-			return "Halo Online";
-		case "halo5":
-			return "Halo 5";
-	}
-}
-
-function getMapFile(name) {
-	if (typeof name != 'undefined') {
-		switch (name.toString().toLowerCase()) {
-			case "guardian":
-				return "guardian";
-			case "valhalla":
-				return "riverworld";
-			case "diamondback":
-				return "s3d_avalanche";
-			case "edge":
-				return "s3d_edge";
-			case "reactor":
-				return "s3d_reactor";
-			case "icebox":
-				return "s3d_turf";
-		}
-		return "";
-	}
-}
-
 function changeMap2(map, click) {
 	$('#map-thumb').css({
-		"background-image": "url('img/maps/" + map.toString().toUpperCase() + ".png')"
+		"background-image": "url('mods/" + mod + "/maps/" + map.toString().toUpperCase() + ".png')"
 	});
 	$('#map-thumb-options').css({
-		"background-image": "url('img/maps/" + map.toString().toUpperCase() + ".png')"
+		"background-image": "url('mods/" + mod + "/maps/" + map.toString().toUpperCase() + ".png')"
 	});
 	$('#currentmap').text(map);
 	$('#map-name-options').text(map);
@@ -1741,18 +1776,27 @@ function changeMap2(map, click) {
 	}
 }
 
-function getMapId(map) {
-	switch (map.toString().toLowerCase()) {
-		case "diamondback":
-			return 0;
-		case "edge":
-			return 1;
-		case "icebox":
-			return 3;
-		case "reactor":
-			return 4;
-		case "valhalla":
-			return 5;
+var currentMod = "Default";
+
+function displayMod(mod) {
+	$('.mod-select .selection').removeClass('selected');
+	$("[data-mod='" + mod + "']").addClass('selected');
+	$('#mod-cover').css({
+		"background-image": "url('mods/" + mod + "/img.jpg')"
+	});
+	//var modInfo = JSON.parse(//app.readFile("mods/" + mod + "/info.json"));
+	$('#mod-name').text(mod.toUpperCase());
+	$('#mod-info').html(modInfo["description"] + "<br><br><br> Created by " + modInfo["author"]);
+}
+
+function changeMod2(mod) {
+	if(mod != currentMod) {
+		displayMod(mod);
+		localStorage.setItem('mod', mod);
+		$('#notification')[0].currentTime = 0;
+		$('#notification')[0].play();
+		//ModHandler.loadMod(mod);
+		currentMod = mod;
 	}
 }
 
@@ -1795,7 +1839,7 @@ function changeSong1(game) {
 		"opacity": 1
 	}, anit / 8);
 	$('#music-album-cover').css({
-		"background-image": "url('img/album/" + game + ".jpg')"
+		"background-image": "url('mods/" + mod + "/album/" + game + ".jpg')"
 	});
 	currentAlbum = game;
 	if ($('#back').attr('data-action') != "setting-settings") {
@@ -1814,12 +1858,15 @@ function changeSong1(game) {
 }
 
 function changeSong2(song) {
-	var directory = "music/";
-	songIndex = songs["starwars"].indexOf(song);
-	thisSong = songs["starwars"][songIndex];
-	nextSong = songs["starwars"][songIndex + 1];
-	if (songIndex + 1 >= songs["starwars"].length) {
-		nextSong = songs["starwars"][0];
+	if(song == "Galactic Conquest") {
+		$('#music').attr('loop', "true");
+	}
+	var directory = "mods/" + mod + "/music/";
+	songIndex = songs.indexOf(song);
+	thisSong = songs[songIndex];
+	nextSong = songs[songIndex + 1];
+	if (songIndex + 1 >= songs.length) {
+		nextSong = songs[0];
 	}
 	$('.music-select2 .selection').removeClass('selected');
 	$("[data-song='" + song + "']").addClass('selected');
@@ -1838,17 +1885,17 @@ function changeType2(type, click) {
 		var reg = currentType.match(/\b(\w)/g);
 		var acronym = reg.join('');
 		$('#gametype-icon').css({
-			"background-image": "url('img/gametypes/" + acronym.toString().toLowerCase() + ".png')"
+			"background-image": "url('mods/" + mod + "/gametypes/" + acronym.toString().toLowerCase() + ".png')"
 		});
 		$('#type-icon-options').css({
-			"background-image": "url('img/gametypes/" + acronym.toString().toLowerCase() + ".png')"
+			"background-image": "url('mods/" + mod + "/gametypes/" + acronym.toString().toLowerCase() + ".png')"
 		});
 	} else {
 		$('#gametype-icon').css({
-			"background-image": "url('img/gametypes/" + (currentType === "ctf" || currentType === "koth") ? currentType : currentType.toString().capitalizeFirstLetter + ".png')"
+			"background-image": "url('mods/" + mod + "/gametypes/" + (currentType === "ctf" || currentType === "koth") ? currentType : currentType.toString().capitalizeFirstLetter + ".png')"
 		});
 		$('#type-icon-options').css({
-			"background-image": "url('img/gametypes/" + (currentType === "ctf" || currentType === "koth") ? currentType : currentType.toString().capitalizeFirstLetter + ".png')"
+			"background-image": "url('mods/" + mod + "/gametypes/" + (currentType === "ctf" || currentType === "koth") ? currentType : currentType.toString().capitalizeFirstLetter + ".png')"
 		});
 	}
 	debugLog(type);

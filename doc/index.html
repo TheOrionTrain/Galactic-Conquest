@@ -1,0 +1,403 @@
+<!doctype HTML>
+<head>
+    <title>Galactic Conquest Mod Documentation</title>
+    <link href="https://fonts.googleapis.com/css?family=Karla:400,700" rel="stylesheet" type="text/css">
+    <script src="../js/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#nav-container ul li').click(function() {
+                if(!$(this).hasClass('divider') && !$(this).hasClass('nav-title')) {
+                    $('#nav-container ul li').removeClass('selected');
+                    $(this).addClass('selected');
+                    var e = $(this).data('nav');
+                    $('.content').hide();
+                    $('.content[data-nav="'+e+'"]').show();
+                    window.location.hash = e;
+                }
+            });
+            if(window.location.hash) {
+                $('#nav-container ul li').removeClass('selected');
+                var e = window.location.hash.split('#')[1];
+
+            } else {
+                e = "start";
+            }
+            $('#nav-container ul li[data-nav="'+e+'"]').addClass('selected');
+            $('.content').hide();
+            $('.content[data-nav="'+e+'"]').show();
+        });
+    </script>
+    <style>
+
+        * {
+            font-family: "Karla";
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+	        -moz-osx-font-smoothing: grayscale;
+        }
+
+        #header {
+            width: 100%;
+            height: 85px;
+            background-color: #18347B;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #header-inner {
+            position: relative;
+            max-width: 1100px;
+            margin: 0 auto;
+            height: 100%;
+        }
+
+        #header-logo {
+            width: 547px;
+            height: 21px;
+            background-image: url(GC.png);
+            background-repeat: no-repeat;
+            background-size: contain;
+            position: absolute;
+            left: 0;
+            top: 32px;
+        }
+
+        #main-container {
+            position: relative;
+            top: 85px;
+            margin: 32px auto 96px auto;
+            max-width: 1100px;
+            -webkit-backface-visibility: hidden;
+        }
+
+        #nav-container {
+            display: inline-block;
+            width: 25%;
+            vertical-align: top;
+            box-sizing: border-box;
+            padding: 0 30px;
+        }
+
+        #nav-container ul {
+            list-style: none;
+            border-right: 1px solid #DEDFE1;
+            padding: 14px 16px 14px 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        #nav-container li.nav-title {
+            color: #343849;
+            font-weight: bold;
+            font-size: 14px;
+            line-height: 1.4;
+            letter-spacing: 0.5px;
+            padding: 0;
+        }
+
+        #nav-container li.divider {
+            height: 14px;
+        }
+
+        #nav-container li.selected {
+            background-color: #4683E8;
+            color: #fff;
+            border-radius: 14px;
+        }
+
+        #nav-container li {
+            color: #4683E8;
+            line-height: 25.2px;
+            font-size: 14px;
+            padding: 2px 10px;
+            font-weight: bold;
+            margin-bottom: 2.4px;
+        }
+
+        #nav-container li:not(.divider):not(.selected):not(.nav-title):hover {
+            color: #76b3F8;
+            cursor: pointer;
+        }
+
+        #content-container {
+            position: relative;
+            display: inline-block;
+            width: 75%;
+            vertical-align: top;
+            box-sizing: border-box;
+            padding: 0 30px;
+            overflow-x: hidden;
+        }
+
+        .content {
+            animation-duration: 0.4s;
+        }
+
+        #content-container .content h1 {
+            margin: 3px 0 48px 0;
+            font-weight: 400;
+            font-size: 32px;
+            color: #343849;
+            position: relative;
+        }
+
+        #content-container .content h1:after {
+            content: "";
+            height: 3px;
+            width: 4rem;
+            background: #3354A8;
+            position: absolute;
+            bottom: -1rem;
+            left: 0;
+        }
+
+        #content-container .content p.lead {
+            font-size: 19.5px;
+            color: #565966;
+            line-height: 31.2px;
+            margin-bottom: 20px;
+        }
+
+        #content-container .content p {
+            font-size: 16px;
+            color: #565966;
+            line-height: 25.6px;
+            margin-bottom: 20px;
+        }
+
+        #content-container .content h2 {
+            margin: 3px 0 8px 0;
+            font-weight: 400;
+            font-size: 27px;
+            color: #343849;
+        }
+
+        code {
+            background: #f3f3fa;
+            padding: .125rem .3125rem;
+            border: 1px solid #ebebf7;
+            color: #333;
+            font-weight: 400;
+            font-family: 'Consolas','Monaco','Courier',monospace;
+            font-size: 85%;
+            border-radius: 3px;
+        }
+
+        pre {
+            padding: 2em;
+            color: #FAFAFD;
+            background: #565966;
+            border: 1px solid #343849;
+            box-shadow: inset 0 0 3px rgba(0,0,0,.2);
+            font-family: 'Consolas','Monaco','Courier',monospace;
+            font-size: 85%;
+            border-radius: 3px;
+            max-height: 600px;
+            overflow-y: scroll;
+        }
+
+        #content-container .content ul {
+            color: #565966;
+            padding: 0 0 0 20px;
+        }
+
+        #content-container .content ul li {
+            line-height: 1.8;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="header">
+        <div id="header-inner">
+            <div id="header-logo"></div>
+        </div>
+    </div>
+    <div id="main-container">
+        <div id="nav-container">
+            <ul>
+                <li class="nav-title">DOCUMENTATION</li>
+                <li class="selected" data-nav="start">Getting Started</li>
+                <li data-nav="template">Template</li>
+                <li data-nav="structure">Mod Structure</li>
+                <li class="divider"></li>
+                <li class="nav-title">DEVELOPMENT</li>
+                <li data-nav="modhandler">ModHandler</li>
+                <li data-nav="online">Online Functions</li>
+                <li data-nav="developer">Developer Tools</li>
+                <li class="divider"></li>
+                <li class="nav-title">RESOURCES</li>
+                <li data-nav="github">GitHub Project</li>
+                <li data-nav="mozilla">Mozilla JavaScript Guide</li>
+            </ul>
+        </div><div id="content-container">
+            <div class="content" data-nav="start">
+                <h1>Getting Started</h1>
+                <p class="lead">Here is some basic documentation written by Orion to get you started with mods for Galactic Conquest. It will be expanded upon soon<sup>tm</sup></p>
+                <h2>Using Mods</h2>
+                <p>With the mod management system implemented, it is easy to create, load, and share mods. To add a mod to the game, drag the mod folder into the "mods" folder in the main game directory, then click on the mod in the game settings menu.</p>
+                <p>Mods will eventually<sup>tm</sup>, in later updates, be able to change almost every aspect of the game, including gameplay, sound, and graphics.</p>
+                <h2>Creating Mods</h2>
+                <p>The creation of mods is for people who know their way around JavaScript, HTML, CSS, JSON, and basic game design fundamentals. This documentation contains the steps and available APIs that can be used. If you are just starting out, take a look at the Template mod.</p>
+            </div>
+            <div class="content" data-nav="template">
+                <h1>Mod Template</h1>
+                <p class="lead">The mod template serves as a starting point for creating a mod.</p>
+                <h2>Content</h2>
+                <p>Each mod contains content that replaces the default. This allows a mod to have control over how the game looks, sounds, and plays. The Template contents can be found in main game directory in <code>mods/Template</code>. These assets include images, music, and JSON data. The required files include:</p>
+                <ul>
+                    <li><code>info.json</code></li>
+                    <li><code>music.json</code></li>
+                    <li><code>planets.json</code></li>
+                    <li><code>emoticons.json</code></li>
+                    <li><code>img.jpg</code></li>
+                    <li><code>icon.png</code></li>
+                </ul>
+                <p>These files can be left untouched if you do not need to change them. Other assets can be added an loaded from either the main mod directory or other subdirectories.</p>
+                <h2>Creating a New Mod</h2>
+                <p>Duplicate the Template folder in the mods folder and rename it to what you want your mod to be named. You can now edit the assets inside freely and add new ones if needed. JSON files can be edited with any text-editing program, while images and sound files require programs like Photoshop or Audacity respectively.</p>
+            </div>
+            <div class="content" data-nav="structure">
+                <h1>Mod Structure</h1>
+                <p class="lead">The different files in a mod must be structured according to this documentation. Deviation from the standard could result in a non-functional or game-breaking mod.</p>
+                <h2><code>info.json</code></h2>
+                <pre>
+{
+    "author": "Name of Mod Creator",
+    "description": "Mod description goes here."
+}
+                </pre>
+                <p>Right now, the <code>info.json</code> file only contains the description and author values. Multiple authors can be listed as long as the value is a single string. This may be added on to in the future.</p>
+                <h2><code>music.json</code></h2>
+                <pre>
+[
+    "Song 1",
+    "Song 2",
+    "Song 3",
+    "Song 4"
+]
+                </pre>
+                <p>The <code>music.json</code> file contains a list of the available songs to be played on the main menu. A random song from the array is selected when the mod is loaded and will change to a different song after one song is completed, automatically.</p>
+                <h2><code>planets.json</code></h2>
+                <pre>
+    {
+      "Republic":{
+        "Polis Massa":{
+          "Bonus": 30,
+          "Victory": 500
+        },
+        "Dagobah":{
+          "Bonus": 30,
+          "Victory": 500
+        },
+        "Naboo":{
+          "Bonus": 30,
+          "Victory": 600
+        },
+        "Tatooine":{
+          "Bonus": 30,
+          "Victory": 500
+        },
+        "Kashyyk":{
+          "Bonus": 30,
+          "Victory": 500
+        },
+        "Coruscant":{
+          "Bonus": 30,
+          "Victory": 600
+        },
+        "Kamino":{
+          "Bonus": 100,
+          "Victory": 1000
+        }
+      },
+      "CIS":{
+        "Mygeeto":{
+          "Bonus": 30,
+          "Victory": 500
+        },
+        "Yavin 4":{
+          "Bonus": 30,
+          "Victory": 500
+        },
+        "Felucia":{
+          "Bonus": 30,
+          "Victory": 500
+        },
+        "Utapau":{
+          "Bonus": 30,
+          "Victory": 600
+        },
+        "Mustafar":{
+          "Bonus": 30,
+          "Victory": 600
+        },
+        "Geonosis":{
+          "Bonus": 100,
+          "Victory": 1000
+        }
+      },
+      "Empire":{
+        "Coruscant":{
+          "Bonus": 30,
+          "Victory": 600
+        },
+        "Mygeeto":{
+          "Bonus": 30,
+          "Victory": 500
+        },
+        "Mustafar":{
+          "Bonus": 30,
+          "Victory": 600
+        },
+        "Utapau":{
+          "Bonus": 30,
+          "Victory": 500
+        },
+        "Tatooine":{
+          "Bonus": 30,
+          "Victory": 500
+        },
+        "Endor":{
+          "Bonus": 100,
+          "Victory": 1000
+        }
+      },
+      "Rebels":{
+        "Polis Massa":{
+          "Bonus": 30,
+          "Victory": 500
+        },
+        "Dagobah":{
+          "Bonus": 30,
+          "Victory": 600
+        },
+        "Naboo":{
+          "Bonus": 30,
+          "Victory": 500
+        },
+        "Kashyyk":{
+          "Bonus": 30,
+          "Victory": 500
+        },
+        "Yavin 4":{
+          "Bonus": 30,
+          "Victory": 600
+        },
+        "Felucia":{
+          "Bonus": 30,
+          "Victory": 500
+        },
+        "Hoth":{
+          "Bonus": 100,
+          "Victory": 1000
+        }
+      }
+    }
+                </pre>
+                <p>The <code>planets.json</code> file contains every credit bonus and victory amount for each planet and for each faction. Soon<sup>tm</sup> it will also contain the coordinates for each planet and "whitepoint" on the game map, along with the connection data so the game can draw the proper lines.</p>
+            </div>
+        </div>
+    </div>
+</body>
