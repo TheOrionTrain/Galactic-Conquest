@@ -213,7 +213,7 @@ function initialize() {
 		function() {
 			$('#click')[0].currentTime = 0;
 			$('#click')[0].play();
-			hoverMod($(this).attr('data-mod'));
+			displayMod($(this).attr('data-mod'));
 		},
 		function() {
 			$('#click')[0].currentTime = 0;
