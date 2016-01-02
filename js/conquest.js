@@ -753,7 +753,7 @@ $(document).ready(function() {
 	$('#clear').click(function() {
 		clearFilters();
 	});
-	$('#network-toggle').click(function() {
+	$('#network-toggle').unbind('click').click(function() {
 		toggleNetwork();
 	});
 	$('#version').click(function() {
