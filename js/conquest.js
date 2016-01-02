@@ -68,36 +68,24 @@ function getServers(browser) {
 	servers = [];
 	gp_servers = 0;
 	gp_on = 0;
-	$.getJSON("http://192.99.124.167:8080/list", function(data) {
-		if (data.result.code !== 0) {
-			alert("Error received from master: " + data.result.msg);
-			return;
-		}
-		for (var i = 0; i < data.result.servers.length; i++) {
-			var serverIP = data.result.servers[i];
-			if (!serverIP.toString().contains("?"))
-				queryServer(serverIP, i, browser);
-		}
-	});
-}
-
-var pings = [];
-
-function queryServer(serverIP, i, browser) {
-	$.getJSON("http://" + serverIP, function(serverInfo) {
+	var data = JSON.parse(app.getServers());
+	for (var i = 0; i < data.length; i++) {
+		if (!data[i].ip.toString().contains("?")) {
+			var serverInfo = data[i];
 			servers[i] = {
-				"address": sanitizeString(serverIP),
+				"address": sanitizeString(data[i].ip),
 				"name": sanitizeString(serverInfo.name),
-				"port": sanitizeString(serverInfo.port),
 				"hostPlayer": sanitizeString(serverInfo.hostPlayer),
+				"guid": sanitizeString(serverInfo.hostGuid),
 				"passworded": serverInfo.passworded,
 				"numPlayers": sanitizeString(serverInfo.numPlayers),
 				"maxPlayers": sanitizeString(serverInfo.maxPlayers),
 				"players": sanitizeString(serverInfo.players),
 				"region": sanitizeString(serverInfo.region)
 			};
-		addServer(i);
-	});
+			addServer(i);
+		}
+	}
 }
 
 var gp_servers = 0;
@@ -106,12 +94,12 @@ function addServer(i) {
 	++gp_servers;
 	var on = (!servers[i].variant) ? "" : "on";
 	servers[i].ping = app.ping(servers[i].address);
-	$('#browser').append("<div data-gp='serverbrowser-" + gp_servers + "' class='server" + ((servers[i].passworded) ? " passworded" : "") + " ' id='server" + i + "' data-server=" + i + "><div class='thumb'><img src='mods/" + mod + "/img.jpg'></div><div class='info'><span class='name'>" + ((servers[i].passworded) ? "[LOCKED] " : "") + servers[i].name + " (" + servers[i].hostPlayer + ") [<img src='mods/" + mod + "/flags/" + servers[i].region.toString().toLowerCase() + ".png' title='' alt='' class='flag'/> <span id='ping-" + i + "'>"+servers[i].ping+"</span>ms]</span><span class='settings'> <span class='elversion'></span></span></div><div class='players'>" + servers[i].numPlayers + "/" + servers[i].maxPlayers + "</div></div>");
+	$('#browser').append("<div data-gp='serverbrowser-" + gp_servers + "' class='server" + ((servers[i].passworded) ? " passworded" : "") + " ' id='server" + i + "' data-server=" + i + "><div class='thumb'><img src='mods/" + mod + "/img.jpg'></div><div class='info'><span class='name'>" + ((servers[i].passworded) ? "[LOCKED] " : "") + servers[i].name + " (" + servers[i].hostPlayer + ") [<img src='img/flags/" + servers[i].region.toString().toLowerCase() + ".png' title='' alt='' class='flag'/> <span id='ping-" + i + "'>"+servers[i].ping+"</span>ms]</span><span class='settings'> <span class='elversion'></span></span></div><div class='players'>" + servers[i].numPlayers + "/" + servers[i].maxPlayers + "</div></div>");
 	$('.server').hover(function() {
 		$('#click')[0].currentTime = 0;
 		$('#click')[0].play();
 	});
-	$('.server').unbind().click(function() {
+	$('.server').unbind('click').click(function() {
 		selectedserver = $(this).attr('data-server');
 		changeMenu("serverbrowser-custom", selectedserver);
 	});
@@ -827,7 +815,7 @@ $(document).ready(function() {
 			val = $(this).val();
 		changeSetting(c, val);
 	});
-	$("[data-action='menu']").click(function() {
+	$("[data-action='menu']").unbind('click').click(function() {
 		changeMenu($(this).attr('data-menu'));
 	});
 	$("[data-action='quit']").click(function() {
@@ -855,10 +843,13 @@ $(document).ready(function() {
 });
 function loadServers() {
 	if (browsing === 1) {
-		pings = [];
 		$('#refresh img').addClass('rotating');
 		setTimeout(function() {
-			$('#refresh img').removeClass('rotating');
+			if (servers.length > 0 && currentMenu == "serverbrowser") {
+				$('#refresh img').removeClass('rotating');
+			} else if (currentMenu == "serverbrowser") {
+				loadServers();
+			}
 		}, 4000);
 		$('#browser').empty();
 		getServers(true);
@@ -866,7 +857,7 @@ function loadServers() {
 			$('#click')[0].currentTime = 0;
 			$('#click')[0].play();
 		});
-		$('.server').click(function() {
+		$('.server').unbind('click').click(function() {
 			changeMenu("serverbrowser-custom", $(this).attr('data-server'));
 			selectedserver = $(this).attr('data-server');
 		});
@@ -1193,7 +1184,7 @@ function changeMenu(menu, details) {
 		}
 	}
 	if (menu == "serverbrowser-custom" && details) {
-		app.connect(servers[details].address.split(':')[0] + ":" + servers[details].port);
+		app.connect(servers[details].guid, servers[details].address);
 		return;
 
 		if (getURLParameter('browser'))
