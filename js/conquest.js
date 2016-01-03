@@ -179,7 +179,7 @@ function initializeMusic() {
 	});
 	var r = Math.floor(Math.random() * songs.length);
 	changeSong2(songs[r]);
-	app.clearConsole();
+	//app.clearConsole();
 }
 
 function initialize() {
