@@ -43,13 +43,6 @@ var players = [],
 	if (d !== undefined && d == "1") {
 		console.log("debug yes");
 	}
-	if(window.console && console.log){
-        var old = console.log;
-        console.log = function(){
-            old.apply(this, arguments)
-			//Logger.print("CLIENT", arguments[0].toString());
-        }
-    }
 })();
 
 function debugLog(val) {
@@ -1110,6 +1103,7 @@ function changeMenu(menu, details) {
 	if (menu == "main-map") {
 		changeSong2("Galactic Conquest");
 		$('#back').fadeOut(anit);
+		$('#players-online').fadeOut(anit);
 		$('#space').css({
 			"top": "0px"
 		});

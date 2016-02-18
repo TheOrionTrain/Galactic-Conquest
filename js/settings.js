@@ -181,7 +181,7 @@ var user = {
 			"typeof": "select",
 			"category": "menu",
 			"name": "BACKGROUND",
-			"current": parseInt(isset(localStorage.getItem('background'), "video")),
+			"current": parseInt(isset(localStorage.getItem('background'), 0)),
 			"min": 0,
 			"max": 4,
 			"labels": [
@@ -198,13 +198,18 @@ var user = {
 				$('#videos').empty();
 				if (l == "Random") {
 					$('#bg-cover').css('background', 'rgba(0,0,0,0.20)');
-					var r = Math.floor(Math.random() * settings.background.labels.length - 2);
-					if (r < 0)
-						r = 0;
+					var r = Math.floor(Math.random() * (settings.background.labels.length - 2));
+					console.log(c);
+					console.log(r);
+					while (c == r || r < 0 || r == 4) {
+						r = Math.floor(Math.random() * (settings.background.labels.length - 2));
+					}
+					console.log(r);
+					
 					$('#videos').append("<video id='bg1' src='mods/Default/video/" + settings.background.labels[r] + ".webm' autoplay type='video/webm'></video>");
 					$('#bg1').show();
 					$('#bg1')[0].addEventListener('ended', function() {
-						settings.background.current = 12;
+						settings.background.current = 4;
 						settings.background.update();
 					});
 					$("[data-option='background']").children('.value').text("Random");
