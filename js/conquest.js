@@ -1049,6 +1049,24 @@ function playersJoin(max, players) {
 	//});
 }
 
+function changeMenu2(menu, details) {
+	var f, changes = menu.split("-"),
+		f = changes[0],
+		t = changes[1];
+		
+	$('#' + t).css({
+		"top": "0px"
+	});
+	$('#' + f).css({
+		"top": details == "back" ? "-720px" : "720px"
+	});
+		
+	$('#back').fadeIn(anit);
+	$('#back').attr('data-action', t + '-' + f);
+	
+	currentMenu = t;
+}
+
 function changeMenu(menu, details) {
 	var f, changes = menu.split("-"),
 		f = changes[0],
